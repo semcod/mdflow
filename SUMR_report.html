@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mdflow · Ze źródeł</title>
+  
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;700&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117; --panel: #1a1d27; --border: #2a2d3a;
+    --accent: #3b82f6; --accent2: #8b5cf6; --ok: #10b981;
+    --warn: #f59e0b; --err: #ef4444;
+    --text: #e2e8f0; --muted: #64748b;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  header { border-bottom: 2px solid var(--accent); padding-bottom: 1.5rem; margin-bottom: 2rem; }
+  header h1 { font-size: 2rem; font-weight: 700; color: #fff; }
+  header .subtitle { color: var(--muted); font-family: var(--mono); font-size: 0.85rem; margin-top: 0.25rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; }
+  .card h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.75rem; }
+  .card .value { font-size: 2rem; font-weight: 700; font-family: var(--mono); color: var(--accent); }
+  .card .label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+  .section { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .section h2 { font-size: 1rem; font-weight: 600; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h2 .icon { font-size: 1.1rem; }
+  .mermaid-wrap { background: #fff; border-radius: 6px; padding: 1rem; overflow-x: auto; margin-top: 0.5rem; }
+  pre.code-raw { background: #0a0c14; border: 1px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; font-family: var(--mono); font-size: 0.8rem; color: #94a3b8; white-space: pre; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { text-align: left; padding: 0.5rem 0.75rem; background: #12151f; color: var(--muted); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+  td { padding: 0.5rem 0.75rem; border-bottom: 1px solid #1e2133; }
+  tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 0.2em 0.6em; border-radius: 4px; font-size: 0.7rem; font-family: var(--mono); font-weight: 600; }
+  .badge-lang { background: #1e3a5f; color: #93c5fd; }
+  .badge-mp { background: #3b1f5e; color: #c4b5fd; }
+  .badge-warn { background: #451a03; color: #fcd34d; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+  .pill { display: inline-block; padding: 0.15em 0.6em; border-radius: 20px; font-size: 0.72rem; font-family: var(--mono); background: #1e2133; color: var(--muted); border: 1px solid var(--border); }
+  .pill.active { background: #1e3a5f; color: var(--accent); border-color: var(--accent); }
+  .alert-list { list-style: none; }
+  .alert-list li { padding: 0.4rem 0.75rem; border-left: 3px solid var(--warn); margin-bottom: 0.4rem; background: #1c1a12; font-family: var(--mono); font-size: 0.8rem; border-radius: 0 4px 4px 0; }
+  .refactor-list li { border-left-color: var(--ok); background: #0d1f18; }
+  .meta-table td:first-child { color: var(--muted); font-family: var(--mono); width: 35%; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.75rem; text-align: center; font-family: var(--mono); }
+</style>
+
+  
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'loose' });
+</script>
+
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Ze źródeł</h1>
+  <div class="subtitle">mdflow analysis · SUMR.md</div>
+</header>
+
+<div class="grid"><div class="card">
+  <h3>Headings</h3>
+  <div class="value">24</div>
+  <div class='label'>sections & subsections</div>
+</div><div class="card">
+  <h3>Code Blocks</h3>
+  <div class="value">15</div>
+  <div class='label'>6 languages</div>
+</div><div class="card">
+  <h3>Links</h3>
+  <div class="value">8</div>
+  <div class='label'>0 internal · 0 external</div>
+</div><div class="card">
+  <h3>Markpact refs</h3>
+  <div class="value">7</div>
+  <div class='label'>embedded file references</div>
+</div><div class="card">
+  <h3>CC̄</h3>
+  <div class="value">20.0</div>
+  <div class='label'>mean cyclomatic complexity</div>
+</div><div class="card">
+  <h3>Critical</h3>
+  <div class="value">7</div>
+  <div class='label'>functions above CC limit</div>
+</div></div>
+
+<div class="section">
+  <h2><span class="icon">🔖</span> Metadata</h2>
+  <table class="meta-table"><tbody><tr><td>name</td><td>redsl</td></tr><tr><td>version</td><td>1.2.45</td></tr><tr><td>python_requires</td><td>>=3.11</td></tr><tr><td>license</td><td>Apache-2.0</td></tr><tr><td>ai_model</td><td>openrouter/openai/gpt-5-mini</td></tr><tr><td>ecosystem</td><td>SUMD + DOQL + testql + taskfile</td></tr><tr><td>generated_from</td><td>pyproject.toml, requirements.txt, Taskfile.yml, Makefile, app.doql.css, goal.yaml, .env.example, Dockerfile, docker-compose.yml, src(5 mod), project/(5 analysis files)</td></tr></tbody></table>
+</div>
+
+<div class='section'><h2><span class='icon'>🏷</span> TOON Sections Detected</h2><div class='tag-list'><span class='pill active'>HEALTH</span><span class='pill active'>REFACTOR</span><span class='pill active'>PIPELINES</span><span class='pill active'>DUPLICATES</span><span class='pill active'>REFACTOR</span><span class='pill active'>NEXT</span><span class='pill active'>RISKS</span><span class='pill active'>WARNINGS</span><span class='pill active'>UNSUPPORTED</span></div></div>
+
+<div class="section">
+  <h2><span class="icon">🗂</span> Document Structure</h2>
+  <div class="mermaid-wrap"><pre class="mermaid">mindmap
+  root((Ze źródeł))
+    Ze źródeł
+      Contents
+      Metadata
+      Architecture
+        DOQL Application Declaratio...
+        Source Modules
+      Workflows
+        Taskfile Tasks (`Taskfile.y...
+      Quality Pipeline (`pyqual.y...
+      Dependencies
+        Runtime
+        Development
+      Source Map
+        `redsl.main` (`redsl/main.py`)
+        `redsl.history` (`redsl/his...
+        `redsl.consciousness_loop` ...
+        `redsl.config` (`redsl/conf...
+        `redsl.orchestrator` (`reds...
+      Refactoring Analysis
+        Code Analysis (`project/ana...
+        Duplication (`project/dupli...
+        Evolution / Churn (`project...
+        Validation (`project/valida...
+      Intent</pre></div>
+</div>
+
+<div class="section">
+  <h2><span class="icon">📋</span> Section Flow with Annotations</h2>
+  <div class="mermaid-wrap"><pre class="mermaid">flowchart TD
+  S0_ze__r_de_["Ze źródeł"]
+  S1_contents["Contents\n🔗 8 links"]
+  S0_ze__r_de_ --&gt; S1_contents
+  S2_metadata["Metadata"]
+  S1_contents --&gt; S2_metadata
+  S3_architecture["Architecture\n📦 1 code blocks []"]
+  S2_metadata --&gt; S3_architecture
+  S4_doql_application_declaration_appdoqlcss["DOQL Application Declaratio...\n📦 1 code blocks [css]\n🏷 markpact: doql"]
+  S3_architecture --&gt; S4_doql_application_declaration_appdoqlcss
+  S5_source_modules["Source Modules"]
+  S4_doql_application_declaration_appdoqlcss --&gt; S5_source_modules
+  S6_workflows["Workflows"]
+  S5_source_modules --&gt; S6_workflows
+  S7_taskfile_tasks_taskfileyml["Taskfile Tasks (`Taskfile.y...\n📦 1 code blocks [yaml]\n🏷 markpact: taskfile"]
+  S6_workflows --&gt; S7_taskfile_tasks_taskfileyml
+  S8_quality_pipeline_pyqualyaml["Quality Pipeline (`pyqual.y...\n📦 1 code blocks [yaml]\n🏷 markpact: pyqual"]
+  S7_taskfile_tasks_taskfileyml --&gt; S8_quality_pipeline_pyqualyaml
+  S9_dependencies["Dependencies"]
+  S8_quality_pipeline_pyqualyaml --&gt; S9_dependencies
+  S10_runtime["Runtime\n📦 1 code blocks [text]\n🏷 markpact: deps"]
+  S9_dependencies --&gt; S10_runtime
+  S11_development["Development\n📦 1 code blocks [text]\n🏷 markpact: deps"]
+  S10_runtime --&gt; S11_development
+  S12_source_map["Source Map"]
+  S11_development --&gt; S12_source_map
+  S13_redslmain_redslmainpy["`redsl.main` (`redsl/main.py`)\n📦 1 code blocks [python]"]
+  S12_source_map --&gt; S13_redslmain_redslmainpy
+  S14_redslhistory_redslhistorypy["`redsl.history` (`redsl/his...\n📦 1 code blocks [python]"]
+  S13_redslmain_redslmainpy --&gt; S14_redslhistory_redslhistorypy
+  S15_redslconsciousness_loop_redslconsciousne["`redsl.consciousness_loop` ...\n📦 1 code blocks [python]"]
+  S14_redslhistory_redslhistorypy --&gt; S15_redslconsciousness_loop_redslconsciousne
+  S16_redslconfig_redslconfigpy["`redsl.config` (`redsl/conf...\n📦 1 code blocks [python]"]
+  S15_redslconsciousness_loop_redslconsciousne --&gt; S16_redslconfig_redslconfigpy
+  S17_redslorchestrator_redslorchestratorpy["`redsl.orchestrator` (`reds...\n📦 1 code blocks [python]"]
+  S16_redslconfig_redslconfigpy --&gt; S17_redslorchestrator_redslorchestratorpy
+  S18_refactoring_analysis["Refactoring Analysis"]
+  S17_redslorchestrator_redslorchestratorpy --&gt; S18_refactoring_analysis
+  S19_code_analysis_projectanalysistoonyaml["Code Analysis (`project/ana...\n📦 1 code blocks [toon]\n🏷 markpact: analysis"]
+  S18_refactoring_analysis --&gt; S19_code_analysis_projectanalysistoonyaml
+  S20_duplication_projectduplicationtoonyaml["Duplication (`project/dupli...\n📦 1 code blocks [toon]\n🏷 markpact: analysis"]
+  S19_code_analysis_projectanalysistoonyaml --&gt; S20_duplication_projectduplicationtoonyaml
+  S21_evolution_churn_projectevolutiontoonyaml["Evolution / Churn (`project...\n📦 1 code blocks [toon]\n🏷 markpact: analysis"]
+  S20_duplication_projectduplicationtoonyaml --&gt; S21_evolution_churn_projectevolutiontoonyaml
+  S22_validation_projectvalidationtoonyaml["Validation (`project/valida...\n📦 1 code blocks [toon]\n🏷 markpact: analysis"]
+  S21_evolution_churn_projectevolutiontoonyaml --&gt; S22_validation_projectvalidationtoonyaml
+  S23_intent["Intent"]
+  S22_validation_projectvalidationtoonyaml --&gt; S23_intent</pre></div>
+</div>
+
+<div class='section'><h2><span class='icon'>📦</span> Code Block Inventory</h2><table><thead><tr><th>Language</th><th>Blocks</th><th>Lines</th><th>Markpact</th></tr></thead><tbody><tr><td><span class='badge badge-lang'>unknown</span></td><td>1</td><td>2</td><td>—</td></tr><tr><td><span class='badge badge-lang'>css</span></td><td>1</td><td>171</td><td>Yes</td></tr><tr><td><span class='badge badge-lang'>yaml</span></td><td>2</td><td>367</td><td>Yes</td></tr><tr><td><span class='badge badge-lang'>text</span></td><td>2</td><td>23</td><td>Yes</td></tr><tr><td><span class='badge badge-lang'>python</span></td><td>5</td><td>73</td><td>—</td></tr><tr><td><span class='badge badge-lang'>toon</span></td><td>4</td><td>538</td><td>Yes</td></tr></tbody></table><div class="mermaid-wrap"><pre class="mermaid">pie title "Code Blocks by Language"
+  "unknown" : 1
+  "css" : 1
+  "yaml" : 2
+  "text" : 2
+  "python" : 5
+  "toon" : 4</pre></div></div>
+
+<div class='section'><h2><span class='icon'>🏷</span> Markpact Embedded Files</h2><table><thead><tr><th>Type</th><th>Count</th><th>Paths</th></tr></thead><tbody><tr><td><span class='badge badge-mp'>markpact:doql</span></td><td>1</td><td>app.doql.css</td></tr><tr><td><span class='badge badge-mp'>markpact:taskfile</span></td><td>1</td><td>Taskfile.yml</td></tr><tr><td><span class='badge badge-mp'>markpact:pyqual</span></td><td>1</td><td>pyqual.yaml</td></tr><tr><td><span class='badge badge-mp'>markpact:deps</span></td><td>2</td><td>—, —</td></tr><tr><td><span class='badge badge-mp'>markpact:analysis</span></td><td>4</td><td>project/analysis.toon.yaml, project/duplication.toon.yaml, project/evolution.toon.yaml</td></tr></tbody></table><div class="mermaid-wrap"><pre class="mermaid">flowchart TD
+  Ze__r_de_["Ze źródeł"]
+  style Ze__r_de_ fill:#2563eb,color:#fff
+  MP_doql_0["doql\napp.doql.css"]
+  Ze__r_de_ -. markpact .-&gt; MP_doql_0
+  MP_taskfile_0["taskfile\nTaskfile.yml"]
+  Ze__r_de_ -. markpact .-&gt; MP_taskfile_0
+  MP_pyqual_0["pyqual\npyqual.yaml"]
+  Ze__r_de_ -. markpact .-&gt; MP_pyqual_0
+  MP_deps_0["deps\ndeps_0"]
+  Ze__r_de_ -. markpact .-&gt; MP_deps_0
+  MP_deps_1["deps\ndeps_1"]
+  Ze__r_de_ -. markpact .-&gt; MP_deps_1
+  MP_analysis_0["analysis\nproject/analysis.toon...."]
+  Ze__r_de_ -. markpact .-&gt; MP_analysis_0
+  MP_analysis_1["analysis\nproject/duplication.to..."]
+  Ze__r_de_ -. markpact .-&gt; MP_analysis_1
+  MP_analysis_2["analysis\nproject/evolution.toon..."]
+  Ze__r_de_ -. markpact .-&gt; MP_analysis_2
+  MP_analysis_3["analysis\nproject/validation.too..."]
+  Ze__r_de_ -. markpact .-&gt; MP_analysis_3</pre></div></div>
+
+<div class='section'><h2><span class='icon'>⚡</span> Workflows (DOQL)</h2><div class="mermaid-wrap"><pre class="mermaid">flowchart TD
+  install["install"]
+  dev_install["dev-install"]
+  install --&gt; dev_install
+  test["test"]
+  dev_install --&gt; test
+  test_fast["test-fast"]
+  test --&gt; test_fast
+  test_all["test-all"]
+  test_fast --&gt; test_all
+  lint["lint"]
+  test_all --&gt; lint
+  type_check["type-check"]
+  lint --&gt; type_check
+  format["format"]
+  type_check --&gt; format
+  format_check["format-check"]
+  format --&gt; format_check
+  docker_up["docker-up"]
+  format_check --&gt; docker_up
+  docker_down["docker-down"]
+  docker_up --&gt; docker_down
+  docker_build["docker-build"]
+  docker_down --&gt; docker_build</pre></div></div>
+
+<div class='section'><h2><span class='icon'>⚠</span> Quality Alerts &amp; Refactor Tasks</h2><ul class='alert-list refactor-list'><li>○ extract_function   → redsl/cli/utils/example_basic_analysis.py</li><li>○ extract_function   → redsl/examples/utils/main.py</li><li>○ extract_function   → redsl/utils/is_available.py</li><li>○ extract_function   → redsl/utils/_collect_guard_body.py</li><li>○ extract_function   → redsl/commands/utils/fix_stolen_indent.py</li><li>○ extract_function   → redsl/commands/utils/_register_history_command.py</li><li>○ extract_function   → redsl/config_standard/utils/export_config_schema.py</li><li>○ extract_function   → redsl/commands/batch_pyqual/utils/_check_analysis_passed.py</li><li>○ extract_function   → redsl/cli/utils/batch_hybrid.py</li><li>○ extract_function   → redsl/llm/registry/sources/utils/__init__.py</li><li>○ extract_function   → redsl/autonomy/utils/_extract_file_path.py</li><li>○ extract_function   → redsl/cli/utils/register_model_policy.py</li><li>○ extract_function   → redsl/cli/utils/model_policy.py</li><li>○ extract_function   → redsl/utils/_dispatch_analyze.py</li></ul><div class="mermaid-wrap"><pre class="mermaid">flowchart TD
+  ROOT["🔍 Code Quality Issues"]
+  style ROOT fill:#dc2626,color:#fff
+  REFACTORS["🔧 Refactor Tasks"]
+  ROOT --&gt; REFACTORS
+  R0["○ extract_function   → redsl/cli..."]
+  REFACTORS --&gt; R0
+  style R0 fill:#d1fae5
+  R1["○ extract_function   → redsl/exa..."]
+  REFACTORS --&gt; R1
+  style R1 fill:#d1fae5
+  R2["○ extract_function   → redsl/uti..."]
+  REFACTORS --&gt; R2
+  style R2 fill:#d1fae5
+  R3["○ extract_function   → redsl/uti..."]
+  REFACTORS --&gt; R3
+  style R3 fill:#d1fae5
+  R4["○ extract_function   → redsl/com..."]
+  REFACTORS --&gt; R4
+  style R4 fill:#d1fae5
+  R5["○ extract_function   → redsl/com..."]
+  REFACTORS --&gt; R5
+  style R5 fill:#d1fae5
+  R6["○ extract_function   → redsl/con..."]
+  REFACTORS --&gt; R6
+  style R6 fill:#d1fae5
+  R7["○ extract_function   → redsl/com..."]
+  REFACTORS --&gt; R7
+  style R7 fill:#d1fae5
+  R8["○ extract_function   → redsl/cli..."]
+  REFACTORS --&gt; R8
+  style R8 fill:#d1fae5
+  R9["○ extract_function   → redsl/llm..."]
+  REFACTORS --&gt; R9
+  style R9 fill:#d1fae5</pre></div></div>
+
+<div class='section'><h2><span class='icon'>🔗</span> Links</h2><table><thead><tr><th>Line</th><th>URL</th><th>Kind</th><th>Text</th></tr></thead><tbody><tr><td>7</td><td><code>#metadata</code></td><td><span class='badge badge-lang'>anchor</span></td><td>Metadata</td></tr><tr><td>8</td><td><code>#architecture</code></td><td><span class='badge badge-lang'>anchor</span></td><td>Architecture</td></tr><tr><td>9</td><td><code>#workflows</code></td><td><span class='badge badge-lang'>anchor</span></td><td>Workflows</td></tr><tr><td>10</td><td><code>#quality-pipeline-pyqualyaml</code></td><td><span class='badge badge-lang'>anchor</span></td><td>Quality Pipeline (`pyqual.yaml`)</td></tr><tr><td>11</td><td><code>#dependencies</code></td><td><span class='badge badge-lang'>anchor</span></td><td>Dependencies</td></tr><tr><td>12</td><td><code>#source-map</code></td><td><span class='badge badge-lang'>anchor</span></td><td>Source Map</td></tr><tr><td>13</td><td><code>#refactoring-analysis</code></td><td><span class='badge badge-lang'>anchor</span></td><td>Refactoring Analysis</td></tr><tr><td>14</td><td><code>#intent</code></td><td><span class='badge badge-lang'>anchor</span></td><td>Intent</td></tr></tbody></table></div>
+
+<footer>generated by mdflow · markdown dependency analyzer</footer>
+
+</div>
+</body>
+</html>

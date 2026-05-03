@@ -1,0 +1,1 @@
+    p_diag.set_defaults(func=cmd_diagram)
