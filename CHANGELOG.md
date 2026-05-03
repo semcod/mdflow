@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-05-03
+
+### Docs
+- Update README.md
+- Update TODO.md
+- Update examples/README.md
+
+### Other
+- Update .gitignore
+- Update Taskfile.yml
+- Update examples/advanced_analysis.py
+- Update examples/basic_usage.py
+- Update examples/cli_usage.sh
+- Update examples/custom_diagrams.py
+- Update examples/directory_scan.py
+- Update mdflow/__init__.py
+- Update mdflow/analyzers/__init__.py
+- Update mdflow/cli.py
+- ... and 8 more files
+
 ## [0.1.4] - 2026-05-03
 
 ### Docs

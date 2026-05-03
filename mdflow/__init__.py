@@ -9,15 +9,21 @@ Usage:
     flow.report(doc, "output/")      # → HTML + Markdown + diagrams
     flow.scan("docs/", "output/")    # → scan entire directory
 """
+
 from __future__ import annotations
 from pathlib import Path
 from .models import MdDocument, DependencyGraph
 from .parser import MdParser
-from .analyzers import DependencyAnalyzer, StructureAnalyzer, CodeInventoryAnalyzer, ToonAnalyzer
+from .analyzers import (
+    DependencyAnalyzer,
+    StructureAnalyzer,
+    CodeInventoryAnalyzer,
+    ToonAnalyzer,
+)
 from .generators import generate_html_report, generate_markdown_report
 from .generators import mermaid as mm
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 __all__ = ["MdFlow", "MdParser", "MdDocument", "DependencyGraph"]
 
 
@@ -38,11 +44,11 @@ class MdFlow:
     """
 
     def __init__(self):
-        self._parser   = MdParser()
-        self._dep      = DependencyAnalyzer()
-        self._struct   = StructureAnalyzer()
+        self._parser = MdParser()
+        self._dep = DependencyAnalyzer()
+        self._struct = StructureAnalyzer()
         self._code_inv = CodeInventoryAnalyzer()
-        self._toon     = ToonAnalyzer()
+        self._toon = ToonAnalyzer()
 
     # ── parsing ───────────────────────────────────────────────────────────────
 
@@ -84,7 +90,12 @@ class MdFlow:
 
     # ── report generation ─────────────────────────────────────────────────────
 
-    def report(self, doc: MdDocument, output_dir: str | Path = ".", formats: list[str] | None = None):
+    def report(
+        self,
+        doc: MdDocument,
+        output_dir: str | Path = ".",
+        formats: list[str] | None = None,
+    ):
         """
         Generate reports for a single document.
 
@@ -116,7 +127,12 @@ class MdFlow:
 
         return written
 
-    def scan(self, root: str | Path, output_dir: str | Path = ".", formats: list[str] | None = None):
+    def scan(
+        self,
+        root: str | Path,
+        output_dir: str | Path = ".",
+        formats: list[str] | None = None,
+    ):
         """
         Parse all .md files in a directory, generate reports, and build a
         cross-document dependency graph report.
@@ -177,6 +193,7 @@ class MdFlow:
 
     def _write_dep_graph_html(self, graph: DependencyGraph, diagram: str, out: Path):
         from .generators.html import _MERMAID_JS, _CSS
+
         escaped = diagram.replace("<", "&lt;").replace(">", "&gt;")
         html = f"""<!DOCTYPE html><html><head><meta charset="UTF-8">
 <title>mdflow · Dependency Graph</title>{_CSS}{_MERMAID_JS}</head>

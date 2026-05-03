@@ -1,6 +1,7 @@
 """
 mdflow.models — core data structures for Markdown dependency analysis.
 """
+
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional
@@ -8,9 +9,9 @@ from typing import Optional
 
 @dataclass
 class Heading:
-    level: int          # 1–6
+    level: int  # 1–6
     text: str
-    anchor: str         # slug-ified, e.g. "source-map"
+    anchor: str  # slug-ified, e.g. "source-map"
     line: int
 
 
@@ -19,12 +20,12 @@ class Link:
     text: str
     href: str
     line: int
-    kind: str           # "internal", "external", "anchor", "image"
+    kind: str  # "internal", "external", "anchor", "image"
 
 
 @dataclass
 class CodeBlock:
-    language: str       # e.g. "python", "toon", "css", "yaml"
+    language: str  # e.g. "python", "toon", "css", "yaml"
     content: str
     line_start: int
     line_end: int
@@ -39,21 +40,23 @@ class CodeBlock:
 class ListItem:
     text: str
     line: int
-    depth: int          # nesting level (0 = top)
+    depth: int  # nesting level (0 = top)
     parent_heading: Optional[str] = None
 
 
 @dataclass
 class ToonSection:
     """A named TOON/YAML embedded block (from code blocks with toon language)."""
-    name: str           # e.g. "REFACTOR", "ALERTS", "HOTSPOTS"
-    items: list         # raw parsed items
+
+    name: str  # e.g. "REFACTOR", "ALERTS", "HOTSPOTS"
+    items: list  # raw parsed items
     source_block: Optional[CodeBlock] = None
 
 
 @dataclass
 class MdDocument:
     """Full parsed representation of one Markdown file."""
+
     path: str
     title: str
     headings: list[Heading] = field(default_factory=list)
@@ -67,15 +70,15 @@ class MdDocument:
 
     @property
     def internal_links(self) -> list[Link]:
-        return [l for l in self.links if l.kind == "internal"]
+        return [lk for lk in self.links if lk.kind == "internal"]
 
     @property
     def anchor_links(self) -> list[Link]:
-        return [l for l in self.links if l.kind == "anchor"]
+        return [lk for lk in self.links if lk.kind == "anchor"]
 
     @property
     def external_links(self) -> list[Link]:
-        return [l for l in self.links if l.kind == "external"]
+        return [lk for lk in self.links if lk.kind == "external"]
 
     @property
     def markpact_blocks(self) -> list[CodeBlock]:
@@ -84,9 +87,9 @@ class MdDocument:
 
 @dataclass
 class DependencyEdge:
-    source: str         # document path or heading anchor
+    source: str  # document path or heading anchor
     target: str
-    kind: str           # "link", "import", "embed", "references"
+    kind: str  # "link", "import", "embed", "references"
     label: str = ""
 
 

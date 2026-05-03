@@ -4,16 +4,16 @@ mdflow.parser — core Markdown parser.
 Extracts: headings, links, code blocks (with markpact metadata),
 list items, TOON sections, and document metadata.
 """
+
 from __future__ import annotations
 import re
 from pathlib import Path
 from typing import Optional
-from .models import (
-    Heading, Link, CodeBlock, ListItem, ToonSection, MdDocument
-)
+from .models import Heading, Link, CodeBlock, ListItem, ToonSection, MdDocument
 
 
 # ─── helpers ──────────────────────────────────────────────────────────────────
+
 
 def _slugify(text: str) -> str:
     """GitHub-style anchor slugification."""
@@ -125,6 +125,7 @@ def _parse_metadata_section(text: str) -> dict:
 
 # ─── main parser ──────────────────────────────────────────────────────────────
 
+
 class MdParser:
     """Parse a single Markdown file into an MdDocument."""
 
@@ -148,14 +149,12 @@ class MdParser:
         toon_sections: list[ToonSection] = []
 
         in_fence = False
-        fence_lang = ""
         fence_info = ""
         fence_start = 0
         fence_lines: list[str] = []
         current_heading: Optional[str] = None
 
         for lineno, line in enumerate(lines, start=1):
-
             # ── fence handling ────────────────────────────────────────────────
             if in_fence:
                 if self.FENCE_CLOSE_RE.match(line):
@@ -219,12 +218,14 @@ class MdParser:
                 text = l_m.group(2).strip()
                 # strip inline backticks/bold
                 text_clean = re.sub(r"[`*_]", "", text)
-                list_items.append(ListItem(
-                    text=text_clean,
-                    line=lineno,
-                    depth=depth,
-                    parent_heading=current_heading,
-                ))
+                list_items.append(
+                    ListItem(
+                        text=text_clean,
+                        line=lineno,
+                        depth=depth,
+                        parent_heading=current_heading,
+                    )
+                )
 
         # ── title = first H1 ─────────────────────────────────────────────────
         title = next((h.text for h in headings if h.level == 1), Path(path).stem)

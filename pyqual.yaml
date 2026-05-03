@@ -1,0 +1,48 @@
+pipeline:
+  name: mdflow-quality
+
+  # Quality gates — pipeline iterates until ALL pass
+  metrics:
+    cc_max: 14           # cyclomatic complexity per function (target from evolution.toon)
+    coverage_min: 70     # test coverage (%)
+    ruff_errors: 0       # zero ruff errors allowed
+
+  stages:
+    # 1. Static analysis — prefact fixes LLM-introduced issues first
+    - name: prefact
+      run: prefact scan -p .
+      timeout: 120
+
+    # 2. Lint — ruff must be clean
+    - name: lint
+      run: ruff check mdflow/ tests/
+      timeout: 60
+
+    # 3. Format check
+    - name: format
+      run: ruff format --check mdflow/ tests/
+      timeout: 60
+      optional: true
+
+    # 4. Tests with coverage
+    - name: test
+      run: pytest tests/ -q --tb=short
+      timeout: 120
+
+    # 5. LLM-assisted fix — only when a stage failed
+    - name: fix
+      tool: llx-fix
+      optional: true
+      when: any_stage_fail
+      timeout: 1800
+
+  # Loop behavior
+  loop:
+    max_iterations: 3
+    on_fail: create_ticket
+    ticket_backends:
+      - markdown          # writes to TODO.md
+
+  # Environment
+  env:
+    LLM_MODEL: openrouter/qwen/qwen3-coder-next

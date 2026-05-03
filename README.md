@@ -3,10 +3,10 @@
 
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.4-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
-![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.45-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-2.0h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.5-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.60-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-2.0h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
 
-- 🤖 **LLM usage:** $0.4500 (3 commits)
+- 🤖 **LLM usage:** $0.6000 (4 commits)
 - 👤 **Human dev:** ~$200 (2.0h @ $100/h, 30min dedup)
 
 Generated on 2026-05-03 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
@@ -122,24 +122,37 @@ mdflow diagram SUMR.md --diagram alerts_graph -o alerts.mermaid
 
 ## Examples
 
-The `examples/` directory contains comprehensive usage examples:
+The `examples/` directory is organized by complexity and use case:
 
-- **basic_usage.py** - Basic parsing and report generation
-- **advanced_analysis.py** - Structure analysis, code inventory, TOON metrics
-- **directory_scan.py** - Scanning multiple files and dependency graphs
-- **custom_diagrams.py** - Working with diagrams programmatically
-- **cli_usage.sh** - CLI usage examples
+### Basic
 
-Run examples from the project root:
+- **`01_parse_single_file.py`** — Parse and inspect a single document
+- **`02_generate_reports.py`** — Generate HTML, Markdown, and Mermaid reports
+- **`03_diagrams_as_strings.py`** — Get diagrams as strings (no file I/O)
+- **`04_cli_basics.sh`** — CLI commands: `analyze`, `scan`, `diagram`
+
+### Advanced
+
+- **`01_directory_scan.py`** — Scan a directory and build dependency graphs
+- **`02_toon_analysis.py`** — Extract TOON quality metrics (HEALTH, ALERTS, REFACTOR, ...)
+- **`03_custom_diagram_pipeline.py`** — Build custom HTML with selected diagrams
+
+### API / Extensibility
+
+- **`01_low_level_parser.py`** — Use `MdParser` directly for fine-grained control
+- **`02_custom_analyzer.py`** — Build your own analyzer on top of `MdDocument`
+
+Sample data files in `examples/data/` are cross-linked so directory-scan examples produce realistic dependency graphs.
+
+Run any example from the project root:
+
 ```bash
-python examples/basic_usage.py
-python examples/advanced_analysis.py
-python examples/directory_scan.py
-python examples/custom_diagrams.py
-bash examples/cli_usage.sh
+python examples/basic/01_parse_single_file.py
+python examples/advanced/01_directory_scan.py
+python examples/api/02_custom_analyzer.py
 ```
 
-See [examples/README.md](examples/README.md) for detailed documentation.
+See [examples/README.md](examples/README.md) for full details.
 
 ---
 

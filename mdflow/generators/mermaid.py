@@ -1,6 +1,7 @@
 """
 mdflow.generators.mermaid — generate Mermaid diagrams from analysis results.
 """
+
 from __future__ import annotations
 import re
 from pathlib import Path
@@ -13,16 +14,21 @@ def _safe_id(s: str) -> str:
 
 
 def _short_label(s: str, max_len: int = 30) -> str:
+    # Strip characters that break Mermaid node labels: backticks, parens, brackets
+    s = re.sub(r'[`()\[\]{}"#]', "", s)
+    s = s.strip()
     if len(s) > max_len:
-        return s[:max_len - 3] + "..."
+        return s[: max_len - 3] + "..."
     return s
 
 
 # ─── heading structure ────────────────────────────────────────────────────────
 
+
 def heading_tree_diagram(tree: list[dict], title: str = "Document Structure") -> str:
     """Mermaid mindmap of heading hierarchy."""
-    lines = ["mindmap", f"  root(({title}))"]
+    safe_title = _short_label(title, 40)
+    lines = ["mindmap", f"  root(({safe_title}))"]
 
     def _render(nodes: list[dict], depth: int = 2):
         indent = "  " * depth
@@ -71,6 +77,7 @@ def section_flowchart(sections: list[dict], title: str = "") -> str:
 
 # ─── dependency graph ─────────────────────────────────────────────────────────
 
+
 def dependency_diagram(graph: DependencyGraph) -> str:
     """Mermaid flowchart of cross-document dependencies."""
     lines = ["flowchart LR"]
@@ -101,9 +108,12 @@ def dependency_diagram(graph: DependencyGraph) -> str:
 
 # ─── code block inventory ─────────────────────────────────────────────────────
 
+
 def code_inventory_pie(inventory: dict) -> str:
     """Mermaid pie chart of code blocks by language."""
-    lines = ['pie title "Code Blocks by Language"']
+    if not inventory["by_language"]:
+        return ""
+    lines = ["pie title Code Blocks by Language"]
     for lang, items in inventory["by_language"].items():
         label = lang if lang else "unknown"
         lines.append(f'  "{label}" : {len(items)}')
@@ -118,7 +128,7 @@ def markpact_graph(inventory: dict, doc_title: str = "Document") -> str:
     lines = ["flowchart TD"]
     doc_id = _safe_id(doc_title)
     lines.append(f'  {doc_id}["{_short_label(doc_title)}"]')
-    lines.append(f'  style {doc_id} fill:#2563eb,color:#fff')
+    lines.append(f"  style {doc_id} fill:#2563eb,color:#fff")
 
     for mp_type, items in inventory["by_markpact"].items():
         for i, item in enumerate(items):
@@ -126,12 +136,13 @@ def markpact_graph(inventory: dict, doc_title: str = "Document") -> str:
             path = item.get("path") or f"{mp_type}_{i}"
             label = f"{mp_type}\\n{_short_label(path, 25)}"
             lines.append(f'  {nid}["{label}"]')
-            lines.append(f'  {doc_id} -. markpact .-> {nid}')
+            lines.append(f"  {doc_id} -. markpact .-> {nid}")
 
     return "\n".join(lines)
 
 
 # ─── TOON alerts / refactors ──────────────────────────────────────────────────
+
 
 def alerts_diagram(metrics: dict) -> str:
     """Mermaid flowchart of TOON alerts and refactor recommendations."""
@@ -143,7 +154,7 @@ def alerts_diagram(metrics: dict) -> str:
 
     lines = ["flowchart TD"]
     lines.append('  ROOT["🔍 Code Quality Issues"]')
-    lines.append('  style ROOT fill:#dc2626,color:#fff')
+    lines.append("  style ROOT fill:#dc2626,color:#fff")
 
     if alerts:
         lines.append('  ALERTS["⚠ Alerts"]')
@@ -170,14 +181,12 @@ def alerts_diagram(metrics: dict) -> str:
 
 def workflow_diagram(doc: MdDocument) -> str:
     """Extract workflow steps from DOQL/CSS code blocks and render as flowchart."""
-    import re
     wf_blocks = [cb for cb in doc.code_blocks if cb.markpact_type == "doql"]
     if not wf_blocks:
         return ""
 
     lines = ["flowchart TD"]
     wf_re = re.compile(r'workflow\[name="([^"]+)"\]')
-    step_re = re.compile(r'step-\d+:\s*run cmd=(.+);')
 
     for cb in wf_blocks[:1]:  # first doql block
         workflows = wf_re.findall(cb.content)

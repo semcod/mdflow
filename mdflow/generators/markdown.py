@@ -1,8 +1,116 @@
 """
 mdflow.generators.markdown — generate a Markdown analysis report.
 """
+
 from __future__ import annotations
 from ..models import MdDocument
+
+
+def _md_header(doc: MdDocument, inventory: dict) -> list[str]:
+    return [
+        f"# mdflow report · {doc.title}",
+        "",
+        f"**File:** `{doc.path}`  ",
+        f"**Headings:** {len(doc.headings)}  **Code blocks:** {inventory['total']}  "
+        f"**Links:** {len(doc.links)}  **Markpact refs:** {len(inventory['markpact_paths'])}",
+        "",
+    ]
+
+
+def _md_metadata(doc: MdDocument) -> list[str]:
+    if not doc.metadata:
+        return []
+    lines = ["## Metadata", "", "| Key | Value |", "| --- | --- |"]
+    for k, v in doc.metadata.items():
+        lines.append(f"| `{k}` | `{v}` |")
+    lines.append("")
+    return lines
+
+
+def _md_toon_metrics(metrics: dict) -> list[str]:
+    lines: list[str] = []
+    if metrics["health"]:
+        lines += ["## Health Metrics", ""]
+        for k, v in metrics["health"].items():
+            lines.append(f"- **{k}**: `{v}`")
+        lines.append("")
+    if metrics["alerts"]:
+        lines += ["## Alerts", ""]
+        lines += [f"- ⚠ {a}" for a in metrics["alerts"]]
+        lines.append("")
+    if metrics["refactors"]:
+        lines += ["## Refactor Recommendations", ""]
+        lines += [f"- 🔧 {r}" for r in metrics["refactors"]]
+        lines.append("")
+    return lines
+
+
+def _md_section_overview(sections: list[dict]) -> list[str]:
+    lines = [
+        "## Section Overview",
+        "",
+        "| Section | Level | Code blocks | Languages | Links |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for s in sections:
+        langs = ", ".join(f"`{lang}`" for lang in s["languages"]) or "—"
+        mps = (
+            ", ".join(f"`markpact:{m}`" for m in s["markpact"]) if s["markpact"] else ""
+        )
+        label = f"[{s['heading']}](#{s['anchor']}){' ' + mps if mps else ''}"
+        lines.append(
+            f"| {label} | H{s['level']} | {s['code_blocks']} | {langs} | {s['links']} |"
+        )
+    lines.append("")
+    return lines
+
+
+def _md_code_inventory(inventory: dict) -> list[str]:
+    lines: list[str] = []
+    if inventory["by_language"]:
+        lines += [
+            "## Code Block Inventory",
+            "",
+            "| Language | Blocks | Markpact |",
+            "| --- | --- | --- |",
+        ]
+        for lang, items in inventory["by_language"].items():
+            mp = sum(1 for i in items if i["markpact"])
+            lines.append(f"| `{lang}` | {len(items)} | {mp} |")
+        lines.append("")
+    if inventory["markpact_paths"]:
+        lines += ["## Embedded File References (markpact)", ""]
+        lines += [f"- `{p}`" for p in inventory["markpact_paths"]]
+        lines.append("")
+    return lines
+
+
+def _md_section_flow_diagram(sections: list[dict]) -> list[str]:
+    lines = ["## Diagrams", "", "### Section Flow", "", "```mermaid", "flowchart TD"]
+    prev = None
+    for i, s in enumerate(sections[:15]):
+        nid = f"S{i}"
+        lines.append(f'  {nid}["{s["heading"]}"]')
+        if prev is not None:
+            lines.append(f"  S{prev} --> {nid}")
+        prev = i
+    lines += ["```", ""]
+    return lines
+
+
+def _md_links(doc: MdDocument) -> list[str]:
+    if not doc.links:
+        return []
+    lines = [
+        "## Links",
+        "",
+        "| Line | Kind | URL | Text |",
+        "| --- | --- | --- | --- |",
+    ]
+    for lk in doc.links[:30]:
+        lines.append(f"| {lk.line} | `{lk.kind}` | `{lk.href[:60]}` | {lk.text[:40]} |")
+    lines.append("")
+    return lines
 
 
 def generate_markdown_report(
@@ -16,96 +124,13 @@ def generate_markdown_report(
     metrics = toon_analyzer.metrics(doc)
 
     lines: list[str] = []
-
-    lines += [
-        f"# mdflow report · {doc.title}",
-        "",
-        f"**File:** `{doc.path}`  ",
-        f"**Headings:** {len(doc.headings)}  **Code blocks:** {inventory['total']}  "
-        f"**Links:** {len(doc.links)}  **Markpact refs:** {len(inventory['markpact_paths'])}",
-        "",
-    ]
-
-    # Metadata
-    if doc.metadata:
-        lines += ["## Metadata", ""]
-        lines += [f"| Key | Value |", "| --- | --- |"]
-        for k, v in doc.metadata.items():
-            lines.append(f"| `{k}` | `{v}` |")
-        lines.append("")
-
-    # Health / TOON
-    if metrics["health"]:
-        lines += ["## Health Metrics", ""]
-        for k, v in metrics["health"].items():
-            lines.append(f"- **{k}**: `{v}`")
-        lines.append("")
-
-    if metrics["alerts"]:
-        lines += ["## Alerts", ""]
-        for a in metrics["alerts"]:
-            lines.append(f"- ⚠ {a}")
-        lines.append("")
-
-    if metrics["refactors"]:
-        lines += ["## Refactor Recommendations", ""]
-        for r in metrics["refactors"]:
-            lines.append(f"- 🔧 {r}")
-        lines.append("")
-
-    # Document structure
-    lines += ["## Section Overview", ""]
-    lines += ["| Section | Level | Code blocks | Languages | Links |", "| --- | --- | --- | --- | --- |"]
-    for s in sections:
-        langs = ", ".join(f"`{l}`" for l in s["languages"]) or "—"
-        mps = ", ".join(f"`markpact:{m}`" for m in s["markpact"]) if s["markpact"] else ""
-        label = f"[{s['heading']}](#{s['anchor']}){' ' + mps if mps else ''}"
-        lines.append(f"| {label} | H{s['level']} | {s['code_blocks']} | {langs} | {s['links']} |")
-    lines.append("")
-
-    # Code inventory
-    if inventory["by_language"]:
-        lines += ["## Code Block Inventory", ""]
-        lines += ["| Language | Blocks | Markpact |", "| --- | --- | --- |"]
-        for lang, items in inventory["by_language"].items():
-            mp = sum(1 for i in items if i["markpact"])
-            lines.append(f"| `{lang}` | {len(items)} | {mp} |")
-        lines.append("")
-
-    # Markpact refs
-    if inventory["markpact_paths"]:
-        lines += ["## Embedded File References (markpact)", ""]
-        for p in inventory["markpact_paths"]:
-            lines.append(f"- `{p}`")
-        lines.append("")
-
-    # Mermaid diagrams inline
-    lines += [
-        "## Diagrams",
-        "",
-        "### Section Flow",
-        "",
-        "```mermaid",
-    ]
-    # Inline simple section flow
-    lines += [f"flowchart TD"]
-    prev = None
-    for i, s in enumerate(sections[:15]):
-        nid = f"S{i}"
-        lines.append(f'  {nid}["{s["heading"]}"]')
-        if prev is not None:
-            lines.append(f"  S{prev} --> {nid}")
-        prev = i
-    lines += ["```", ""]
-
-    # Links
-    if doc.links:
-        lines += ["## Links", ""]
-        lines += ["| Line | Kind | URL | Text |", "| --- | --- | --- | --- |"]
-        for lk in doc.links[:30]:
-            lines.append(f"| {lk.line} | `{lk.kind}` | `{lk.href[:60]}` | {lk.text[:40]} |")
-        lines.append("")
-
+    lines += _md_header(doc, inventory)
+    lines += _md_metadata(doc)
+    lines += _md_toon_metrics(metrics)
+    lines += _md_section_overview(sections)
+    lines += _md_code_inventory(inventory)
+    lines += _md_section_flow_diagram(sections)
+    lines += _md_links(doc)
     lines += ["---", "_Generated by **mdflow** — Markdown dependency analyzer_"]
 
     return "\n".join(lines)

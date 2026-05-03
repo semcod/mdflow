@@ -164,6 +164,31 @@ tasks:
       - echo "✓ Full clean complete"
     silent: true
 
+  # Code quality tasks (pyqual + prefact)
+  quality:
+    desc: Run full quality gate loop (prefact + lint + test)
+    cmds:
+      - pyqual run
+    silent: false
+
+  quality-gates:
+    desc: Check quality gates without running pipeline
+    cmds:
+      - pyqual gates
+    silent: false
+
+  prefact:
+    desc: Run prefact scan on source
+    cmds:
+      - prefact scan -p .
+    silent: false
+
+  prefact-fix:
+    desc: Run prefact fix (auto-repair issues)
+    cmds:
+      - prefact fix -p .
+    silent: false
+
   # Planfile tasks
   planfile-validate:
     desc: Validate planfile configuration

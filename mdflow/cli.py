@@ -7,6 +7,7 @@ Usage:
     python -m mdflow.cli scan docs/ --output output/
     python -m mdflow.cli diagram SUMR.md --diagram section_flow
 """
+
 from __future__ import annotations
 import argparse
 import sys
@@ -20,8 +21,10 @@ def cmd_analyze(args):
     print(f"[mdflow] Parsed: {doc.title}")
     print(f"  Headings:    {len(doc.headings)}")
     print(f"  Code blocks: {len(doc.code_blocks)}")
-    print(f"  Links:       {len(doc.links)} "
-          f"({len(doc.internal_links)} internal, {len(doc.external_links)} external)")
+    print(
+        f"  Links:       {len(doc.links)} "
+        f"({len(doc.internal_links)} internal, {len(doc.external_links)} external)"
+    )
     print(f"  Markpact:    {len(doc.markpact_blocks)}")
     print(f"  TOON secs:   {', '.join(ts.name for ts in doc.toon_sections) or '—'}")
 
@@ -65,8 +68,7 @@ def cmd_diagram(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="mdflow",
-        description="Markdown dependency analyzer and diagram generator"
+        prog="mdflow", description="Markdown dependency analyzer and diagram generator"
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -87,9 +89,12 @@ def main():
     # diagram
     p_diag = sub.add_parser("diagram", help="Print a single Mermaid diagram")
     p_diag.add_argument("file", help="Path to .md file")
-    p_diag.add_argument("--diagram", default="section_flow",
-                        help="Diagram name (or 'list' to see all)")
-    p_diag.add_argument("-o", "--output", help="Write diagram to file instead of stdout")
+    p_diag.add_argument(
+        "--diagram", default="section_flow", help="Diagram name (or 'list' to see all)"
+    )
+    p_diag.add_argument(
+        "-o", "--output", help="Write diagram to file instead of stdout"
+    )
     p_diag.set_defaults(func=cmd_diagram)
 
     args = parser.parse_args()

@@ -1,6 +1,7 @@
 """
 mdflow.generators.html — generate a self-contained HTML analysis report.
 """
+
 from __future__ import annotations
 from ..models import MdDocument
 from . import mermaid as mm
@@ -75,51 +76,63 @@ def _mermaid_block(diagram: str) -> str:
     return f'<div class="mermaid-wrap"><pre class="mermaid">{escaped}</pre></div>'
 
 
-def generate_html_report(
-    doc: MdDocument,
-    structure_analyzer,
-    code_analyzer,
-    toon_analyzer,
-) -> str:
-    """Generate a full self-contained HTML report for a document."""
-
-    heading_tree = structure_analyzer.heading_tree(doc)
-    sections = structure_analyzer.section_summary(doc)
-    inventory = code_analyzer.inventory(doc)
-    metrics = toon_analyzer.metrics(doc)
-
-    # ── summary cards ─────────────────────────────────────────────────────────
-    cards_html = '<div class="grid">'
-    cards_html += _card("Headings", str(len(doc.headings)), "sections & subsections")
-    cards_html += _card("Code Blocks", str(inventory["total"]),
-                        f"{len(inventory['by_language'])} languages")
-    cards_html += _card("Links", str(len(doc.links)),
-                        f"{len(doc.internal_links)} internal · {len(doc.external_links)} external")
-    cards_html += _card("Markpact refs", str(len(inventory["markpact_paths"])),
-                        "embedded file references")
-    if metrics["health"].get("cc_mean"):
-        cards_html += _card("CC̄", str(metrics["health"]["cc_mean"]), "mean cyclomatic complexity")
-    if metrics["health"].get("critical"):
-        cards_html += _card("Critical", str(metrics["health"]["critical"]), "functions above CC limit")
-    cards_html += "</div>"
-
-    # ── metadata table ────────────────────────────────────────────────────────
-    meta_rows = "".join(
-        f"<tr><td>{k}</td><td>{v}</td></tr>"
-        for k, v in doc.metadata.items()
+def _build_cards(doc: MdDocument, inventory: dict, metrics: dict) -> str:
+    html = '<div class="grid">'
+    html += _card("Headings", str(len(doc.headings)), "sections & subsections")
+    html += _card(
+        "Code Blocks",
+        str(inventory["total"]),
+        f"{len(inventory['by_language'])} languages",
     )
-    meta_section = ""
-    if meta_rows:
-        meta_section = f"""<div class="section">
-  <h2><span class="icon">🔖</span> Metadata</h2>
-  <table class="meta-table"><tbody>{meta_rows}</tbody></table>
-</div>"""
+    html += _card(
+        "Links",
+        str(len(doc.links)),
+        f"{len(doc.internal_links)} internal · {len(doc.external_links)} external",
+    )
+    html += _card(
+        "Markpact refs",
+        str(len(inventory["markpact_paths"])),
+        "embedded file references",
+    )
+    if metrics["health"].get("cc_mean"):
+        html += _card(
+            "CC̄", str(metrics["health"]["cc_mean"]), "mean cyclomatic complexity"
+        )
+    if metrics["health"].get("critical"):
+        html += _card(
+            "Critical", str(metrics["health"]["critical"]), "functions above CC limit"
+        )
+    html += "</div>"
+    return html
 
-    # ── structure diagram ─────────────────────────────────────────────────────
-    structure_diag = mm.heading_tree_diagram(heading_tree, doc.title)
-    section_flow = mm.section_flowchart(sections, "")
 
-    # ── code inventory ────────────────────────────────────────────────────────
+def _build_meta_section(doc: MdDocument) -> str:
+    if not doc.metadata:
+        return ""
+    rows = "".join(
+        f"<tr><td>{k}</td><td>{v}</td></tr>" for k, v in doc.metadata.items()
+    )
+    return (
+        f'<div class="section">'
+        f'<h2><span class="icon">🔖</span> Metadata</h2>'
+        f'<table class="meta-table"><tbody>{rows}</tbody></table>'
+        f"</div>"
+    )
+
+
+def _build_toon_pills(doc: MdDocument) -> str:
+    pills = "".join(
+        f"<span class='pill active'>{ts.name}</span>" for ts in doc.toon_sections
+    )
+    if not pills:
+        return ""
+    return (
+        "<div class='section'><h2><span class='icon'>🏷</span> TOON Sections Detected</h2>"
+        f"<div class='tag-list'>{pills}</div></div>"
+    )
+
+
+def _build_code_section(inventory: dict) -> str:
     lang_rows = "".join(
         f"<tr><td><span class='badge badge-lang'>{lang}</span></td>"
         f"<td>{len(items)}</td>"
@@ -127,39 +140,104 @@ def generate_html_report(
         f"<td>{'Yes' if any(i['markpact'] for i in items) else '—'}</td></tr>"
         for lang, items in inventory["by_language"].items()
     )
+    if not lang_rows:
+        return ""
+    pie_diag = mm.code_inventory_pie(inventory) if inventory["total"] else ""
+    return (
+        "<div class='section'><h2><span class='icon'>📦</span> Code Block Inventory</h2>"
+        "<table><thead><tr><th>Language</th><th>Blocks</th><th>Lines</th><th>Markpact</th></tr></thead>"
+        f"<tbody>{lang_rows}</tbody></table>"
+        + (_mermaid_block(pie_diag) if pie_diag else "")
+        + "</div>"
+    )
+
+
+def _build_markpact_section(inventory: dict, doc_title: str) -> str:
     markpact_rows = "".join(
         f"<tr><td><span class='badge badge-mp'>markpact:{mp_type}</span></td>"
         f"<td>{len(items)}</td>"
-        f"<td>{', '.join(i.get('path','—') or '—' for i in items[:3])}</td></tr>"
+        f"<td>{', '.join(i.get('path', '—') or '—' for i in items[:3])}</td></tr>"
         for mp_type, items in inventory["by_markpact"].items()
     )
+    if not markpact_rows:
+        return ""
+    mp_diag = mm.markpact_graph(inventory, doc_title)
+    return (
+        "<div class='section'><h2><span class='icon'>🏷</span> Markpact Embedded Files</h2>"
+        "<table><thead><tr><th>Type</th><th>Count</th><th>Paths</th></tr></thead>"
+        f"<tbody>{markpact_rows}</tbody></table>" + _mermaid_block(mp_diag) + "</div>"
+    )
 
-    pie_diag = mm.code_inventory_pie(inventory) if inventory["total"] else ""
-    mp_diag = mm.markpact_graph(inventory, doc.title)
 
-    # ── TOON alerts ───────────────────────────────────────────────────────────
+def _build_toon_section(metrics: dict) -> str:
     alert_items = "".join(f"<li>{a}</li>" for a in metrics.get("alerts", []))
     refactor_items = "".join(f"<li>{r}</li>" for r in metrics.get("refactors", []))
+    if not alert_items and not refactor_items:
+        return ""
     toon_diag = mm.alerts_diagram(metrics)
+    return (
+        "<div class='section'><h2><span class='icon'>⚠</span> Quality Alerts &amp; Refactor Tasks</h2>"
+        + (f"<ul class='alert-list'>{alert_items}</ul>" if alert_items else "")
+        + (
+            f"<ul class='alert-list refactor-list'>{refactor_items}</ul>"
+            if refactor_items
+            else ""
+        )
+        + _mermaid_block(toon_diag)
+        + "</div>"
+    )
 
-    # ── workflow diagram ──────────────────────────────────────────────────────
+
+def _build_links_section(doc: MdDocument) -> str:
+    if not doc.links:
+        return ""
+    rows = "".join(
+        f"<tr><td>{lk.line}</td><td><code>{lk.href[:60]}</code></td>"
+        f"<td><span class='badge badge-lang'>{lk.kind}</span></td>"
+        f"<td>{lk.text[:40]}</td></tr>"
+        for lk in doc.links[:50]
+    )
+    return (
+        "<div class='section'><h2><span class='icon'>🔗</span> Links</h2>"
+        "<table><thead><tr><th>Line</th><th>URL</th><th>Kind</th><th>Text</th></tr></thead>"
+        f"<tbody>{rows}</tbody></table></div>"
+    )
+
+
+def generate_html_report(
+    doc: MdDocument,
+    structure_analyzer,
+    code_analyzer,
+    toon_analyzer,
+) -> str:
+    """Generate a full self-contained HTML report for a document."""
+    heading_tree = structure_analyzer.heading_tree(doc)
+    sections = structure_analyzer.section_summary(doc)
+    inventory = code_analyzer.inventory(doc)
+    metrics = toon_analyzer.metrics(doc)
+
+    structure_diag = mm.heading_tree_diagram(heading_tree, doc.title)
+    section_flow = mm.section_flowchart(sections, "")
     wf_diag = mm.workflow_diagram(doc)
 
-    # ── links table ───────────────────────────────────────────────────────────
-    link_rows = "".join(
-        f"<tr><td>{l.line}</td><td><code>{l.href[:60]}</code></td>"
-        f"<td><span class='badge badge-lang'>{l.kind}</span></td>"
-        f"<td>{l.text[:40]}</td></tr>"
-        for l in doc.links[:50]
+    body = "\n".join(
+        [
+            _build_cards(doc, inventory, metrics),
+            _build_meta_section(doc),
+            _build_toon_pills(doc),
+            f'<div class="section"><h2><span class="icon">🗂</span> Document Structure</h2>{_mermaid_block(structure_diag)}</div>',
+            f'<div class="section"><h2><span class="icon">📋</span> Section Flow with Annotations</h2>{_mermaid_block(section_flow)}</div>',
+            _build_code_section(inventory),
+            _build_markpact_section(inventory, doc.title),
+            f'<div class="section"><h2><span class="icon">⚡</span> Workflows (DOQL)</h2>{_mermaid_block(wf_diag)}</div>'
+            if wf_diag
+            else "",
+            _build_toon_section(metrics),
+            _build_links_section(doc),
+        ]
     )
 
-    # ── TOON sections list ────────────────────────────────────────────────────
-    toon_pills = "".join(
-        f"<span class='pill active'>{ts.name}</span>"
-        for ts in doc.toon_sections
-    )
-
-    html = f"""<!DOCTYPE html>
+    return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -170,55 +248,12 @@ def generate_html_report(
 </head>
 <body>
 <div class="container">
-
 <header>
   <h1>{doc.title}</h1>
   <div class="subtitle">mdflow analysis · {doc.path}</div>
 </header>
-
-{cards_html}
-
-{meta_section}
-
-{"<div class='section'><h2><span class='icon'>🏷</span> TOON Sections Detected</h2><div class='tag-list'>" + toon_pills + "</div></div>" if toon_pills else ""}
-
-<div class="section">
-  <h2><span class="icon">🗂</span> Document Structure</h2>
-  {_mermaid_block(structure_diag)}
-</div>
-
-<div class="section">
-  <h2><span class="icon">📋</span> Section Flow with Annotations</h2>
-  {_mermaid_block(section_flow)}
-</div>
-
-{"<div class='section'><h2><span class='icon'>📦</span> Code Block Inventory</h2>" + 
-  "<table><thead><tr><th>Language</th><th>Blocks</th><th>Lines</th><th>Markpact</th></tr></thead><tbody>" +
-  lang_rows + "</tbody></table>" +
-  (_mermaid_block(pie_diag) if pie_diag else "") +
-  ("</div>" if lang_rows else "") if lang_rows else ""}
-
-{"<div class='section'><h2><span class='icon'>🏷</span> Markpact Embedded Files</h2>" +
-  "<table><thead><tr><th>Type</th><th>Count</th><th>Paths</th></tr></thead><tbody>" +
-  markpact_rows + "</tbody></table>" +
-  _mermaid_block(mp_diag) +
-  "</div>" if markpact_rows else ""}
-
-{"<div class='section'><h2><span class='icon'>⚡</span> Workflows (DOQL)</h2>" + _mermaid_block(wf_diag) + "</div>" if wf_diag else ""}
-
-{"<div class='section'><h2><span class='icon'>⚠</span> Quality Alerts &amp; Refactor Tasks</h2>" +
-  ("<ul class='alert-list'>" + alert_items + "</ul>" if alert_items else "") +
-  ("<ul class='alert-list refactor-list'>" + refactor_items + "</ul>" if refactor_items else "") +
-  _mermaid_block(toon_diag) + "</div>" if (alert_items or refactor_items) else ""}
-
-{"<div class='section'><h2><span class='icon'>🔗</span> Links</h2>" +
-  "<table><thead><tr><th>Line</th><th>URL</th><th>Kind</th><th>Text</th></tr></thead><tbody>" +
-  link_rows + "</tbody></table></div>" if link_rows else ""}
-
+{body}
 <footer>generated by mdflow · markdown dependency analyzer</footer>
-
 </div>
 </body>
 </html>"""
-
-    return html
