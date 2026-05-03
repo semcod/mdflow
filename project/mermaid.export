@@ -60,14 +60,16 @@ flowchart TD
     end
     subgraph examples__advanced
         examples__advanced__01_directory_scan__main["main"]
+        examples__advanced__03_custom_diagram_pipeline__main["main"]
+        examples__advanced__02_toon_analysis__main("main CC=13")
     end
     subgraph examples__advanced_analysis
         examples__advanced_analysis__main{{main CC=17}}
     end
     subgraph examples__basic
         examples__basic__02_generate_reports__main["main"]
-        examples__basic__03_diagrams_as_strings__main["main"]
         examples__basic__01_parse_single_file__main["main"]
+        examples__basic__03_diagrams_as_strings__main["main"]
     end
     subgraph examples__basic_usage
         examples__basic_usage__main["main"]
@@ -76,8 +78,8 @@ flowchart TD
         examples__custom_diagrams__main["main"]
     end
     subgraph examples__data
-        examples__data__api_reference__verify_token["verify_token"]
         examples__data__project_overview__process_data["process_data"]
+        examples__data__api_reference__verify_token["verify_token"]
     end
     subgraph examples__directory_scan
         examples__directory_scan__main("main CC=8")
@@ -169,6 +171,10 @@ flowchart TD
     examples__directory_scan__main --> README__print
     examples__advanced_analysis__main --> README__print
     examples__basic_usage__main --> README__print
+    examples__advanced__01_directory_scan__main --> README__print
+    examples__basic__02_generate_reports__main --> README__print
+    examples__basic__01_parse_single_file__main --> README__print
+    examples__basic__03_diagrams_as_strings__main --> README__print
     mdflow__cli__cmd_analyze --> README__print
     mdflow__cli__cmd_scan --> README__print
     mdflow__cli__cmd_diagram --> README__print
@@ -184,10 +190,8 @@ flowchart TD
     mdflow__generators__mermaid__markpact_graph --> mdflow__generators__mermaid___short_label
     mdflow__generators__mermaid__alerts_diagram --> mdflow__generators__mermaid___short_label
     mdflow__generators__mermaid__workflow_diagram --> mdflow__generators__mermaid___safe_id
-    examples__basic__02_generate_reports__main --> README__print
-    examples__advanced__01_directory_scan__main --> README__print
-    examples__basic__03_diagrams_as_strings__main --> README__print
-    examples__basic__01_parse_single_file__main --> README__print
+    examples__advanced__03_custom_diagram_pipeline__main --> README__print
+    examples__advanced__02_toon_analysis__main --> README__print
     mdflow__MdFlow__parse_dir --> README__print
     mdflow__MdFlow__report --> mdflow__generators__html__generate_html_report
     mdflow__MdFlow__report --> README__print
@@ -199,4 +203,4 @@ flowchart TD
     classDef highCC fill:#ff6b6b,stroke:#c92a2a,color:#fff
     classDef medCC fill:#ffd43b,stroke:#f08c00,color:#000
     class examples__advanced_analysis__main,mdflow__generators__markdown__generate_markdown_report,mdflow__generators__html__generate_html_report,mdflow__analyzers__StructureAnalyzer__section_summary highCC
-    class examples__directory_scan__main,mdflow__parser___parse_toon_content,mdflow__parser__MdParser__parse_text,mdflow__generators__mermaid__section_flowchart,mdflow__generators__mermaid__workflow_diagram,mdflow__analyzers__DependencyAnalyzer__build,mdflow__analyzers__ToonAnalyzer__metrics medCC
+    class examples__directory_scan__main,mdflow__parser___parse_toon_content,mdflow__parser__MdParser__parse_text,mdflow__generators__mermaid__section_flowchart,mdflow__generators__mermaid__workflow_diagram,mdflow__analyzers__DependencyAnalyzer__build,mdflow__analyzers__ToonAnalyzer__metrics,examples__advanced__02_toon_analysis__main medCC

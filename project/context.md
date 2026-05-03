@@ -4,22 +4,22 @@
 
 - **Project**: /home/tom/github/semcod/mdflow
 - **Primary Language**: python
-- **Languages**: python: 18, md: 12, yaml: 11, shell: 4, txt: 2
+- **Languages**: python: 20, md: 12, yaml: 11, shell: 4, txt: 2
 - **Analysis Mode**: static
-- **Total Functions**: 130
+- **Total Functions**: 132
 - **Total Classes**: 32
-- **Modules**: 49
-- **Entry Points**: 118
+- **Modules**: 51
+- **Entry Points**: 120
 
 ## Architecture by Module
 
 ### SUMD
-- **Functions**: 45
+- **Functions**: 50
 - **Classes**: 9
 - **File**: `SUMD.md`
 
 ### project.map.toon
-- **Functions**: 28
+- **Functions**: 33
 - **File**: `map.toon.yaml`
 
 ### SUMR
@@ -75,29 +75,29 @@
 - **Functions**: 1
 - **File**: `basic_usage.py`
 
-### mdflow.generators.markdown
+### examples.advanced.01_directory_scan
 - **Functions**: 1
-- **File**: `markdown.py`
+- **File**: `01_directory_scan.py`
 
-### examples.data.api_reference
+### examples.basic.02_generate_reports
 - **Functions**: 1
-- **File**: `api_reference.md`
+- **File**: `02_generate_reports.py`
 
-### README
+### examples.basic.01_parse_single_file
 - **Functions**: 1
-- **File**: `README.md`
+- **File**: `01_parse_single_file.py`
 
-### docs.README
+### examples.basic.03_diagrams_as_strings
 - **Functions**: 1
-- **File**: `README.md`
+- **File**: `03_diagrams_as_strings.py`
 
 ### examples.data.project_overview
 - **Functions**: 1
 - **File**: `project_overview.md`
 
-### examples.basic.02_generate_reports
+### examples.data.api_reference
 - **Functions**: 1
-- **File**: `02_generate_reports.py`
+- **File**: `api_reference.md`
 
 ## Key Entry Points
 
@@ -121,6 +121,9 @@ Main execution flows into the system:
 ### examples.basic.01_parse_single_file.main
 - **Calls**: MdFlow, flow.parse, README.print, README.print, README.print, README.print, README.print, README.print
 
+### examples.advanced.02_toon_analysis.main
+- **Calls**: MdFlow, flow.parse, README.print, README.print, flow.toon_metrics, README.print, README.print, README.print
+
 ### mdflow.cli.main
 - **Calls**: argparse.ArgumentParser, parser.add_subparsers, sub.add_parser, p_analyze.add_argument, p_analyze.add_argument, p_analyze.add_argument, p_analyze.set_defaults, sub.add_parser
 
@@ -130,6 +133,9 @@ Main execution flows into the system:
 
 ### mdflow.cli.cmd_analyze
 - **Calls**: MdFlow, flow.parse, README.print, README.print, README.print, README.print, README.print, README.print
+
+### examples.advanced.03_custom_diagram_pipeline.main
+- **Calls**: MdFlow, Path, out_path.parent.mkdir, out_path.write_text, README.print, README.print, README.print, flow.parse
 
 ### examples.advanced.01_directory_scan.main
 - **Calls**: MdFlow, flow.scan, README.print, README.print, README.print, README.print, README.print, README.print
@@ -201,13 +207,6 @@ Useful for embedding in other tools.
 
 ### mdflow.MdFlow._write_dep_graph_html
 - **Calls**: None.replace, p.write_text, README.print, diagram.replace, len, len
-
-### mdflow.generators.mermaid.heading_tree_diagram
-> Mermaid mindmap of heading hierarchy.
-- **Calls**: _render, None.join, mdflow.generators.mermaid._short_label, lines.append, _render
-
-### mdflow.MdFlow.__init__
-- **Calls**: MdParser, DependencyAnalyzer, StructureAnalyzer, CodeInventoryAnalyzer, ToonAnalyzer
 
 ## Process Flows
 
@@ -343,27 +342,29 @@ Single file:
 ### mdflow.models.DependencyEdge
 - **Methods**: 0
 
-### SUMR.MdParser
+### SUMD.MdParser
 - **Methods**: 0
 
-### SUMR.Heading
+### SUMD.Heading
 - **Methods**: 0
 
-### SUMR.Link
+### SUMD.Link
 - **Methods**: 0
 
-### SUMR.CodeBlock
+### SUMD.CodeBlock
 - **Methods**: 0
 
-### SUMR.ListItem
+### SUMD.ListItem
 - **Methods**: 0
 
-### SUMR.ToonSection
+### SUMD.ToonSection
 - **Methods**: 0
 
 ## Data Transformation Functions
 
 Key functions that process and transform data:
+
+### examples.data.project_overview.process_data
 
 ### mdflow.parser._parse_fence_info
 > Parse fence info string like:
@@ -389,16 +390,6 @@ Key functions that process and transform data:
 ### mdflow.analyzers.ToonAnalyzer._parse_health
 - **Output to**: self.CC_RE.search, self.CRITICAL_RE.search, float, int, m.group
 
-### SUMR._parse_fence_info
-
-### SUMR._parse_toon_content
-
-### SUMR._parse_metadata_section
-
-### SUMR.parse
-
-### SUMR.parse_text
-
 ### SUMD._parse_fence_info
 
 ### SUMD._parse_toon_content
@@ -409,13 +400,21 @@ Key functions that process and transform data:
 
 ### SUMD.parse_text
 
-### examples.data.project_overview.process_data
-
 ### project.map.toon._parse_fence_info
 
 ### project.map.toon._parse_toon_content
 
 ### project.map.toon._parse_metadata_section
+
+### SUMR._parse_fence_info
+
+### SUMR._parse_toon_content
+
+### SUMR._parse_metadata_section
+
+### SUMR.parse
+
+### SUMR.parse_text
 
 ### mdflow.MdFlow.parse
 > Parse a single Markdown file into an MdDocument.
@@ -437,9 +436,11 @@ Functions exposed as public API (no underscore prefix):
 - `examples.basic_usage.main` - 35 calls
 - `mdflow.generators.markdown.generate_markdown_report` - 33 calls
 - `examples.basic.01_parse_single_file.main` - 31 calls
+- `examples.advanced.02_toon_analysis.main` - 25 calls
 - `mdflow.cli.main` - 19 calls
 - `mdflow.generators.mermaid.alerts_diagram` - 19 calls
 - `mdflow.cli.cmd_analyze` - 17 calls
+- `examples.advanced.03_custom_diagram_pipeline.main` - 17 calls
 - `examples.advanced.01_directory_scan.main` - 15 calls
 - `examples.basic.03_diagrams_as_strings.main` - 15 calls
 - `mdflow.generators.mermaid.section_flowchart` - 14 calls
@@ -467,8 +468,6 @@ Functions exposed as public API (no underscore prefix):
 - `mdflow.models.DependencyGraph.add_node` - 1 calls
 - `mdflow.MdFlow.dependency_graph` - 1 calls
 - `mdflow.MdFlow.code_inventory` - 1 calls
-- `mdflow.MdFlow.toon_metrics` - 1 calls
-- `examples.data.api_reference.verify_token` - 0 calls
 
 ## System Interactions
 
@@ -485,6 +484,7 @@ graph TD
     parse_text --> _parse_metadata_sect
     parse_text --> MdDocument
     main --> parse_dir
+    main --> toon_metrics
     main --> ArgumentParser
     main --> add_subparsers
     main --> add_parser
@@ -495,6 +495,9 @@ graph TD
     cmd_analyze --> MdFlow
     cmd_analyze --> parse
     cmd_analyze --> print
+    main --> Path
+    main --> mkdir
+    main --> write_text
     main --> scan
     main --> diagrams
     main --> items
@@ -502,10 +505,6 @@ graph TD
     section_flowchart --> join
     section_flowchart --> append
     section_flowchart --> _short_label
-    cmd_diagram --> MdFlow
-    cmd_diagram --> parse
-    cmd_diagram --> diagrams
-    cmd_diagram --> print
 ```
 
 ## Reverse Engineering Guidelines

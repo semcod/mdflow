@@ -1,18 +1,20 @@
-# code2llm | 49f 6750L | python:18,md:12,yaml:11,shell:4,txt:2,toml:1,yml:1 | 2026-05-03
-# CC̄=2.2 | critical:4/130 | dups:0 | cycles:0
+# code2llm | 51f 7707L | python:20,md:12,yaml:11,shell:4,txt:2,yml:1,toml:1 | 2026-05-03
+# CC̄=2.3 | critical:4/132 | dups:0 | cycles:0
 
-HEALTH[5]:
-  🔴 GOD   SUMR.md = 575L, 9 classes, 17m, max CC=0.0
+HEALTH[6]:
+  🔴 GOD   SUMD.md = 765L, 9 classes, 32m, max CC=0.0
+  🔴 GOD   SUMR.md = 872L, 9 classes, 17m, max CC=0.0
   🟡 CC    main CC=17 (limit:15)
   🟡 CC    generate_markdown_report CC=25 (limit:15)
   🟡 CC    generate_html_report CC=28 (limit:15)
   🟡 CC    section_summary CC=15 (limit:15)
 
-REFACTOR[2]:
-  1. split SUMR.md  (god module)
-  2. split 4 high-CC methods  (CC>15)
+REFACTOR[3]:
+  1. split SUMD.md  (god module)
+  2. split SUMR.md  (god module)
+  3. split 4 high-CC methods  (CC>15)
 
-PIPELINES[42]:
+PIPELINES[44]:
   [1] Src [main]: main → print
       PURITY: 100% pure
   [2] Src [main]: main → print
@@ -21,19 +23,21 @@ PIPELINES[42]:
       PURITY: 100% pure
   [4] Src [main]: main → print
       PURITY: 100% pure
-  [5] Src [cmd_analyze]: cmd_analyze → print
+  [5] Src [main]: main → print
       PURITY: 100% pure
 
 LAYERS:
-  examples/                       CC̄=5.5    ←in:0  →out:104  !! split
+  examples/                       CC̄=6.0    ←in:0  →out:104  !! split
   │ !! advanced_analysis          104L  0C    1m  CC=17     ←0
   │ custom_diagrams             97L  0C    1m  CC=6      ←0
   │ project_overview.md         87L  0C    1m  CC=0.0    ←0
   │ README.md                   81L  0C    0m  CC=0.0    ←0
   │ directory_scan              79L  0C    1m  CC=8      ←0
+  │ 03_custom_diagram_pipeline    71L  0C    1m  CC=4      ←0
   │ cli_usage.sh                70L  0C    0m  CC=0.0    ←0
   │ basic_usage                 67L  0C    1m  CC=4      ←0
   │ deployment.md               66L  0C    0m  CC=0.0    ←0
+  │ 02_toon_analysis            62L  0C    1m  CC=13     ←0
   │ 01_parse_single_file        59L  0C    1m  CC=6      ←0
   │ api_reference.md            48L  0C    1m  CC=0.0    ←0
   │ 01_directory_scan           47L  0C    1m  CC=4      ←0
@@ -53,34 +57,34 @@ LAYERS:
   │ __init__                    23L  0C    0m  CC=0.0    ←0
   │
   ./                              CC̄=0.0    ←in:0  →out:0
-  │ !! SUMR.md                    575L  9C   17m  CC=0.0    ←0
+  │ !! SUMR.md                    872L  9C   17m  CC=0.0    ←0
+  │ !! SUMD.md                    765L  9C   32m  CC=0.0    ←0
   │ !! goal.yaml                  513L  0C    0m  CC=0.0    ←0
-  │ SUMD.md                    492L  9C   32m  CC=0.0    ←0
   │ Taskfile.yml               235L  0C    0m  CC=0.0    ←0
-  │ README.md                  187L  0C    1m  CC=0.0    ←10
+  │ README.md                  187L  0C    1m  CC=0.0    ←12
   │ planfile.yaml              167L  0C    0m  CC=0.0    ←0
+  │ CHANGELOG.md                86L  0C    0m  CC=0.0    ←0
   │ testql.yaml                 84L  0C    0m  CC=0.0    ←0
   │ pyproject.toml              75L  0C    0m  CC=0.0    ←0
   │ example                     65L  0C    0m  CC=0.0    ←0
-  │ CHANGELOG.md                63L  0C    0m  CC=0.0    ←0
   │ project.sh                  42L  0C    0m  CC=0.0    ←0
   │ fix.txt                      1L  0C    0m  CC=0.0    ←0
   │ tree.sh                      1L  0C    0m  CC=0.0    ←0
   │ TODO.md                      0L  0C    0m  CC=0.0    ←0
   │
   docs/                           CC̄=0.0    ←in:0  →out:0
-  │ README.md                  300L  0C    1m  CC=0.0    ←0
+  │ README.md                  344L  0C    1m  CC=0.0    ←0
   │
   project/                        CC̄=0.0    ←in:0  →out:0
-  │ context.md                 473L  0C    0m  CC=0.0    ←0
-  │ calls.yaml                 381L  0C    0m  CC=0.0    ←0
+  │ !! context.md                 521L  0C    0m  CC=0.0    ←0
+  │ calls.yaml                 456L  0C    0m  CC=0.0    ←0
   │ README.md                  339L  0C    0m  CC=0.0    ←0
-  │ calls.toon.yaml            108L  0C    0m  CC=0.0    ←0
-  │ map.toon.yaml               97L  0C   24m  CC=0.0    ←0
-  │ analysis.toon.yaml          75L  0C    0m  CC=0.0    ←0
+  │ calls.toon.yaml            120L  0C    0m  CC=0.0    ←0
+  │ map.toon.yaml              118L  0C   24m  CC=0.0    ←0
+  │ analysis.toon.yaml         108L  0C    0m  CC=0.0    ←0
   │ evolution.toon.yaml         51L  0C    0m  CC=0.0    ←0
   │ project.toon.yaml           51L  0C    0m  CC=0.0    ←0
-  │ prompt.txt                  49L  0C    0m  CC=0.0    ←0
+  │ prompt.txt                  47L  0C    0m  CC=0.0    ←0
   │ duplication.toon.yaml        9L  0C    0m  CC=0.0    ←0
   │
   testql-scenarios/               CC̄=0.0    ←in:0  →out:0
@@ -90,18 +94,19 @@ LAYERS:
      TODO.md                                   0L
 
 COUPLING:
-                                README           examples     examples.basic             mdflow  examples.advanced  mdflow.generators
-             README                 ──               ←104                ←30                ←19                 ←6                     hub
+                                README           examples     examples.basic  examples.advanced             mdflow  mdflow.generators
+             README                 ──               ←104                ←30                ←22                ←19                     hub
            examples                104                 ──                                                                              !! fan-out
      examples.basic                 30                                    ──                                                           !! fan-out
-             mdflow                 19                                                       ──                                     2  !! fan-out
-  examples.advanced                  6                                                                          ──                   
-  mdflow.generators                                                                          ←2                                    ──
+  examples.advanced                 22                                                       ──                                        !! fan-out
+             mdflow                 19                                                                          ──                  2  !! fan-out
+  mdflow.generators                                                                                             ←2                 ──
   CYCLES: none
-  HUB: README/ (fan-in=159)
-  SMELL: examples.basic/ fan-out=30 → split needed
-  SMELL: examples/ fan-out=104 → split needed
+  HUB: README/ (fan-in=175)
   SMELL: mdflow/ fan-out=21 → split needed
+  SMELL: examples/ fan-out=104 → split needed
+  SMELL: examples.basic/ fan-out=30 → split needed
+  SMELL: examples.advanced/ fan-out=22 → split needed
 
 EXTERNAL:
   validation: run `vallm batch .` → validation.toon

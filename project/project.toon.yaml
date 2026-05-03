@@ -1,51 +1,51 @@
-# mdflow | 130 func | 23f | 6815L | python | 2026-05-03
+# mdflow | 132 func | 25f | 7843L | python | 2026-05-03
 
 HEALTH:
-  CC̄=2.2  critical=6 (limit:10)  dup=9  cycles=0
+  CC̄=2.3  critical=7 (limit:10)  dup=9  cycles=0
 
-ALERTS[12]:
+ALERTS[13]:
   !!! high_fan_out     MdParser.parse_text = 34 (limit:10)
   !!! cc_exceeded      generate_html_report = 28 (limit:15)
   !!! cc_exceeded      generate_markdown_report = 25 (limit:15)
   !!! high_fan_out     generate_html_report = 22 (limit:10)
   !   cc_exceeded      main = 17 (limit:15)
   !   cc_exceeded      StructureAnalyzer.section_summary = 15 (limit:15)
+  !   high_fan_out     main = 12 (limit:10)
   !   high_fan_out     main = 11 (limit:10)
   !   high_fan_out     _parse_toon_content = 11 (limit:10)
   !   high_fan_out     main = 10 (limit:10)
-  !   high_fan_out     main = 10 (limit:10)
 
-MODULES[49] (top by size):
-  M[SUMR.md] 575L C:9 F:17 CC↑0 D:0 (md)
+MODULES[51] (top by size):
+  M[SUMR.md] 872L C:9 F:17 CC↑0 D:0 (md)
+  M[SUMD.md] 765L C:9 F:32 CC↑0 D:0 (md)
+  M[project/context.md] 521L C:0 F:0 CC↑0 D:0 (md)
   M[goal.yaml] 513L C:0 F:0 CC↑0 D:0 (yaml)
-  M[SUMD.md] 492L C:9 F:32 CC↑0 D:0 (md)
-  M[project/context.md] 473L C:0 F:0 CC↑0 D:0 (md)
-  M[project/calls.yaml] 381L C:0 F:0 CC↑0 D:0 (yaml)
+  M[project/calls.yaml] 456L C:0 F:0 CC↑0 D:0 (yaml)
+  M[docs/README.md] 344L C:0 F:1 CC↑0 D:0 (md)
   M[project/README.md] 339L C:0 F:0 CC↑0 D:0 (md)
-  M[docs/README.md] 300L C:0 F:1 CC↑0 D:0 (md)
   M[mdflow/parser.py] 245L C:1 F:7 CC↑14 D:0 (python)
   M[Taskfile.yml] 235L C:0 F:0 CC↑0 D:0 (yml)
   M[mdflow/generators/html.py] 224L C:0 F:3 CC↑28 D:1 (python)
   M[mdflow/generators/mermaid.py] 192L C:0 F:9 CC↑9 D:0 (python)
   M[mdflow/__init__.py] 192L C:1 F:12 CC↑5 D:0 (python)
-  M[README.md] 187L C:0 F:1 CC↑0 D:10 (md)
+  M[README.md] 187L C:0 F:1 CC↑0 D:12 (md)
   M[mdflow/analyzers/__init__.py] 183L C:4 F:7 CC↑15 D:0 (python)
   M[planfile.yaml] 167L C:0 F:0 CC↑0 D:0 (yaml)
-  LANGS: python:18/md:12/yaml:11/shell:4/txt:2/yml:1/toml:1
+  LANGS: python:20/md:12/yaml:11/shell:4/txt:2/yml:1/toml:1
 
-HOTSPOTS[8]:
+HOTSPOTS[9]:
   ★ MdParser.parse_text fan=34  // Orchestrates 34 calls
   ★ generate_html_report fan=22  // Generate a full self-contained HTML report for a document.
+  ★ main fan=12  // Orchestrates 12 calls
   ★ main fan=11  // Orchestrates 11 calls
   ★ _parse_toon_content fan=11  // Lightly parse TOON format embedded in code blocks.
-  ★ main fan=10  // Orchestrates 10 calls
 
-REFACTOR[8]:
+REFACTOR[10]:
   [1] H/L Split generate_markdown_report (CC=25)
   [2] H/L Split generate_html_report (CC=28)
-  [3] H/H Split god module SUMR.md (575L, 9 classes)
-  [4] H/H Split god module goal.yaml (513L, 0 classes)
-  [5] M/L Split main (CC=17)
+  [3] H/H Split god module SUMD.md (765L, 9 classes)
+  [4] H/H Split god module SUMR.md (872L, 9 classes)
+  [5] H/H Split god module goal.yaml (513L, 0 classes)
 
 EVOLUTION:
-  2026-05-03 CC̄=2.2 crit=6 6815L // Automated analysis
+  2026-05-03 CC̄=2.3 crit=7 7843L // Automated analysis

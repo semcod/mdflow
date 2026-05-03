@@ -1,7 +1,7 @@
 <!-- code2docs:start --># mdflow
 
-![version](https://img.shields.io/badge/version-0.1.0-blue) ![python](https://img.shields.io/badge/python-%3E%3D3.11-blue) ![coverage](https://img.shields.io/badge/coverage-unknown-lightgrey) ![functions](https://img.shields.io/badge/functions-142-green)
-> **142** functions | **32** classes | **49** files | CC̄ = 5.4
+![version](https://img.shields.io/badge/version-0.1.0-blue) ![python](https://img.shields.io/badge/python-%3E%3D3.11-blue) ![coverage](https://img.shields.io/badge/coverage-unknown-lightgrey) ![functions](https://img.shields.io/badge/functions-145-green)
+> **145** functions | **32** classes | **52** files | CC̄ = 5.5
 
 > Auto-generated project documentation from source code analysis.
 
@@ -95,6 +95,8 @@ mdflow/
     ├── README
     ├── basic_usage
         ├── 01_directory_scan
+        ├── 03_custom_diagram_pipeline
+        ├── 02_toon_analysis
         ├── 02_generate_reports
         ├── 04_cli_basics
         ├── 01_parse_single_file
@@ -112,16 +114,17 @@ mdflow/
         ├── mermaid
     ├── analyzers/
         ├── toon
+    ├── prompt
             ├── toon
         ├── toon
         ├── toon
-    ├── prompt
         ├── toon
     ├── calls
-    ├── README
-        ├── toon
     ├── context
         ├── toon
+    ├── README
+        ├── toon
+        ├── 01_low_level_parser
 ```
 
 ## API Overview
@@ -208,6 +211,8 @@ mdflow/
 - `main()` — —
 - `main()` — —
 - `main()` — —
+- `main()` — —
+- `main()` — —
 - `process_data()` — —
 - `verify_token()` — —
 - `cmd_analyze(args)` — —
@@ -236,8 +241,12 @@ mdflow/
 - `cmd_analyze()` — —
 - `cmd_scan()` — —
 - `cmd_diagram()` — —
+- `process_data()` — —
 - `verify_token()` — —
 - `print()` — —
+- `generate_readme()` — —
+- `test_placeholder()` — —
+- `test_import()` — —
 - `parse()` — —
 - `parse_text()` — —
 - `internal_links()` — —
@@ -246,17 +255,14 @@ mdflow/
 - `markpact_blocks()` — —
 - `add_node()` — —
 - `add_edge()` — —
-- `generate_readme()` — —
-- `test_placeholder()` — —
-- `test_import()` — —
-- `process_data()` — —
+- `main()` — —
 
 
 ## Project Structure
 
 📄 `CHANGELOG`
 📄 `README` (1 functions)
-📄 `SUMD` (45 functions, 9 classes)
+📄 `SUMD` (50 functions, 9 classes)
 📄 `SUMR` (17 functions, 9 classes)
 📄 `TODO`
 📄 `Taskfile`
@@ -264,7 +270,10 @@ mdflow/
 📄 `example`
 📄 `examples.README`
 📄 `examples.advanced.01_directory_scan` (1 functions)
+📄 `examples.advanced.02_toon_analysis` (1 functions)
+📄 `examples.advanced.03_custom_diagram_pipeline` (1 functions)
 📄 `examples.advanced_analysis` (1 functions)
+📄 `examples.api.01_low_level_parser` (1 functions)
 📄 `examples.basic.01_parse_single_file` (1 functions)
 📄 `examples.basic.02_generate_reports` (1 functions)
 📄 `examples.basic.03_diagrams_as_strings` (1 functions)
@@ -296,7 +305,7 @@ mdflow/
 📄 `project.context`
 📄 `project.duplication.toon`
 📄 `project.evolution.toon`
-📄 `project.map.toon` (124 functions)
+📄 `project.map.toon` (136 functions)
 📄 `project.project.toon`
 📄 `project.prompt`
 📄 `pyproject`

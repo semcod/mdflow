@@ -1,9 +1,9 @@
-# redup/duplication | 0 groups | 19f 2035L | 2026-05-03
+# redup/duplication | 0 groups | 21f 2177L | 2026-05-03
 
 SUMMARY:
-  files_scanned: 19
-  total_lines:   2035
+  files_scanned: 21
+  total_lines:   2177
   dup_groups:    0
   dup_fragments: 0
   saved_lines:   0
-  scan_ms:       4310
+  scan_ms:       4519

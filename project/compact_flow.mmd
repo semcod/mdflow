@@ -1,6 +1,6 @@
 flowchart TD
     README["README<br/>1 funcs"]
-    examples__advanced["examples.advanced<br/>1 funcs"]
+    examples__advanced["examples.advanced<br/>3 funcs"]
     examples__advanced_analysis["examples.advanced_analysis<br/>1 funcs"]
     examples__basic["examples.basic<br/>3 funcs"]
     examples__basic_usage["examples.basic_usage<br/>1 funcs"]
@@ -13,8 +13,8 @@ flowchart TD
     examples__basic ==>|30| README
     examples__directory_scan ==>|25| README
     examples__custom_diagrams ==>|24| README
+    examples__advanced ==>|22| README
     examples__basic_usage ==>|21| README
     mdflow__cli ==>|12| README
     mdflow__MdFlow ==>|7| README
-    examples__advanced ==>|6| README
     mdflow__MdFlow -->|2| mdflow__generators

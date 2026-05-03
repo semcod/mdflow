@@ -22,7 +22,7 @@ Markdown dependency analyzer — extract all dependencies, generate diagrams and
 ## Metadata
 
 - **name**: `mdflow`
-- **version**: `0.1.2`
+- **version**: `0.1.3`
 - **python_requires**: `>=3.11`
 - **license**: {'text': 'Apache-2.0'}
 - **ai_model**: `openrouter/qwen/qwen3-coder-next`
@@ -43,7 +43,7 @@ SUMD (description) → DOQL/source (code) → taskfile (automation) → testql (
 
 app {
   name: mdflow;
-  version: 0.1.2;
+  version: 0.1.3;
 }
 
 interface[type="cli"] {
@@ -385,7 +385,7 @@ tasks:
 ```yaml
 project:
   name: mdflow
-  version: 0.1.2
+  version: 0.1.3
   env: local
 ```
 
@@ -447,18 +447,20 @@ pip install -e .[dev]
 ### `project/map.toon.yaml`
 
 ```toon markpact:analysis path=project/map.toon.yaml
-# mdflow | 25f 2279L | python:20,shell:4,less:1 | 2026-05-03
-# stats: 33 func | 14 cls | 25 mod | CC̄=6.3 | critical:4 | cycles:0
+# mdflow | 27f 2423L | python:22,shell:4,less:1 | 2026-05-03
+# stats: 35 func | 14 cls | 27 mod | CC̄=6.3 | critical:4 | cycles:0
 # alerts[5]: CC generate_html_report=28; CC generate_markdown_report=25; CC main=17; CC main=13; CC section_flowchart=9
-# hotspots[5]: generate_html_report fan=19; main fan=10; main fan=9; main fan=9; cmd_diagram fan=9
+# hotspots[5]: generate_html_report fan=19; main fan=12; main fan=10; main fan=9; main fan=9
 # evolution: baseline
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
-M[25]:
+M[27]:
   app.doql.less,60
   example.py,66
   examples/advanced/01_directory_scan.py,48
   examples/advanced/02_toon_analysis.py,63
+  examples/advanced/03_custom_diagram_pipeline.py,72
   examples/advanced_analysis.py,105
+  examples/api/01_low_level_parser.py,72
   examples/basic/01_parse_single_file.py,60
   examples/basic/02_generate_reports.py,38
   examples/basic/03_diagrams_as_strings.py,44
@@ -487,7 +489,13 @@ D:
   examples/advanced/02_toon_analysis.py:
     e: main
     main()
+  examples/advanced/03_custom_diagram_pipeline.py:
+    e: main
+    main()
   examples/advanced_analysis.py:
+    e: main
+    main()
+  examples/api/01_low_level_parser.py:
     e: main
     main()
   examples/basic/01_parse_single_file.py:
@@ -614,13 +622,13 @@ def main()  # CC=1, fan=7
 
 ## Call Graph
 
-*29 nodes · 27 edges · 15 modules · CC̄=2.2*
+*31 nodes · 29 edges · 17 modules · CC̄=2.3*
 
 ### Hubs (by degree)
 
 | Function | CC | in | out | total |
 |----------|----|----|-----|-------|
-| `print` *(in README)* | 0 | 159 | 0 | **159** |
+| `print` *(in README)* | 0 | 175 | 0 | **175** |
 | `main` *(in examples.advanced_analysis)* | 17 ⚠ | 0 | 57 | **57** |
 | `generate_html_report` *(in mdflow.generators.html)* | 28 ⚠ | 1 | 54 | **55** |
 | `parse_text` *(in mdflow.parser.MdParser)* | 14 ⚠ | 0 | 40 | **40** |
@@ -631,12 +639,12 @@ def main()  # CC=1, fan=7
 
 ```toon markpact:analysis path=project/calls.toon.yaml
 # code2llm call graph | /home/tom/github/semcod/mdflow
-# nodes: 29 | edges: 27 | modules: 15
-# CC̄=2.2
+# nodes: 31 | edges: 29 | modules: 17
+# CC̄=2.3
 
 HUBS[20]:
   README.print
-    CC=0  in:159  out:0  total:159
+    CC=0  in:175  out:0  total:175
   examples.advanced_analysis.main
     CC=17  in:0  out:57  total:57
   mdflow.generators.html.generate_html_report
@@ -653,7 +661,11 @@ HUBS[20]:
     CC=25  in:1  out:33  total:34
   examples.basic.01_parse_single_file.main
     CC=6  in:0  out:31  total:31
+  examples.advanced.02_toon_analysis.main
+    CC=13  in:0  out:25  total:25
   mdflow.cli.cmd_analyze
+    CC=4  in:0  out:17  total:17
+  examples.advanced.03_custom_diagram_pipeline.main
     CC=4  in:0  out:17  total:17
   examples.advanced.01_directory_scan.main
     CC=4  in:0  out:15  total:15
@@ -663,24 +675,24 @@ HUBS[20]:
     CC=9  in:0  out:14  total:14
   mdflow.cli.cmd_diagram
     CC=5  in:0  out:13  total:13
+  mdflow.generators.mermaid.dependency_diagram
+    CC=6  in:0  out:12  total:12
   mdflow.generators.mermaid.markpact_graph
     CC=5  in:0  out:12  total:12
   mdflow.MdFlow.report
     CC=5  in:0  out:12  total:12
-  mdflow.generators.mermaid.dependency_diagram
-    CC=6  in:0  out:12  total:12
   examples.basic.02_generate_reports.main
     CC=3  in:0  out:10  total:10
-  mdflow.MdFlow.scan
-    CC=3  in:0  out:10  total:10
-  mdflow.parser._parse_metadata_section
-    CC=7  in:1  out:8  total:9
 
 MODULES:
   README  [1 funcs]
     print  CC=0  out:0
   examples.advanced.01_directory_scan  [1 funcs]
     main  CC=4  out:15
+  examples.advanced.02_toon_analysis  [1 funcs]
+    main  CC=13  out:25
+  examples.advanced.03_custom_diagram_pipeline  [1 funcs]
+    main  CC=4  out:17
   examples.advanced_analysis  [1 funcs]
     main  CC=17  out:57
   examples.basic.01_parse_single_file  [1 funcs]
@@ -727,6 +739,10 @@ EDGES:
   examples.directory_scan.main → README.print
   examples.advanced_analysis.main → README.print
   examples.basic_usage.main → README.print
+  examples.advanced.01_directory_scan.main → README.print
+  examples.basic.02_generate_reports.main → README.print
+  examples.basic.01_parse_single_file.main → README.print
+  examples.basic.03_diagrams_as_strings.main → README.print
   mdflow.cli.cmd_analyze → README.print
   mdflow.cli.cmd_scan → README.print
   mdflow.cli.cmd_diagram → README.print
@@ -739,10 +755,8 @@ EDGES:
   mdflow.generators.mermaid.markpact_graph → mdflow.generators.mermaid._safe_id
   mdflow.generators.mermaid.markpact_graph → mdflow.generators.mermaid._short_label
   mdflow.generators.mermaid.workflow_diagram → mdflow.generators.mermaid._safe_id
-  examples.basic.02_generate_reports.main → README.print
-  examples.advanced.01_directory_scan.main → README.print
-  examples.basic.03_diagrams_as_strings.main → README.print
-  examples.basic.01_parse_single_file.main → README.print
+  examples.advanced.03_custom_diagram_pipeline.main → README.print
+  examples.advanced.02_toon_analysis.main → README.print
   mdflow.MdFlow.parse_dir → README.print
   mdflow.MdFlow.report → mdflow.generators.html.generate_html_report
   mdflow.MdFlow.report → README.print

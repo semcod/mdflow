@@ -1,15 +1,17 @@
-# mdflow | 25f 2279L | python:20,shell:4,less:1 | 2026-05-03
-# stats: 33 func | 14 cls | 25 mod | CC̄=6.3 | critical:4 | cycles:0
+# mdflow | 27f 2423L | python:22,shell:4,less:1 | 2026-05-03
+# stats: 35 func | 14 cls | 27 mod | CC̄=6.3 | critical:4 | cycles:0
 # alerts[5]: CC generate_html_report=28; CC generate_markdown_report=25; CC main=17; CC main=13; CC section_flowchart=9
-# hotspots[5]: generate_html_report fan=19; main fan=10; main fan=9; main fan=9; cmd_diagram fan=9
+# hotspots[5]: generate_html_report fan=19; main fan=12; main fan=10; main fan=9; main fan=9
 # evolution: baseline
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
-M[25]:
+M[27]:
   app.doql.less,60
   example.py,66
   examples/advanced/01_directory_scan.py,48
   examples/advanced/02_toon_analysis.py,63
+  examples/advanced/03_custom_diagram_pipeline.py,72
   examples/advanced_analysis.py,105
+  examples/api/01_low_level_parser.py,72
   examples/basic/01_parse_single_file.py,60
   examples/basic/02_generate_reports.py,38
   examples/basic/03_diagrams_as_strings.py,44
@@ -38,7 +40,13 @@ D:
   examples/advanced/02_toon_analysis.py:
     e: main
     main()
+  examples/advanced/03_custom_diagram_pipeline.py:
+    e: main
+    main()
   examples/advanced_analysis.py:
+    e: main
+    main()
+  examples/api/01_low_level_parser.py:
     e: main
     main()
   examples/basic/01_parse_single_file.py:
