@@ -1,0 +1,32 @@
+flowchart TD
+
+    %% Entry points (blue)
+    classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
+
+    subgraph CLI
+        mdflow__cli__cmd_analyze["cmd_analyze"]
+        mdflow__cli__cmd_scan["cmd_scan"]
+        mdflow__cli__cmd_diagram["cmd_diagram"]
+        mdflow__cli__main["main"]
+    end
+
+    subgraph Core
+        SUMR___get_orchestrator["_get_orchestrator"]
+        SUMR___analysis_source_method["_analysis_source_method"]
+        SUMR___analysis_function_metrics["_analysis_function_metrics"]
+        SUMR___print_analysis_summary["_print_analysis_summary"]
+        SUMR___print_top_functions["_print_top_functions"]
+        SUMR___print_alerts["_print_alerts"]
+        SUMR___print_duplicates["_print_duplicates"]
+        SUMR___print_analysis_plan["_print_analysis_plan"]
+        SUMR__cmd_analyze["cmd_analyze"]
+        SUMR__cmd_explain["cmd_explain"]
+        SUMR___print_refactor_report["_print_refactor_report"]
+        SUMR__cmd_refactor["cmd_refactor"]
+        SUMR__cmd_memory_stats["cmd_memory_stats"]
+        SUMR__cmd_serve["cmd_serve"]
+        SUMR___print_usage["_print_usage"]
+        ...["+69 more"]
+    end
+
+    class SUMR___get_orchestrator,SUMR___analysis_source_method,SUMR___analysis_function_metrics,SUMR___print_analysis_summary,SUMR___print_top_functions,SUMR___print_alerts,SUMR___print_duplicates,SUMR___print_analysis_plan,SUMR__cmd_analyze,SUMR__cmd_explain entry

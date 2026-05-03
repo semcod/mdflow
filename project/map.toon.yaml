@@ -1,0 +1,97 @@
+# mdflow | 19f 1988L | python:15,shell:3,less:1 | 2026-05-03
+# stats: 28 func | 14 cls | 19 mod | CC̄=6.3 | critical:3 | cycles:0
+# alerts[5]: CC generate_html_report=28; CC generate_markdown_report=25; CC main=17; CC section_flowchart=9; CC main=8
+# hotspots[5]: generate_html_report fan=19; main fan=10; main fan=9; cmd_diagram fan=9; generate_markdown_report fan=9
+# evolution: baseline
+# Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
+M[19]:
+  app.doql.less,60
+  example.py,66
+  examples/advanced_analysis.py,105
+  examples/basic_usage.py,68
+  examples/cli_usage.sh,71
+  examples/custom_diagrams.py,98
+  examples/directory_scan.py,80
+  mdflow/__init__.py,193
+  mdflow/analyzers/__init__.py,184
+  mdflow/cli.py,101
+  mdflow/generators/__init__.py,24
+  mdflow/generators/html.py,225
+  mdflow/generators/markdown.py,112
+  mdflow/generators/mermaid.py,193
+  mdflow/models.py,106
+  mdflow/parser.py,246
+  project.sh,42
+  tests/test_mdflow.py,12
+  tree.sh,2
+D:
+  example.py:
+  examples/advanced_analysis.py:
+    e: main
+    main()
+  examples/basic_usage.py:
+    e: main
+    main()
+  examples/custom_diagrams.py:
+    e: main
+    main()
+  examples/directory_scan.py:
+    e: main
+    main()
+  mdflow/__init__.py:
+    e: MdFlow
+    MdFlow: __init__(0),parse(1),parse_dir(1),dependency_graph(1),structure(1),code_inventory(1),toon_metrics(1),report(3),scan(3),diagrams(1),_write_mermaid_files(3),_write_dep_graph_html(3)  # High-level façade for the mdflow library.
+  mdflow/analyzers/__init__.py:
+    e: DependencyAnalyzer,StructureAnalyzer,CodeInventoryAnalyzer,ToonAnalyzer
+    DependencyAnalyzer: build(1),_resolve_path(2)  # Build a cross-document dependency graph from a list of MdDoc
+    StructureAnalyzer: heading_tree(1),section_summary(1)  # Analyse the heading/section structure of a single document.
+    CodeInventoryAnalyzer: inventory(1)  # Inventory all code blocks by language, markpact type, and pa
+    ToonAnalyzer: metrics(1),_parse_health(1)  # Extract structured metrics from embedded TOON sections.
+  mdflow/cli.py:
+    e: cmd_analyze,cmd_scan,cmd_diagram,main
+    cmd_analyze(args)
+    cmd_scan(args)
+    cmd_diagram(args)
+    main()
+  mdflow/generators/__init__.py:
+  mdflow/generators/html.py:
+    e: _card,_mermaid_block,generate_html_report
+    _card(title;value;label)
+    _mermaid_block(diagram)
+    generate_html_report(doc;structure_analyzer;code_analyzer;toon_analyzer)
+  mdflow/generators/markdown.py:
+    e: generate_markdown_report
+    generate_markdown_report(doc;structure_analyzer;code_analyzer;toon_analyzer)
+  mdflow/generators/mermaid.py:
+    e: _safe_id,_short_label,heading_tree_diagram,section_flowchart,dependency_diagram,code_inventory_pie,markpact_graph,alerts_diagram,workflow_diagram
+    _safe_id(s)
+    _short_label(s;max_len)
+    heading_tree_diagram(tree;title)
+    section_flowchart(sections;title)
+    dependency_diagram(graph)
+    code_inventory_pie(inventory)
+    markpact_graph(inventory;doc_title)
+    alerts_diagram(metrics)
+    workflow_diagram(doc)
+  mdflow/models.py:
+    e: Heading,Link,CodeBlock,ListItem,ToonSection,MdDocument,DependencyEdge,DependencyGraph
+    Heading:
+    Link:
+    CodeBlock:
+    ListItem:
+    ToonSection:  # A named TOON/YAML embedded block (from code blocks with toon
+    MdDocument: internal_links(0),anchor_links(0),external_links(0),markpact_blocks(0)  # Full parsed representation of one Markdown file.
+    DependencyEdge:
+    DependencyGraph: add_node(1),add_edge(1)
+  mdflow/parser.py:
+    e: _slugify,_classify_link,_parse_fence_info,_parse_toon_content,_parse_metadata_section,MdParser
+    MdParser: parse(1),parse_text(2)  # Parse a single Markdown file into an MdDocument.
+    _slugify(text)
+    _classify_link(href)
+    _parse_fence_info(info)
+    _parse_toon_content(content)
+    _parse_metadata_section(text)
+  tests/test_mdflow.py:
+    e: test_placeholder,test_import
+    test_placeholder()
+    test_import()

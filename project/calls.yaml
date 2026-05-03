@@ -1,0 +1,381 @@
+project: /home/tom/github/semcod/mdflow
+generated_from: code2llm call graph analysis
+stats:
+  total_nodes: 25
+  total_edges: 23
+  modules_count: 11
+nodes:
+  mdflow.generators.html._card:
+    name: _card
+    module: mdflow.generators.html
+    line: 63
+    cyclomatic_complexity: 2
+    calls_out: 0
+    calls_in: 6
+  README.print:
+    name: print
+    module: README
+    line: 86
+    cyclomatic_complexity: 0
+    calls_out: 0
+    calls_in: 123
+  mdflow.parser._parse_metadata_section:
+    name: _parse_metadata_section
+    module: mdflow.parser
+    line: 109
+    cyclomatic_complexity: 7
+    calls_out: 8
+    calls_in: 1
+  mdflow.cli.cmd_scan:
+    name: cmd_scan
+    module: mdflow.cli
+    line: 32
+    cyclomatic_complexity: 2
+    calls_out: 6
+    calls_in: 0
+  examples.custom_diagrams.main:
+    name: main
+    module: examples.custom_diagrams
+    line: 22
+    cyclomatic_complexity: 6
+    calls_out: 40
+    calls_in: 0
+  mdflow.generators.mermaid.dependency_diagram:
+    name: dependency_diagram
+    module: mdflow.generators.mermaid
+    line: 74
+    cyclomatic_complexity: 6
+    calls_out: 12
+    calls_in: 0
+  mdflow.generators.html.generate_html_report:
+    name: generate_html_report
+    module: mdflow.generators.html
+    line: 78
+    cyclomatic_complexity: 28
+    calls_out: 54
+    calls_in: 1
+  examples.directory_scan.main:
+    name: main
+    module: examples.directory_scan
+    line: 22
+    cyclomatic_complexity: 8
+    calls_out: 39
+    calls_in: 0
+  examples.advanced_analysis.main:
+    name: main
+    module: examples.advanced_analysis
+    line: 22
+    cyclomatic_complexity: 17
+    calls_out: 57
+    calls_in: 0
+  mdflow.generators.markdown.generate_markdown_report:
+    name: generate_markdown_report
+    module: mdflow.generators.markdown
+    line: 8
+    cyclomatic_complexity: 25
+    calls_out: 33
+    calls_in: 1
+  mdflow.generators.mermaid.markpact_graph:
+    name: markpact_graph
+    module: mdflow.generators.mermaid
+    line: 113
+    cyclomatic_complexity: 5
+    calls_out: 12
+    calls_in: 0
+  mdflow.generators.mermaid._short_label:
+    name: _short_label
+    module: mdflow.generators.mermaid
+    line: 15
+    cyclomatic_complexity: 2
+    calls_out: 1
+    calls_in: 8
+  mdflow.parser.MdParser.parse_text:
+    name: parse_text
+    module: mdflow.parser
+    line: 142
+    cyclomatic_complexity: 14
+    calls_out: 40
+    calls_in: 0
+  mdflow.generators.mermaid.workflow_diagram:
+    name: workflow_diagram
+    module: mdflow.generators.mermaid
+    line: 171
+    cyclomatic_complexity: 8
+    calls_out: 9
+    calls_in: 0
+  examples.basic_usage.main:
+    name: main
+    module: examples.basic_usage
+    line: 22
+    cyclomatic_complexity: 4
+    calls_out: 35
+    calls_in: 0
+  mdflow.MdFlow.parse_dir:
+    name: parse_dir
+    module: mdflow
+    line: 53
+    cyclomatic_complexity: 3
+    calls_out: 6
+    calls_in: 0
+  mdflow.cli.cmd_diagram:
+    name: cmd_diagram
+    module: mdflow.cli
+    line: 39
+    cyclomatic_complexity: 5
+    calls_out: 13
+    calls_in: 0
+  mdflow.generators.mermaid._safe_id:
+    name: _safe_id
+    module: mdflow.generators.mermaid
+    line: 10
+    cyclomatic_complexity: 1
+    calls_out: 1
+    calls_in: 8
+  mdflow.generators.mermaid.heading_tree_diagram:
+    name: heading_tree_diagram
+    module: mdflow.generators.mermaid
+    line: 23
+    cyclomatic_complexity: 1
+    calls_out: 5
+    calls_in: 0
+  mdflow.cli.cmd_analyze:
+    name: cmd_analyze
+    module: mdflow.cli
+    line: 17
+    cyclomatic_complexity: 4
+    calls_out: 17
+    calls_in: 0
+  mdflow.MdFlow._write_dep_graph_html:
+    name: _write_dep_graph_html
+    module: mdflow
+    line: 178
+    cyclomatic_complexity: 1
+    calls_out: 6
+    calls_in: 0
+  mdflow.MdFlow.report:
+    name: report
+    module: mdflow
+    line: 87
+    cyclomatic_complexity: 5
+    calls_out: 12
+    calls_in: 0
+  mdflow.MdFlow._write_mermaid_files:
+    name: _write_mermaid_files
+    module: mdflow
+    line: 167
+    cyclomatic_complexity: 3
+    calls_out: 5
+    calls_in: 0
+  mdflow.generators.mermaid.section_flowchart:
+    name: section_flowchart
+    module: mdflow.generators.mermaid
+    line: 39
+    cyclomatic_complexity: 9
+    calls_out: 14
+    calls_in: 0
+  mdflow.MdFlow.scan:
+    name: scan
+    module: mdflow
+    line: 119
+    cyclomatic_complexity: 3
+    calls_out: 10
+    calls_in: 0
+edges:
+- caller: examples.basic_usage.main
+  callee: README.print
+  call_type: resolved
+- caller: mdflow.generators.html.generate_html_report
+  callee: mdflow.generators.html._card
+  call_type: resolved
+- caller: examples.advanced_analysis.main
+  callee: README.print
+  call_type: resolved
+- caller: mdflow.parser.MdParser.parse_text
+  callee: mdflow.parser._parse_metadata_section
+  call_type: resolved
+- caller: examples.directory_scan.main
+  callee: README.print
+  call_type: resolved
+- caller: examples.custom_diagrams.main
+  callee: README.print
+  call_type: resolved
+- caller: mdflow.generators.mermaid.heading_tree_diagram
+  callee: mdflow.generators.mermaid._short_label
+  call_type: resolved
+- caller: mdflow.generators.mermaid.section_flowchart
+  callee: mdflow.generators.mermaid._short_label
+  call_type: resolved
+- caller: mdflow.generators.mermaid.dependency_diagram
+  callee: mdflow.generators.mermaid._safe_id
+  call_type: resolved
+- caller: mdflow.generators.mermaid.dependency_diagram
+  callee: mdflow.generators.mermaid._short_label
+  call_type: resolved
+- caller: mdflow.generators.mermaid.markpact_graph
+  callee: mdflow.generators.mermaid._safe_id
+  call_type: resolved
+- caller: mdflow.generators.mermaid.markpact_graph
+  callee: mdflow.generators.mermaid._short_label
+  call_type: resolved
+- caller: mdflow.generators.mermaid.workflow_diagram
+  callee: mdflow.generators.mermaid._safe_id
+  call_type: resolved
+- caller: mdflow.cli.cmd_analyze
+  callee: README.print
+  call_type: resolved
+- caller: mdflow.cli.cmd_scan
+  callee: README.print
+  call_type: resolved
+- caller: mdflow.cli.cmd_diagram
+  callee: README.print
+  call_type: resolved
+- caller: mdflow.MdFlow.parse_dir
+  callee: README.print
+  call_type: resolved
+- caller: mdflow.MdFlow.report
+  callee: mdflow.generators.html.generate_html_report
+  call_type: resolved
+- caller: mdflow.MdFlow.report
+  callee: README.print
+  call_type: resolved
+- caller: mdflow.MdFlow.report
+  callee: mdflow.generators.markdown.generate_markdown_report
+  call_type: resolved
+- caller: mdflow.MdFlow.scan
+  callee: README.print
+  call_type: resolved
+- caller: mdflow.MdFlow._write_mermaid_files
+  callee: README.print
+  call_type: resolved
+- caller: mdflow.MdFlow._write_dep_graph_html
+  callee: README.print
+  call_type: resolved
+modules:
+  README:
+  - README.print
+  examples.advanced_analysis:
+  - examples.advanced_analysis.main
+  examples.basic_usage:
+  - examples.basic_usage.main
+  examples.custom_diagrams:
+  - examples.custom_diagrams.main
+  examples.directory_scan:
+  - examples.directory_scan.main
+  mdflow:
+  - mdflow.MdFlow._write_dep_graph_html
+  - mdflow.MdFlow._write_mermaid_files
+  - mdflow.MdFlow.parse_dir
+  - mdflow.MdFlow.report
+  - mdflow.MdFlow.scan
+  mdflow.cli:
+  - mdflow.cli.cmd_analyze
+  - mdflow.cli.cmd_diagram
+  - mdflow.cli.cmd_scan
+  mdflow.generators.html:
+  - mdflow.generators.html._card
+  - mdflow.generators.html.generate_html_report
+  mdflow.generators.markdown:
+  - mdflow.generators.markdown.generate_markdown_report
+  mdflow.generators.mermaid:
+  - mdflow.generators.mermaid._safe_id
+  - mdflow.generators.mermaid._short_label
+  - mdflow.generators.mermaid.dependency_diagram
+  - mdflow.generators.mermaid.heading_tree_diagram
+  - mdflow.generators.mermaid.markpact_graph
+  - mdflow.generators.mermaid.section_flowchart
+  - mdflow.generators.mermaid.workflow_diagram
+  mdflow.parser:
+  - mdflow.parser.MdParser.parse_text
+  - mdflow.parser._parse_metadata_section
+entry_points:
+- SUMR.__init__
+- SUMR._analysis_function_metrics
+- SUMR._analysis_source_method
+- SUMR._default_history_dir
+- SUMR._default_llm_model
+- SUMR._dispatch_analyze
+- SUMR._dispatch_explain
+- SUMR._dispatch_memory_stats
+- SUMR._dispatch_refactor
+- SUMR._dispatch_serve
+- SUMR._format_event_details
+- SUMR._format_event_header
+- SUMR._get_arg
+- SUMR._get_orchestrator
+- SUMR._has_flag
+- SUMR._inner_thought
+- SUMR._maybe_add_cycle_header
+- SUMR._print_alerts
+- SUMR._print_analysis_plan
+- SUMR._print_analysis_summary
+- SUMR._print_duplicates
+- SUMR._print_refactor_report
+- SUMR._print_top_functions
+- SUMR._print_usage
+- SUMR._profile_performance
+- SUMR._resolve_limits
+- SUMR._resolve_provider_key
+- SUMR._self_assessment
+- SUMR.add_custom_rules
+- SUMR.api_key
+- SUMR.cmd_analyze
+- SUMR.cmd_explain
+- SUMR.cmd_memory_stats
+- SUMR.cmd_refactor
+- SUMR.cmd_serve
+- SUMR.decision_signature
+- SUMR.filter_by_file
+- SUMR.filter_by_type
+- SUMR.from_env
+- SUMR.generate_decision_report
+- SUMR.has_recent_proposal
+- SUMR.has_recent_signature
+- SUMR.has_recent_ticket
+- SUMR.is_local
+- SUMR.load_events
+- SUMR.main
+- SUMR.main_loop
+- SUMR.record
+- SUMR.record_event
+- SUMR.run
+- SUMR.run_cycle
+- SUMR.run_from_toon_content
+- SUMR.stop
+- examples.advanced_analysis.main
+- examples.basic_usage.main
+- examples.custom_diagrams.main
+- examples.directory_scan.main
+- mdflow.MdFlow.__init__
+- mdflow.MdFlow._write_dep_graph_html
+- mdflow.MdFlow._write_mermaid_files
+- mdflow.MdFlow.code_inventory
+- mdflow.MdFlow.dependency_graph
+- mdflow.MdFlow.diagrams
+- mdflow.MdFlow.parse
+- mdflow.MdFlow.parse_dir
+- mdflow.MdFlow.report
+- mdflow.MdFlow.scan
+- mdflow.MdFlow.structure
+- mdflow.MdFlow.toon_metrics
+- mdflow.analyzers.CodeInventoryAnalyzer.inventory
+- mdflow.analyzers.DependencyAnalyzer._resolve_path
+- mdflow.analyzers.DependencyAnalyzer.build
+- mdflow.analyzers.StructureAnalyzer.heading_tree
+- mdflow.analyzers.StructureAnalyzer.section_summary
+- mdflow.analyzers.ToonAnalyzer._parse_health
+- mdflow.analyzers.ToonAnalyzer.metrics
+- mdflow.cli.cmd_analyze
+- mdflow.cli.cmd_diagram
+- mdflow.cli.cmd_scan
+- mdflow.cli.main
+- mdflow.generators.mermaid.alerts_diagram
+- mdflow.generators.mermaid.code_inventory_pie
+- mdflow.generators.mermaid.dependency_diagram
+- mdflow.generators.mermaid.heading_tree_diagram
+- mdflow.generators.mermaid.markpact_graph
+- mdflow.generators.mermaid.section_flowchart
+- mdflow.generators.mermaid.workflow_diagram
+- mdflow.models.DependencyGraph.add_edge
+- mdflow.models.DependencyGraph.add_node
+- mdflow.parser.MdParser.parse
+- mdflow.parser.MdParser.parse_text

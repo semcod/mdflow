@@ -3,17 +3,15 @@
 
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.1-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
-![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.15-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-1.0h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.2-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.15-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-2.0h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
 
 - 🤖 **LLM usage:** $0.1500 (1 commits)
-- 👤 **Human dev:** ~$100 (1.0h @ $100/h, 30min dedup)
+- 👤 **Human dev:** ~$200 (2.0h @ $100/h, 30min dedup)
 
 Generated on 2026-05-03 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
 
 ---
-
-
 
 **Markdown dependency analyzer — extract all dependencies, generate diagrams and charts.**
 
@@ -121,6 +119,27 @@ mdflow diagram SUMR.md --diagram list        # list available diagrams
 # Write diagram to file
 mdflow diagram SUMR.md --diagram alerts_graph -o alerts.mermaid
 ```
+
+## Examples
+
+The `examples/` directory contains comprehensive usage examples:
+
+- **basic_usage.py** - Basic parsing and report generation
+- **advanced_analysis.py** - Structure analysis, code inventory, TOON metrics
+- **directory_scan.py** - Scanning multiple files and dependency graphs
+- **custom_diagrams.py** - Working with diagrams programmatically
+- **cli_usage.sh** - CLI usage examples
+
+Run examples from the project root:
+```bash
+python examples/basic_usage.py
+python examples/advanced_analysis.py
+python examples/directory_scan.py
+python examples/custom_diagrams.py
+bash examples/cli_usage.sh
+```
+
+See [examples/README.md](examples/README.md) for detailed documentation.
 
 ---
 

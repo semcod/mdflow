@@ -1,0 +1,67 @@
+flowchart LR
+    subgraph README
+        README__print["print"]
+    end
+    subgraph examples__advanced_analysis
+        examples__advanced_analysis__main["main"]
+    end
+    subgraph examples__basic_usage
+        examples__basic_usage__main["main"]
+    end
+    subgraph examples__custom_diagrams
+        examples__custom_diagrams__main["main"]
+    end
+    subgraph examples__directory_scan
+        examples__directory_scan__main["main"]
+    end
+    subgraph mdflow__MdFlow
+        mdflow__MdFlow__parse_dir["parse_dir"]
+        mdflow__MdFlow___write_dep_graph_html["_write_dep_graph_html"]
+        mdflow__MdFlow__report["report"]
+        mdflow__MdFlow___write_mermaid_files["_write_mermaid_files"]
+        mdflow__MdFlow__scan["scan"]
+    end
+    subgraph mdflow__cli
+        mdflow__cli__cmd_scan["cmd_scan"]
+        mdflow__cli__cmd_diagram["cmd_diagram"]
+        mdflow__cli__cmd_analyze["cmd_analyze"]
+    end
+    subgraph mdflow__generators
+        mdflow__generators__html___card["_card"]
+        mdflow__generators__mermaid__dependency_diagram["dependency_diagram"]
+        mdflow__generators__html__generate_html_report["generate_html_report"]
+        mdflow__generators__markdown__generate_markdown_report["generate_markdown_report"]
+        mdflow__generators__mermaid__markpact_graph["markpact_graph"]
+        mdflow__generators__mermaid___short_label["_short_label"]
+        mdflow__generators__mermaid__workflow_diagram["workflow_diagram"]
+        mdflow__generators__mermaid___safe_id["_safe_id"]
+        mdflow__generators__mermaid__heading_tree_diagram["heading_tree_diagram"]
+        mdflow__generators__mermaid__section_flowchart["section_flowchart"]
+    end
+    subgraph mdflow__parser
+        mdflow__parser___parse_metadata_section["_parse_metadata_section"]
+        mdflow__parser__MdParser__parse_text["parse_text"]
+    end
+    examples__basic_usage__main --> README__print
+    mdflow__generators__html__generate_html_report --> mdflow__generators__html___card
+    examples__advanced_analysis__main --> README__print
+    mdflow__parser__MdParser__parse_text --> mdflow__parser___parse_metadata_section
+    examples__directory_scan__main --> README__print
+    examples__custom_diagrams__main --> README__print
+    mdflow__generators__mermaid__heading_tree_diagram --> mdflow__generators__mermaid___short_label
+    mdflow__generators__mermaid__section_flowchart --> mdflow__generators__mermaid___short_label
+    mdflow__generators__mermaid__dependency_diagram --> mdflow__generators__mermaid___safe_id
+    mdflow__generators__mermaid__dependency_diagram --> mdflow__generators__mermaid___short_label
+    mdflow__generators__mermaid__markpact_graph --> mdflow__generators__mermaid___safe_id
+    mdflow__generators__mermaid__markpact_graph --> mdflow__generators__mermaid___short_label
+    mdflow__generators__mermaid__workflow_diagram --> mdflow__generators__mermaid___safe_id
+    mdflow__cli__cmd_analyze --> README__print
+    mdflow__cli__cmd_scan --> README__print
+    mdflow__cli__cmd_diagram --> README__print
+    mdflow__MdFlow__parse_dir --> README__print
+    mdflow__MdFlow__report --> mdflow__generators__html__generate_html_report
+    mdflow__MdFlow__report --> README__print
+    mdflow__MdFlow__report --> mdflow__generators__markdown__generate_markdown_report
+    mdflow__MdFlow__scan --> README__print
+    mdflow__MdFlow___write_mermaid_files --> README__print
+    mdflow__MdFlow___write_dep_graph_html --> README__print

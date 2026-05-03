@@ -1,0 +1,75 @@
+# code2llm | 25f 4071L | python:14,md:5,shell:3,txt:1,toml:1,yaml:1 | 2026-05-03
+# CC̄=2.6 | critical:4/103 | dups:0 | cycles:0
+
+HEALTH[5]:
+  🔴 GOD   SUMR.md = 1282L, 11 classes, 53m, max CC=0.0
+  🟡 CC    generate_html_report CC=28 (limit:15)
+  🟡 CC    main CC=17 (limit:15)
+  🟡 CC    generate_markdown_report CC=25 (limit:15)
+  🟡 CC    section_summary CC=15 (limit:15)
+
+REFACTOR[2]:
+  1. split SUMR.md  (god module)
+  2. split 4 high-CC methods  (CC>15)
+
+PIPELINES[38]:
+  [1] Src [main]: main → print
+      PURITY: 100% pure
+  [2] Src [main]: main → print
+      PURITY: 100% pure
+  [3] Src [parse]: parse
+      PURITY: 100% pure
+  [4] Src [parse_text]: parse_text → _parse_metadata_section
+      PURITY: 100% pure
+  [5] Src [main]: main → print
+      PURITY: 100% pure
+
+LAYERS:
+  examples/                       CC̄=8.8    ←in:0  →out:104  !! split
+  │ !! advanced_analysis          104L  0C    1m  CC=17     ←0
+  │ custom_diagrams             97L  0C    1m  CC=6      ←0
+  │ README.md                   81L  0C    0m  CC=0.0    ←0
+  │ directory_scan              79L  0C    1m  CC=8      ←0
+  │ cli_usage.sh                70L  0C    0m  CC=0.0    ←0
+  │ basic_usage                 67L  0C    1m  CC=4      ←0
+  │
+  mdflow/                         CC̄=5.1    ←in:0  →out:21  !! split
+  │ parser                     245L  1C    7m  CC=14     ←0
+  │ !! html                       224L  0C    3m  CC=28     ←1
+  │ mermaid                    192L  0C    9m  CC=9      ←0
+  │ __init__                   192L  1C   12m  CC=5      ←0
+  │ !! __init__                   183L  4C    7m  CC=15     ←0
+  │ !! markdown                   111L  0C    1m  CC=25     ←1
+  │ models                     105L  8C    2m  CC=2      ←0
+  │ cli                        100L  0C    4m  CC=5      ←0
+  │ __init__                    23L  0C    0m  CC=0.0    ←0
+  │
+  ./                              CC̄=0.0    ←in:0  →out:0
+  │ !! SUMR.md                   1282L  11C   53m  CC=0.0    ←0
+  │ !! goal.yaml                  513L  0C    0m  CC=0.0    ←0
+  │ README.md                  189L  0C    1m  CC=0.0    ←6
+  │ pyproject.toml              73L  0C    0m  CC=0.0    ←0
+  │ example                     65L  0C    0m  CC=0.0    ←0
+  │ project.sh                  42L  0C    0m  CC=0.0    ←0
+  │ CHANGELOG.md                32L  0C    0m  CC=0.0    ←0
+  │ fix.txt                      1L  0C    0m  CC=0.0    ←0
+  │ tree.sh                      1L  0C    0m  CC=0.0    ←0
+  │ TODO.md                      0L  0C    0m  CC=0.0    ←0
+  │
+  ── zero ──
+     TODO.md                                   0L
+
+COUPLING:
+                                README           examples             mdflow  mdflow.generators
+             README                 ──               ←104                ←19                     hub
+           examples                104                 ──                                        !! fan-out
+             mdflow                 19                                    ──                  2  !! fan-out
+  mdflow.generators                                                       ←2                 ──
+  CYCLES: none
+  HUB: README/ (fan-in=123)
+  SMELL: mdflow/ fan-out=21 → split needed
+  SMELL: examples/ fan-out=104 → split needed
+
+EXTERNAL:
+  validation: run `vallm batch .` → validation.toon
+  duplication: run `redup scan .` → duplication.toon

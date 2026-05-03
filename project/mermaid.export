@@ -1,0 +1,159 @@
+flowchart TD
+    subgraph README
+        README__print["print"]
+    end
+    subgraph SUMR
+        SUMR___get_orchestrator["_get_orchestrator"]
+        SUMR___analysis_source_method["_analysis_source_method"]
+        SUMR___analysis_function_metrics["_analysis_function_metrics"]
+        SUMR___print_analysis_summary["_print_analysis_summary"]
+        SUMR___print_top_functions["_print_top_functions"]
+        SUMR___print_alerts["_print_alerts"]
+        SUMR___print_duplicates["_print_duplicates"]
+        SUMR___print_analysis_plan["_print_analysis_plan"]
+        SUMR__cmd_analyze["cmd_analyze"]
+        SUMR__cmd_explain["cmd_explain"]
+        SUMR___print_refactor_report["_print_refactor_report"]
+        SUMR__cmd_refactor["cmd_refactor"]
+        SUMR__cmd_memory_stats["cmd_memory_stats"]
+        SUMR__cmd_serve["cmd_serve"]
+        SUMR___print_usage["_print_usage"]
+        SUMR___get_arg["_get_arg"]
+        SUMR___has_flag["_has_flag"]
+        SUMR___dispatch_analyze["_dispatch_analyze"]
+        SUMR___dispatch_explain["_dispatch_explain"]
+        SUMR___dispatch_refactor["_dispatch_refactor"]
+        SUMR___dispatch_memory_stats["_dispatch_memory_stats"]
+        SUMR___dispatch_serve["_dispatch_serve"]
+        SUMR__main["main"]
+        SUMR___default_history_dir["_default_history_dir"]
+        SUMR____init__["__init__"]
+        SUMR__record["record"]
+        SUMR__record_event["record_event"]
+        SUMR__decision_signature["decision_signature"]
+        SUMR__has_recent_signature["has_recent_signature"]
+        SUMR__load_events["load_events"]
+        SUMR__filter_by_file["filter_by_file"]
+        SUMR__filter_by_type["filter_by_type"]
+        SUMR__has_recent_proposal["has_recent_proposal"]
+        SUMR__has_recent_ticket["has_recent_ticket"]
+        SUMR___format_event_header["_format_event_header"]
+        SUMR___format_event_details["_format_event_details"]
+        SUMR___maybe_add_cycle_header["_maybe_add_cycle_header"]
+        SUMR__generate_decision_report["generate_decision_report"]
+        SUMR__main_loop["main_loop"]
+        SUMR__run["run"]
+        SUMR___inner_thought["_inner_thought"]
+        SUMR___self_assessment["_self_assessment"]
+        SUMR___profile_performance["_profile_performance"]
+        SUMR__stop["stop"]
+        SUMR___default_llm_model["_default_llm_model"]
+        SUMR___resolve_provider_key["_resolve_provider_key"]
+        SUMR__is_local["is_local"]
+        SUMR__api_key["api_key"]
+        SUMR__from_env["from_env"]
+        SUMR__run_cycle["run_cycle"]
+        SUMR__run_from_toon_content["run_from_toon_content"]
+        SUMR__add_custom_rules["add_custom_rules"]
+        SUMR___resolve_limits["_resolve_limits"]
+    end
+    subgraph examples__advanced_analysis
+        examples__advanced_analysis__main{{main CC=17}}
+    end
+    subgraph examples__basic_usage
+        examples__basic_usage__main["main"]
+    end
+    subgraph examples__custom_diagrams
+        examples__custom_diagrams__main["main"]
+    end
+    subgraph examples__directory_scan
+        examples__directory_scan__main("main CC=8")
+    end
+    subgraph mdflow__MdFlow
+        mdflow__MdFlow____init__["__init__"]
+        mdflow__MdFlow__parse["parse"]
+        mdflow__MdFlow__parse_dir["parse_dir"]
+        mdflow__MdFlow__dependency_graph["dependency_graph"]
+        mdflow__MdFlow__structure["structure"]
+        mdflow__MdFlow__code_inventory["code_inventory"]
+        mdflow__MdFlow__toon_metrics["toon_metrics"]
+        mdflow__MdFlow__report["report"]
+        mdflow__MdFlow__scan["scan"]
+        mdflow__MdFlow__diagrams["diagrams"]
+        mdflow__MdFlow___write_mermaid_files["_write_mermaid_files"]
+        mdflow__MdFlow___write_dep_graph_html["_write_dep_graph_html"]
+    end
+    subgraph mdflow__analyzers
+        mdflow__analyzers__DependencyAnalyzer__build("build CC=8")
+        mdflow__analyzers__DependencyAnalyzer___resolve_path["_resolve_path"]
+        mdflow__analyzers__StructureAnalyzer__heading_tree["heading_tree"]
+        mdflow__analyzers__StructureAnalyzer__section_summary{{section_summary CC=15}}
+        mdflow__analyzers__CodeInventoryAnalyzer__inventory["inventory"]
+        mdflow__analyzers__ToonAnalyzer__metrics("metrics CC=12")
+        mdflow__analyzers__ToonAnalyzer___parse_health["_parse_health"]
+    end
+    subgraph mdflow__cli
+        mdflow__cli__cmd_analyze["cmd_analyze"]
+        mdflow__cli__cmd_scan["cmd_scan"]
+        mdflow__cli__cmd_diagram["cmd_diagram"]
+        mdflow__cli__main["main"]
+    end
+    subgraph mdflow__generators
+        mdflow__generators__html___card["_card"]
+        mdflow__generators__html___mermaid_block["_mermaid_block"]
+        mdflow__generators__html__generate_html_report{{generate_html_report CC=28}}
+        mdflow__generators__markdown__generate_markdown_report{{generate_markdown_report CC=25}}
+        mdflow__generators__mermaid___safe_id["_safe_id"]
+        mdflow__generators__mermaid___short_label["_short_label"]
+        mdflow__generators__mermaid__heading_tree_diagram["heading_tree_diagram"]
+        mdflow__generators__mermaid__section_flowchart("section_flowchart CC=9")
+        mdflow__generators__mermaid__dependency_diagram["dependency_diagram"]
+        mdflow__generators__mermaid__code_inventory_pie["code_inventory_pie"]
+        mdflow__generators__mermaid__markpact_graph["markpact_graph"]
+        mdflow__generators__mermaid__alerts_diagram["alerts_diagram"]
+        mdflow__generators__mermaid__workflow_diagram("workflow_diagram CC=8")
+    end
+    subgraph mdflow__models
+        mdflow__models__DependencyGraph__add_node["add_node"]
+        mdflow__models__DependencyGraph__add_edge["add_edge"]
+    end
+    subgraph mdflow__parser
+        mdflow__parser___slugify["_slugify"]
+        mdflow__parser___classify_link["_classify_link"]
+        mdflow__parser___parse_fence_info["_parse_fence_info"]
+        mdflow__parser___parse_toon_content("_parse_toon_content CC=8")
+        mdflow__parser___parse_metadata_section["_parse_metadata_section"]
+        mdflow__parser__MdParser__parse["parse"]
+        mdflow__parser__MdParser__parse_text("parse_text CC=14")
+    end
+    examples__basic_usage__main --> README__print
+    mdflow__generators__html__generate_html_report --> mdflow__generators__html___card
+    examples__advanced_analysis__main --> README__print
+    mdflow__parser__MdParser__parse_text --> mdflow__parser___parse_metadata_section
+    mdflow__parser__MdParser__parse_text --> mdflow__parser___slugify
+    examples__directory_scan__main --> README__print
+    examples__custom_diagrams__main --> README__print
+    mdflow__generators__mermaid__heading_tree_diagram --> mdflow__generators__mermaid___short_label
+    mdflow__generators__mermaid__section_flowchart --> mdflow__generators__mermaid___short_label
+    mdflow__generators__mermaid__section_flowchart --> mdflow__generators__mermaid___safe_id
+    mdflow__generators__mermaid__dependency_diagram --> mdflow__generators__mermaid___safe_id
+    mdflow__generators__mermaid__dependency_diagram --> mdflow__generators__mermaid___short_label
+    mdflow__generators__mermaid__markpact_graph --> mdflow__generators__mermaid___safe_id
+    mdflow__generators__mermaid__markpact_graph --> mdflow__generators__mermaid___short_label
+    mdflow__generators__mermaid__alerts_diagram --> mdflow__generators__mermaid___short_label
+    mdflow__generators__mermaid__workflow_diagram --> mdflow__generators__mermaid___safe_id
+    mdflow__cli__cmd_analyze --> README__print
+    mdflow__cli__cmd_scan --> README__print
+    mdflow__cli__cmd_diagram --> README__print
+    mdflow__MdFlow__parse_dir --> README__print
+    mdflow__MdFlow__report --> mdflow__generators__html__generate_html_report
+    mdflow__MdFlow__report --> README__print
+    mdflow__MdFlow__report --> mdflow__generators__markdown__generate_markdown_report
+    mdflow__MdFlow__scan --> README__print
+    mdflow__MdFlow___write_mermaid_files --> README__print
+    mdflow__MdFlow___write_dep_graph_html --> README__print
+
+    classDef highCC fill:#ff6b6b,stroke:#c92a2a,color:#fff
+    classDef medCC fill:#ffd43b,stroke:#f08c00,color:#000
+    class mdflow__generators__html__generate_html_report,examples__advanced_analysis__main,mdflow__generators__markdown__generate_markdown_report,mdflow__analyzers__StructureAnalyzer__section_summary highCC
+    class mdflow__parser___parse_toon_content,mdflow__parser__MdParser__parse_text,examples__directory_scan__main,mdflow__generators__mermaid__section_flowchart,mdflow__generators__mermaid__workflow_diagram,mdflow__analyzers__DependencyAnalyzer__build,mdflow__analyzers__ToonAnalyzer__metrics medCC

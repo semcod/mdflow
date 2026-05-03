@@ -1,0 +1,84 @@
+# testql.yaml - TestQL configuration for mdflow project
+# TestQL integration for automated testing with planfile
+
+version: "1.0"
+project:
+  name: mdflow
+  type: python
+
+testql:
+  enabled: true
+  integration:
+    planfile: true
+    taskfile: true
+  
+  # Test configuration
+  tests:
+    - name: unit-tests
+      description: Run unit tests
+      command: pytest tests/ -v
+      timeout: 300
+      required: true
+      
+    - name: coverage
+      description: Run tests with coverage
+      command: pytest tests/ --cov=mdflow --cov-report=html --cov-report=term
+      timeout: 300
+      required: false
+      
+    - name: lint
+      description: Run linting checks
+      command: ruff check mdflow/ tests/
+      timeout: 60
+      required: true
+      
+    - name: format-check
+      description: Check code formatting
+      command: ruff format --check mdflow/ tests/
+      timeout: 60
+      required: true
+      
+    - name: examples
+      description: Run example scripts
+      command: |
+        python examples/basic_usage.py &&
+        python examples/advanced_analysis.py &&
+        python examples/directory_scan.py &&
+        python examples/custom_diagrams.py
+      timeout: 120
+      required: false
+
+  # Test environments
+  environments:
+    - name: default
+      python: "3.11"
+      dependencies:
+        - pytest>=7
+        - pytest-cov
+        - ruff
+        
+    - name: python-312
+      python: "3.12"
+      dependencies:
+        - pytest>=7
+        - pytest-cov
+        - ruff
+
+  # Coverage thresholds
+  coverage:
+    minimum: 70
+    branches: 65
+    functions: 75
+    
+  # Reporting
+  reporting:
+    format: junit
+    output: test-results/
+    include-coverage: true
+    
+  # Integration with planfile
+  planfile_integration:
+    auto-create-tickets: true
+    ticket-prefix: TEST
+    on-failure: create-ticket
+    on-success: close-ticket

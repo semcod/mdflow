@@ -1,0 +1,108 @@
+# code2llm call graph | /home/tom/github/semcod/mdflow
+# nodes: 25 | edges: 23 | modules: 11
+# CC̄=2.6
+
+HUBS[20]:
+  README.print
+    CC=0  in:123  out:0  total:123
+  examples.advanced_analysis.main
+    CC=17  in:0  out:57  total:57
+  mdflow.generators.html.generate_html_report
+    CC=28  in:1  out:54  total:55
+  examples.custom_diagrams.main
+    CC=6  in:0  out:40  total:40
+  mdflow.parser.MdParser.parse_text
+    CC=14  in:0  out:40  total:40
+  examples.directory_scan.main
+    CC=8  in:0  out:39  total:39
+  examples.basic_usage.main
+    CC=4  in:0  out:35  total:35
+  mdflow.generators.markdown.generate_markdown_report
+    CC=25  in:1  out:33  total:34
+  mdflow.cli.cmd_analyze
+    CC=4  in:0  out:17  total:17
+  mdflow.generators.mermaid.section_flowchart
+    CC=9  in:0  out:14  total:14
+  mdflow.cli.cmd_diagram
+    CC=5  in:0  out:13  total:13
+  mdflow.generators.mermaid.dependency_diagram
+    CC=6  in:0  out:12  total:12
+  mdflow.generators.mermaid.markpact_graph
+    CC=5  in:0  out:12  total:12
+  mdflow.MdFlow.report
+    CC=5  in:0  out:12  total:12
+  mdflow.MdFlow.scan
+    CC=3  in:0  out:10  total:10
+  mdflow.parser._parse_metadata_section
+    CC=7  in:1  out:8  total:9
+  mdflow.generators.mermaid._short_label
+    CC=2  in:8  out:1  total:9
+  mdflow.generators.mermaid.workflow_diagram
+    CC=8  in:0  out:9  total:9
+  mdflow.generators.mermaid._safe_id
+    CC=1  in:8  out:1  total:9
+  mdflow.generators.html._card
+    CC=2  in:6  out:0  total:6
+
+MODULES:
+  README  [1 funcs]
+    print  CC=0  out:0
+  examples.advanced_analysis  [1 funcs]
+    main  CC=17  out:57
+  examples.basic_usage  [1 funcs]
+    main  CC=4  out:35
+  examples.custom_diagrams  [1 funcs]
+    main  CC=6  out:40
+  examples.directory_scan  [1 funcs]
+    main  CC=8  out:39
+  mdflow  [5 funcs]
+    _write_dep_graph_html  CC=1  out:6
+    _write_mermaid_files  CC=3  out:5
+    parse_dir  CC=3  out:6
+    report  CC=5  out:12
+    scan  CC=3  out:10
+  mdflow.cli  [3 funcs]
+    cmd_analyze  CC=4  out:17
+    cmd_diagram  CC=5  out:13
+    cmd_scan  CC=2  out:6
+  mdflow.generators.html  [2 funcs]
+    _card  CC=2  out:0
+    generate_html_report  CC=28  out:54
+  mdflow.generators.markdown  [1 funcs]
+    generate_markdown_report  CC=25  out:33
+  mdflow.generators.mermaid  [7 funcs]
+    _safe_id  CC=1  out:1
+    _short_label  CC=2  out:1
+    dependency_diagram  CC=6  out:12
+    heading_tree_diagram  CC=1  out:5
+    markpact_graph  CC=5  out:12
+    section_flowchart  CC=9  out:14
+    workflow_diagram  CC=8  out:9
+  mdflow.parser  [2 funcs]
+    parse_text  CC=14  out:40
+    _parse_metadata_section  CC=7  out:8
+
+EDGES:
+  examples.basic_usage.main → README.print
+  mdflow.generators.html.generate_html_report → mdflow.generators.html._card
+  examples.advanced_analysis.main → README.print
+  mdflow.parser.MdParser.parse_text → mdflow.parser._parse_metadata_section
+  examples.directory_scan.main → README.print
+  examples.custom_diagrams.main → README.print
+  mdflow.generators.mermaid.heading_tree_diagram → mdflow.generators.mermaid._short_label
+  mdflow.generators.mermaid.section_flowchart → mdflow.generators.mermaid._short_label
+  mdflow.generators.mermaid.dependency_diagram → mdflow.generators.mermaid._safe_id
+  mdflow.generators.mermaid.dependency_diagram → mdflow.generators.mermaid._short_label
+  mdflow.generators.mermaid.markpact_graph → mdflow.generators.mermaid._safe_id
+  mdflow.generators.mermaid.markpact_graph → mdflow.generators.mermaid._short_label
+  mdflow.generators.mermaid.workflow_diagram → mdflow.generators.mermaid._safe_id
+  mdflow.cli.cmd_analyze → README.print
+  mdflow.cli.cmd_scan → README.print
+  mdflow.cli.cmd_diagram → README.print
+  mdflow.MdFlow.parse_dir → README.print
+  mdflow.MdFlow.report → mdflow.generators.html.generate_html_report
+  mdflow.MdFlow.report → README.print
+  mdflow.MdFlow.report → mdflow.generators.markdown.generate_markdown_report
+  mdflow.MdFlow.scan → README.print
+  mdflow.MdFlow._write_mermaid_files → README.print
+  mdflow.MdFlow._write_dep_graph_html → README.print

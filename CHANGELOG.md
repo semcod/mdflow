@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-05-03
+
+### Docs
+- Update README.md
+- Update SUMD.md
+- Update SUMR.md
+- Update docs/README.md
+- Update examples/README.md
+- Update examples/data/api_reference.md
+- Update examples/data/deployment.md
+- Update examples/data/project_overview.md
+- Update project/README.md
+- Update project/context.md
+
+### Test
+- Update testql-scenarios/generated-cli-tests.testql.toon.yaml
+- Update testql.yaml
+
+### Other
+- Update Taskfile.yml
+- Update app.doql.less
+- Update examples/advanced_analysis.py
+- Update examples/basic_usage.py
+- Update examples/cli_usage.sh
+- Update examples/custom_diagrams.py
+- Update examples/directory_scan.py
+- Update planfile.yaml
+- Update project/analysis.toon.yaml
+- Update project/calls.mmd
+- ... and 15 more files
+
 ## [0.1.1] - 2026-05-03
 
 ### Docs

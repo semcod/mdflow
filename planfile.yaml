@@ -1,0 +1,167 @@
+# planfile.yaml - Project strategy and ticket management
+# Generated for mdflow project
+
+version: "1.0"
+project:
+  name: mdflow
+  description: Markdown dependency analyzer — extract all dependencies, generate diagrams and charts
+  type: python
+  version: "0.1.1"
+
+strategy:
+  name: mdflow-development
+  description: Development strategy for mdflow Python package
+  
+  phases:
+    - name: setup
+      description: Initial project setup and configuration
+      status: completed
+      tickets:
+        - id: SETUP-001
+          title: Initialize project structure
+          status: done
+          priority: high
+          
+    - name: core-development
+      description: Core parser and analyzer implementation
+      status: completed
+      tickets:
+        - id: CORE-001
+          title: Implement Markdown parser
+          status: done
+          priority: high
+        - id: CORE-002
+          title: Implement dependency analyzer
+          status: done
+          priority: high
+        - id: CORE-003
+          title: Implement structure analyzer
+          status: done
+          priority: high
+        - id: CORE-004
+          title: Implement code inventory analyzer
+          status: done
+          priority: medium
+        - id: CORE-005
+          title: Implement TOON analyzer
+          status: done
+          priority: medium
+          
+    - name: generators
+      description: Report and diagram generators
+      status: completed
+      tickets:
+        - id: GEN-001
+          title: Implement Mermaid diagram generators
+          status: done
+          priority: high
+        - id: GEN-002
+          title: Implement HTML report generator
+          status: done
+          priority: high
+        - id: GEN-003
+          title: Implement Markdown report generator
+          status: done
+          priority: high
+          
+    - name: cli
+      description: Command-line interface
+      status: completed
+      tickets:
+        - id: CLI-001
+          title: Implement CLI with argparse
+          status: done
+          priority: high
+          
+    - name: documentation
+      description: Documentation and examples
+      status: in_progress
+      tickets:
+        - id: DOC-001
+          title: Update README with examples section
+          status: done
+          priority: high
+        - id: DOC-002
+          title: Create basic usage example
+          status: done
+          priority: high
+        - id: DOC-003
+          title: Create advanced analysis example
+          status: done
+          priority: medium
+        - id: DOC-004
+          title: Create directory scan example
+          status: done
+          priority: medium
+        - id: DOC-005
+          title: Create custom diagrams example
+          status: done
+          priority: medium
+        - id: DOC-006
+          title: Create CLI usage example
+          status: done
+          priority: medium
+          
+    - name: configuration
+      description: Project configuration and tooling
+      status: in_progress
+      tickets:
+        - id: CFG-001
+          title: Configure planfile for project management
+          status: in_progress
+          priority: high
+        - id: CFG-002
+          title: Create taskfile for common tasks
+          status: pending
+          priority: high
+        - id: CFG-003
+          title: Configure testql integration
+          status: pending
+          priority: medium
+          
+    - name: quality
+      description: Code quality and testing
+      status: pending
+      tickets:
+        - id: QUA-001
+          title: Add unit tests for parser
+          status: pending
+          priority: high
+        - id: QUA-002
+          title: Add unit tests for analyzers
+          status: pending
+          priority: high
+        - id: QUA-003
+          title: Add unit tests for generators
+          status: pending
+          priority: medium
+        - id: QUA-004
+          title: Refactor high complexity functions
+          status: pending
+          priority: medium
+        - id: QUA-005
+          title: Improve code coverage
+          status: pending
+          priority: low
+
+backlog:
+  - id: FEA-001
+    title: Add Graphviz output support
+    description: Generate Graphviz DOT files for dependency graphs
+    priority: low
+    status: backlog
+  - id: FEA-002
+    title: Add JSON output format
+    description: Export analysis results as JSON
+    priority: low
+    status: backlog
+  - id: FEA-003
+    title: Add support for custom analyzers
+    description: Allow users to define custom analyzers via plugins
+    priority: low
+    status: backlog
+
+metadata:
+  created: "2026-05-03"
+  updated: "2026-05-03"
+  author: mdflow team

@@ -1,0 +1,235 @@
+# Taskfile.yml - Task runner for mdflow project
+# Usage: task <task-name>
+# Install task: https://taskfile.dev/installation/
+
+version: "3"
+
+vars:
+  PROJECT_NAME: mdflow
+  PYTHON_VERSION: "3.11"
+  VENV_DIR: .venv
+  OUTPUT_DIR: output
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  # Setup tasks
+  setup:
+    desc: Install dependencies and setup virtual environment
+    cmds:
+      - python -m venv {{.VENV_DIR}}
+      - "{{.VENV_DIR}}/bin/pip install --upgrade pip"
+      - "{{.VENV_DIR}}/bin/pip install -e .[dev]"
+      - echo "✓ Setup complete"
+    silent: true
+
+  install:
+    desc: Install package in editable mode
+    cmds:
+      - "{{.VENV_DIR}}/bin/pip install -e ."
+    silent: true
+
+  # Development tasks
+  dev:
+    desc: Install development dependencies
+    cmds:
+      - "{{.VENV_DIR}}/bin/pip install -e .[dev]"
+    silent: true
+
+  # Testing tasks
+  test:
+    desc: Run all tests
+    cmds:
+      - "{{.VENV_DIR}}/bin/pytest tests/ -v"
+    silent: false
+
+  test-coverage:
+    desc: Run tests with coverage report
+    cmds:
+      - "{{.VENV_DIR}}/bin/pytest tests/ --cov=mdflow --cov-report=html --cov-report=term"
+    silent: false
+
+  test-watch:
+    desc: Run tests in watch mode
+    cmds:
+      - "{{.VENV_DIR}}/bin/pytest-watch tests/"
+    silent: false
+
+  # Code quality tasks
+  lint:
+    desc: Run linting
+    cmds:
+      - "{{.VENV_DIR}}/bin/ruff check mdflow/"
+      - "{{.VENV_DIR}}/bin/ruff check tests/"
+    silent: false
+
+  format:
+    desc: Format code with ruff
+    cmds:
+      - "{{.VENV_DIR}}/bin/ruff format mdflow/"
+      - "{{.VENV_DIR}}/bin/ruff format tests/"
+    silent: false
+
+  format-check:
+    desc: Check if code is formatted
+    cmds:
+      - "{{.VENV_DIR}}/bin/ruff format --check mdflow/"
+      - "{{.VENV_DIR}}/bin/ruff format --check tests/"
+    silent: false
+
+  # Build tasks
+  build:
+    desc: Build package
+    cmds:
+      - "{{.VENV_DIR}}/bin/python -m build"
+    silent: false
+
+  # Documentation tasks
+  docs:
+    desc: Generate documentation
+    cmds:
+      - mkdir -p {{.OUTPUT_DIR}}
+      - "{{.VENV_DIR}}/bin/python examples/basic_usage.py"
+    silent: false
+
+  docs-all:
+    desc: Generate all example documentation
+    cmds:
+      - mkdir -p {{.OUTPUT_DIR}}
+      - "{{.VENV_DIR}}/bin/python examples/basic_usage.py"
+      - "{{.VENV_DIR}}/bin/python examples/advanced_analysis.py"
+      - "{{.VENV_DIR}}/bin/python examples/directory_scan.py"
+      - "{{.VENV_DIR}}/bin/python examples/custom_diagrams.py"
+    silent: false
+
+  # Example tasks
+  example-basic:
+    desc: Run basic usage example
+    cmds:
+      - "{{.VENV_DIR}}/bin/python examples/basic_usage.py"
+    silent: false
+
+  example-advanced:
+    desc: Run advanced analysis example
+    cmds:
+      - "{{.VENV_DIR}}/bin/python examples/advanced_analysis.py"
+    silent: false
+
+  example-scan:
+    desc: Run directory scan example
+    cmds:
+      - "{{.VENV_DIR}}/bin/python examples/directory_scan.py"
+    silent: false
+
+  example-diagrams:
+    desc: Run custom diagrams example
+    cmds:
+      - "{{.VENV_DIR}}/bin/python examples/custom_diagrams.py"
+    silent: false
+
+  # CLI tasks
+  cli-analyze:
+    desc: Analyze a file with CLI
+    cmds:
+      - "{{.VENV_DIR}}/bin/mdflow analyze SUMR.md --output {{.OUTPUT_DIR}}"
+    silent: false
+
+  cli-scan:
+    desc: Scan directory with CLI
+    cmds:
+      - "{{.VENV_DIR}}/bin/mdflow scan mdflow/ --output {{.OUTPUT_DIR}}/scan"
+    silent: false
+
+  # Clean tasks
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -rf build/
+      - rm -rf dist/
+      - rm -rf *.egg-info/
+      - rm -rf .pytest_cache/
+      - rm -rf .ruff_cache/
+      - rm -rf {{.OUTPUT_DIR}}/
+      - echo "✓ Clean complete"
+    silent: true
+
+  clean-all:
+    desc: Clean everything including venv
+    cmds:
+      - task: clean
+      - rm -rf {{.VENV_DIR}}/
+      - echo "✓ Full clean complete"
+    silent: true
+
+  # Planfile tasks
+  planfile-validate:
+    desc: Validate planfile configuration
+    cmds:
+      - planfile validate planfile.yaml
+    silent: false
+
+  planfile-review:
+    desc: Review planfile strategy
+    cmds:
+      - planfile review
+    silent: false
+
+  planfile-apply:
+    desc: Apply planfile strategy
+    cmds:
+      - planfile apply planfile.yaml
+    silent: false
+
+  # TestQL tasks
+  testql-run:
+    desc: Run testql tests
+    cmds:
+      - testql run
+    silent: false
+
+  testql-init:
+    desc: Initialize testql configuration
+    cmds:
+      - testql init
+    silent: false
+
+  # Release tasks
+  version:
+    desc: Show current version
+    cmds:
+      - cat VERSION
+    silent: true
+
+  bump-patch:
+    desc: Bump patch version
+    cmds:
+      - goal bump patch
+    silent: false
+
+  bump-minor:
+    desc: Bump minor version
+    cmds:
+      - goal bump minor
+    silent: false
+
+  bump-major:
+    desc: Bump major version
+    cmds:
+      - goal bump major
+    silent: false
+
+  # Git tasks
+  git-status:
+    desc: Show git status
+    cmds:
+      - git status
+    silent: false
+
+  git-log:
+    desc: Show git log
+    cmds:
+      - git log --oneline -10
+    silent: false
