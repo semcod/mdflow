@@ -1,0 +1,44 @@
+# SCENARIO: CLI diagram command — E2E
+# TYPE: cli
+# TAGS: e2e, diagram, mermaid
+
+CONFIG[2]{key, value}:
+  cwd, /home/tom/github/semcod/mdflow
+  timeout_ms, 10000
+
+# Test 1: list available diagrams
+SHELL "python3 -m mdflow.cli diagram SUMR.md --diagram list" 5000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "heading_mindmap"
+ASSERT_STDOUT_CONTAINS "section_flow"
+ASSERT_STDOUT_CONTAINS "code_pie"
+
+# Test 2: heading_mindmap to stdout — must start with 'mindmap'
+SHELL "python3 -m mdflow.cli diagram SUMR.md --diagram heading_mindmap" 5000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "mindmap"
+ASSERT_STDOUT_CONTAINS "root"
+
+# Test 3: section_flow to stdout — must start with 'flowchart'
+SHELL "python3 -m mdflow.cli diagram SUMR.md --diagram section_flow" 5000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "flowchart"
+
+# Test 4: code_pie to stdout — must start with 'pie'
+SHELL "python3 -m mdflow.cli diagram SUMR.md --diagram code_pie" 5000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "pie title"
+
+# Test 5: write diagram to file
+SHELL "python3 -m mdflow.cli diagram SUMR.md --diagram section_flow -o /tmp/testql_diag.mermaid" 5000
+ASSERT_EXIT_CODE 0
+SHELL "test -f /tmp/testql_diag.mermaid && head -1 /tmp/testql_diag.mermaid" 3000
+ASSERT_STDOUT_CONTAINS "flowchart"
+
+# Test 6: unknown diagram name → error message
+SHELL "python3 -m mdflow.cli diagram SUMR.md --diagram nonexistent_xyz 2>&1; true" 3000
+ASSERT_STDOUT_CONTAINS "nonexistent_xyz"
+
+# Cleanup
+SHELL "rm -f /tmp/testql_diag.mermaid" 3000
+ASSERT_EXIT_CODE 0

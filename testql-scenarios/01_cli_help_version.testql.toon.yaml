@@ -1,0 +1,34 @@
+# SCENARIO: CLI Help & Version
+# TYPE: cli
+# TAGS: smoke, cli, e2e
+
+CONFIG[2]{key, value}:
+  cli_command, python3 -m mdflow.cli
+  cwd, /home/tom/github/semcod/mdflow
+  timeout_ms, 5000
+
+# Test 1: help without args → usage printed, exit 0
+SHELL "python3 -m mdflow.cli --help" 5000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "analyze"
+ASSERT_STDOUT_CONTAINS "scan"
+ASSERT_STDOUT_CONTAINS "diagram"
+
+# Test 2: no args → usage error, exit != 0 (argparse prints usage)
+SHELL "python3 -m mdflow.cli 2>&1; true" 3000
+ASSERT_STDOUT_CONTAINS "usage"
+
+# Test 3: analyze subcommand help
+SHELL "python3 -m mdflow.cli analyze --help" 3000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "Output directory"
+ASSERT_STDOUT_CONTAINS "format"
+
+# Test 4: scan subcommand help
+SHELL "python3 -m mdflow.cli scan --help" 3000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "directory"
+
+# Test 5: diagram subcommand help
+SHELL "python3 -m mdflow.cli diagram --help" 3000
+ASSERT_EXIT_CODE 0

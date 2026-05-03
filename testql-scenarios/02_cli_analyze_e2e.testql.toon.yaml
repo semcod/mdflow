@@ -1,0 +1,64 @@
+# SCENARIO: CLI analyze command — E2E
+# TYPE: cli
+# TAGS: e2e, analyze, output-files
+
+CONFIG[2]{key, value}:
+  cwd, /home/tom/github/semcod/mdflow
+  timeout_ms, 15000
+
+# Test 1: analyze SUMR.md — default all formats
+SHELL "python3 -m mdflow.cli analyze SUMR.md --output /tmp/testql_analyze_out/" 15000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "[mdflow] Parsed"
+ASSERT_STDOUT_CONTAINS "Headings:"
+ASSERT_STDOUT_CONTAINS "SUMR_report.html"
+ASSERT_STDOUT_CONTAINS "SUMR_report.md"
+
+# Test 2: output files actually exist
+SHELL "test -f /tmp/testql_analyze_out/SUMR_report.html && echo FILE_EXISTS" 3000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "FILE_EXISTS"
+
+SHELL "test -f /tmp/testql_analyze_out/SUMR_report.md && echo FILE_EXISTS" 3000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "FILE_EXISTS"
+
+SHELL "test -f /tmp/testql_analyze_out/SUMR_heading_mindmap.mermaid && echo FILE_EXISTS" 3000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "FILE_EXISTS"
+
+# Test 3: HTML report contains expected sections
+SHELL "grep -q 'mdflow' /tmp/testql_analyze_out/SUMR_report.html && echo HTML_OK" 3000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "HTML_OK"
+
+# Test 4: analyze with only html format
+SHELL "python3 -m mdflow.cli analyze SUMR.md --output /tmp/testql_html_only/ --format html" 10000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "SUMR_report.html"
+
+# verify md was NOT generated (only html format requested)
+SHELL "test ! -f /tmp/testql_html_only/SUMR_report.md && echo MD_ABSENT" 3000
+ASSERT_STDOUT_CONTAINS "MD_ABSENT"
+
+# Test 5: analyze with only md format
+SHELL "python3 -m mdflow.cli analyze SUMR.md --output /tmp/testql_md_only/ --format md" 10000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "SUMR_report.md"
+
+# Test 6: markdown report has expected headings
+SHELL "grep -c '^## ' /tmp/testql_md_only/SUMR_report.md | xargs -I{} sh -c 'test {} -gt 0 && echo SECTIONS_OK || echo NO_SECTIONS'" 5000
+ASSERT_STDOUT_CONTAINS "SECTIONS_OK"
+
+# Test 7: analyze README.md
+SHELL "python3 -m mdflow.cli analyze README.md --output /tmp/testql_readme_out/ --format md" 10000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "README_report.md"
+
+# Test 8: mermaid files are non-empty (more than 1 line)
+SHELL "test $(wc -l < /tmp/testql_analyze_out/SUMR_section_flow.mermaid) -gt 1 && echo NONEMPTY || echo EMPTY" 3000
+ASSERT_STDOUT_CONTAINS "NONEMPTY"
+
+# Cleanup
+SHELL "rm -rf /tmp/testql_analyze_out /tmp/testql_html_only /tmp/testql_md_only /tmp/testql_readme_out" 3000
+ASSERT_EXIT_CODE 0

@@ -210,9 +210,26 @@ tasks:
 
   # TestQL tasks
   testql-run:
-    desc: Run testql tests
+    desc: Run all testql scenarios
     cmds:
-      - testql run
+      - for: {glob: testql-scenarios/0*.testql.toon.yaml}
+        cmd: testql run {{.ITEM}}
+    silent: false
+
+  testql-smoke:
+    desc: Run smoke tests only (01_cli_help_version)
+    cmds:
+      - testql run testql-scenarios/01_cli_help_version.testql.toon.yaml
+    silent: false
+
+  testql-e2e:
+    desc: Run E2E tests (analyze, scan, diagram, semcod projects, mermaid validation)
+    cmds:
+      - testql run testql-scenarios/02_cli_analyze_e2e.testql.toon.yaml
+      - testql run testql-scenarios/03_cli_scan_e2e.testql.toon.yaml
+      - testql run testql-scenarios/04_cli_diagram_e2e.testql.toon.yaml
+      - testql run testql-scenarios/05_e2e_semcod_projects.testql.toon.yaml
+      - testql run testql-scenarios/06_e2e_mermaid_validation.testql.toon.yaml
     silent: false
 
   testql-init:

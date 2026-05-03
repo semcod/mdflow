@@ -1,0 +1,30 @@
+# SCENARIO: CLI scan command — E2E
+# TYPE: cli
+# TAGS: e2e, scan, directory
+
+CONFIG[2]{key, value}:
+  cwd, /home/tom/github/semcod/mdflow
+  timeout_ms, 20000
+
+# Test 1: scan examples/data directory
+SHELL "python3 -m mdflow.cli scan examples/data/ --output /tmp/testql_scan_out/ --format md" 20000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "[mdflow] Parsed"
+ASSERT_STDOUT_CONTAINS "documents"
+
+# Test 2: per_file subdirectory created
+SHELL "test -d /tmp/testql_scan_out/per_file && echo DIR_EXISTS" 3000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "DIR_EXISTS"
+
+# Test 3: at least one report file generated
+SHELL "find /tmp/testql_scan_out/per_file/ -name '*.md' | grep -q . && echo REPORTS_OK || echo NO_REPORTS" 3000
+ASSERT_STDOUT_CONTAINS "REPORTS_OK"
+
+# Test 4: scan with mermaid format produces dependency graph
+SHELL "python3 -m mdflow.cli scan examples/data/ --output /tmp/testql_scan_mm/ --format mermaid" 20000
+ASSERT_EXIT_CODE 0
+
+# Cleanup
+SHELL "rm -rf /tmp/testql_scan_out /tmp/testql_scan_mm" 3000
+ASSERT_EXIT_CODE 0

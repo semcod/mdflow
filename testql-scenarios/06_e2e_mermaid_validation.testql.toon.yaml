@@ -1,0 +1,49 @@
+# SCENARIO: E2E — Mermaid output validation
+# TYPE: cli
+# TAGS: e2e, mermaid, validation, quality
+
+CONFIG[2]{key, value}:
+  cwd, /home/tom/github/semcod/mdflow
+  timeout_ms, 15000
+
+# Setup: analyze a SUMD-rich file
+SHELL "python3 -m mdflow.cli analyze /home/tom/github/semcod/prefact/SUMD.md --output /tmp/tq_mermaid_val/ --format mermaid" 15000
+ASSERT_EXIT_CODE 0
+
+# Test: mindmap has no backticks in node text lines (was a real bug)
+SHELL "grep -c '`' /tmp/tq_mermaid_val/SUMD_heading_mindmap.mermaid 2>/dev/null || echo 0" 3000
+ASSERT_STDOUT_CONTAINS "0"
+
+# Test: validator finds no BACKTICK errors in any file
+SHELL "python3 testql-scenarios/_validate_mermaid.py /tmp/tq_mermaid_val 2>&1 | grep -c BACKTICK || echo 0" 3000
+ASSERT_STDOUT_CONTAINS "0"
+
+# Test: code_pie starts with 'pie title' without quotes around the title text
+SHELL "head -1 /tmp/tq_mermaid_val/SUMD_code_pie.mermaid 2>/dev/null || echo MISSING" 3000
+ASSERT_STDOUT_CONTAINS "pie title"
+
+# pie title must NOT have a quoted title — use helper script
+SHELL "python3 testql-scenarios/_validate_mermaid.py /tmp/tq_mermaid_val --pie-check" 3000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "PIE_OK"
+
+# Test: section_flow starts with 'flowchart'
+SHELL "head -1 /tmp/tq_mermaid_val/SUMD_section_flow.mermaid 2>/dev/null" 3000
+ASSERT_STDOUT_CONTAINS "flowchart"
+
+# Test: markpact_graph starts with 'flowchart' if present
+SHELL "test -f /tmp/tq_mermaid_val/SUMD_markpact_graph.mermaid && head -1 /tmp/tq_mermaid_val/SUMD_markpact_graph.mermaid || echo NO_MARKPACT" 3000
+ASSERT_EXIT_CODE 0
+
+# Test: no empty mermaid files
+SHELL "find /tmp/tq_mermaid_val/ -name '*.mermaid' -empty | wc -l" 3000
+ASSERT_STDOUT_CONTAINS "0"
+
+# Test: validate via python mdflow validator — use helper script
+SHELL "python3 testql-scenarios/_validate_mermaid.py /tmp/tq_mermaid_val" 10000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "VALIDATED"
+
+# Cleanup
+SHELL "rm -rf /tmp/tq_mermaid_val" 3000
+ASSERT_EXIT_CODE 0

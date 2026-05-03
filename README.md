@@ -1,12 +1,11 @@
 # mdflow
 
-
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.5-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
-![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.60-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-2.0h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.6-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.75-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-2.0h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
 
-- 🤖 **LLM usage:** $0.6000 (4 commits)
+- 🤖 **LLM usage:** $0.7500 (5 commits)
 - 👤 **Human dev:** ~$200 (2.0h @ $100/h, 30min dedup)
 
 Generated on 2026-05-03 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
@@ -120,39 +119,80 @@ mdflow diagram SUMR.md --diagram list        # list available diagrams
 mdflow diagram SUMR.md --diagram alerts_graph -o alerts.mermaid
 ```
 
-## Examples
+## Mermaid validation
 
-The `examples/` directory is organized by complexity and use case:
+Every generated `.mermaid` file is automatically validated before writing.
+Detected issues are printed inline and written as tickets to `TODO.md`:
 
-### Basic
-
-- **`01_parse_single_file.py`** — Parse and inspect a single document
-- **`02_generate_reports.py`** — Generate HTML, Markdown, and Mermaid reports
-- **`03_diagrams_as_strings.py`** — Get diagrams as strings (no file I/O)
-- **`04_cli_basics.sh`** — CLI commands: `analyze`, `scan`, `diagram`
-
-### Advanced
-
-- **`01_directory_scan.py`** — Scan a directory and build dependency graphs
-- **`02_toon_analysis.py`** — Extract TOON quality metrics (HEALTH, ALERTS, REFACTOR, ...)
-- **`03_custom_diagram_pipeline.py`** — Build custom HTML with selected diagrams
-
-### API / Extensibility
-
-- **`01_low_level_parser.py`** — Use `MdParser` directly for fine-grained control
-- **`02_custom_analyzer.py`** — Build your own analyzer on top of `MdDocument`
-
-Sample data files in `examples/data/` are cross-linked so directory-scan examples produce realistic dependency graphs.
-
-Run any example from the project root:
-
-```bash
-python examples/basic/01_parse_single_file.py
-python examples/advanced/01_directory_scan.py
-python examples/api/02_custom_analyzer.py
+```
+[mdflow] ⚠ 1 error(s) output/SUMR_section_flow.mermaid
+  ✗ [BACKTICK_IN_LABEL] Backtick inside node label (line 5): ...
+[mdflow] → 1 validation ticket(s) written to TODO.md
 ```
 
-See [examples/README.md](examples/README.md) for full details.
+Validation checks: `EMPTY_DIAGRAM`, `NO_DIAGRAM_TYPE`, `BACKTICK_IN_LABEL`,
+`DUPLICATE_NODE_ID`, `MINDMAP_ILLEGAL_CHARS`.
+
+---
+
+## Quality tooling
+
+mdflow uses [`prefact`](https://github.com/semcod/prefact) and
+[`pyqual`](https://github.com/semcod/pyqual) for automated code quality gates.
+
+```bash
+# Run full quality loop (prefact scan → ruff → pytest → LLM fix on fail)
+task quality          # alias: pyqual run
+
+# Scan for code issues (duplicate imports, wildcard imports, …)
+task prefact          # alias: prefact scan -p .
+
+# Auto-fix detected issues
+task prefact-fix      # alias: prefact fix -p .
+```
+
+A **git pre-commit hook** (`.git/hooks/pre-commit`) runs all checks automatically
+before every commit and blocks on failures, writing tickets to `TODO.md`.
+
+---
+
+## Testing
+
+### Unit tests
+
+```bash
+pytest tests/ -v
+```
+
+### E2E / CLI tests (TestQL)
+
+142 scenarios covering CLI commands, output file validation, and integration
+with real semcod workspace projects:
+
+```bash
+# All scenarios
+task testql-run
+
+# Smoke only (help, subcommands)
+task testql-smoke
+
+# Full E2E (analyze, scan, diagram, semcod projects, mermaid validation)
+task testql-e2e
+
+# Single scenario
+testql run testql-scenarios/02_cli_analyze_e2e.testql.toon.yaml
+```
+
+Scenarios in `testql-scenarios/`:
+
+| File | Tests | Scope |
+|---|---|---|
+| `01_cli_help_version` | 16 | help, subcommand help |
+| `02_cli_analyze_e2e` | 35 | analyze: HTML/MD/mermaid output |
+| `03_cli_scan_e2e` | 13 | scan: per_file output, dependency graph |
+| `04_cli_diagram_e2e` | 23 | diagram: list, stdout, file, unknown name |
+| `05_e2e_semcod_projects` | 30 | prefact, pyqual, planfile, goal SUMD.md |
+| `06_e2e_mermaid_validation` | 22 | backtick-free labels, pie title format |
 
 ---
 
@@ -163,15 +203,50 @@ mdflow/
 ├── __init__.py         ← MdFlow façade (high-level API)
 ├── models.py           ← Data classes: MdDocument, DependencyGraph, …
 ├── parser.py           ← Core Markdown parser (stdlib only)
+├── validators.py       ← Mermaid diagram validator + TODO.md ticket writer
 ├── analyzers/
 │   └── __init__.py     ← DependencyAnalyzer, StructureAnalyzer,
 │                          CodeInventoryAnalyzer, ToonAnalyzer
 ├── generators/
 │   ├── __init__.py
 │   ├── mermaid.py      ← All Mermaid diagram generators
-│   ├── html.py         ← Self-contained HTML report
-│   └── markdown.py     ← Markdown summary report
+│   ├── html.py         ← Self-contained HTML report (split into helpers)
+│   └── markdown.py     ← Markdown summary report (split into helpers)
 └── cli.py              ← argparse CLI entry point
+```
+
+---
+
+## Examples
+
+### Basic
+
+- **`examples/basic/01_parse_single_file.py`** — Parse and inspect a single document
+- **`examples/basic/02_generate_reports.py`** — Generate HTML, Markdown, and Mermaid reports
+- **`examples/basic/03_diagrams_as_strings.py`** — Get diagrams as strings (no file I/O)
+- **`examples/basic/04_cli_basics.sh`** — CLI: `analyze`, `scan`, `diagram`
+
+### Advanced
+
+- **`examples/advanced/01_directory_scan.py`** — Scan a directory, build dependency graphs
+- **`examples/advanced/02_toon_analysis.py`** — Extract TOON quality metrics
+- **`examples/advanced/03_custom_diagram_pipeline.py`** — Custom HTML with selected diagrams
+
+### API / Extensibility
+
+- **`examples/api/01_low_level_parser.py`** — Use `MdParser` directly
+- **`examples/api/02_custom_analyzer.py`** — Build your own analyzer
+
+### semcod workspace
+
+- **`examples/semcod/analyze_prefact.py`** — Parse `prefact/SUMD.md`, extract TOON metrics
+- **`examples/semcod/scan_semcod_workspace.py`** — Scan 6 semcod projects, cross-project TOON summary
+- **`examples/semcod/toon_comparison.py`** — CC/alerts/refactors comparison table across projects
+- **`examples/semcod/04_cli_semcod.sh`** — CLI shell examples for the semcod workspace
+
+```bash
+python examples/semcod/toon_comparison.py
+python examples/semcod/scan_semcod_workspace.py
 ```
 
 ---

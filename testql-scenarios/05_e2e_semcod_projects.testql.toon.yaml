@@ -1,0 +1,55 @@
+# SCENARIO: E2E — analyze real semcod/* projects
+# TYPE: cli
+# TAGS: e2e, integration, semcod
+
+CONFIG[2]{key, value}:
+  cwd, /home/tom/github/semcod/mdflow
+  timeout_ms, 20000
+
+# ── prefact/SUMD.md ───────────────────────────────────────────────
+SHELL "python3 -m mdflow.cli analyze /home/tom/github/semcod/prefact/SUMD.md --output /tmp/tq_prefact/ --format md,mermaid" 20000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "[mdflow] Parsed"
+ASSERT_STDOUT_CONTAINS "Headings:"
+
+SHELL "test -f /tmp/tq_prefact/SUMD_report.md && grep -c '^##' /tmp/tq_prefact/SUMD_report.md" 3000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_MATCHES "[1-9][0-9]*"
+
+# ── pyqual/SUMD.md ────────────────────────────────────────────────
+SHELL "python3 -m mdflow.cli analyze /home/tom/github/semcod/pyqual/SUMD.md --output /tmp/tq_pyqual/ --format md,mermaid" 20000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "[mdflow] Parsed"
+
+SHELL "test -f /tmp/tq_pyqual/SUMD_report.md && echo OK" 3000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "OK"
+
+# ── planfile/SUMD.md ──────────────────────────────────────────────
+SHELL "python3 -m mdflow.cli analyze /home/tom/github/semcod/planfile/SUMD.md --output /tmp/tq_planfile/ --format md,mermaid" 20000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "[mdflow] Parsed"
+
+# ── goal/SUMD.md ──────────────────────────────────────────────────
+SHELL "python3 -m mdflow.cli analyze /home/tom/github/semcod/goal/SUMD.md --output /tmp/tq_goal/ --format md,mermaid" 20000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "[mdflow] Parsed"
+
+# ── scan prefact docs ─────────────────────────────────────────────
+SHELL "python3 -m mdflow.cli scan /home/tom/github/semcod/prefact/docs/ --output /tmp/tq_prefact_docs/ --format md" 20000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "documents"
+
+# ── section_flow for planfile README ─────────────────────────────
+SHELL "python3 -m mdflow.cli diagram /home/tom/github/semcod/planfile/README.md --diagram section_flow" 10000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "flowchart"
+
+# ── heading_mindmap for pyqual README ────────────────────────────
+SHELL "python3 -m mdflow.cli diagram /home/tom/github/semcod/pyqual/README.md --diagram heading_mindmap" 10000
+ASSERT_EXIT_CODE 0
+ASSERT_STDOUT_CONTAINS "mindmap"
+
+# Cleanup
+SHELL "rm -rf /tmp/tq_prefact /tmp/tq_pyqual /tmp/tq_planfile /tmp/tq_goal /tmp/tq_prefact_docs" 3000
+ASSERT_EXIT_CODE 0

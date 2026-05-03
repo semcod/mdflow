@@ -23,7 +23,7 @@ from .analyzers import (
 from .generators import generate_html_report, generate_markdown_report
 from .generators import mermaid as mm
 
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 __all__ = ["MdFlow", "MdParser", "MdDocument", "DependencyGraph"]
 
 

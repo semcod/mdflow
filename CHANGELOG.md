@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-05-03
+
+### Docs
+- Update README.md
+
+### Test
+- Update testql-scenarios/01_cli_help_version.testql.toon.yaml
+- Update testql-scenarios/02_cli_analyze_e2e.testql.toon.yaml
+- Update testql-scenarios/03_cli_scan_e2e.testql.toon.yaml
+- Update testql-scenarios/04_cli_diagram_e2e.testql.toon.yaml
+- Update testql-scenarios/05_e2e_semcod_projects.testql.toon.yaml
+- Update testql-scenarios/06_e2e_mermaid_validation.testql.toon.yaml
+- Update testql-scenarios/_validate_mermaid.py
+
+### Other
+- Update Taskfile.yml
+- Update examples/semcod/04_cli_semcod.sh
+- Update examples/semcod/analyze_prefact.py
+- Update examples/semcod/scan_semcod_workspace.py
+- Update examples/semcod/toon_comparison.py
+
 ## [0.1.5] - 2026-05-03
 
 ### Docs
