@@ -1,7 +1,7 @@
 <!-- code2docs:start --># mdflow
 
-![version](https://img.shields.io/badge/version-0.1.0-blue) ![python](https://img.shields.io/badge/python-%3E%3D3.11-blue) ![coverage](https://img.shields.io/badge/coverage-unknown-lightgrey) ![functions](https://img.shields.io/badge/functions-177-green)
-> **177** functions | **25** classes | **34** files | CC̄ = 5.4
+![version](https://img.shields.io/badge/version-0.1.0-blue) ![python](https://img.shields.io/badge/python-%3E%3D3.11-blue) ![coverage](https://img.shields.io/badge/coverage-unknown-lightgrey) ![functions](https://img.shields.io/badge/functions-142-green)
+> **142** functions | **32** classes | **49** files | CC̄ = 5.4
 
 > Auto-generated project documentation from source code analysis.
 
@@ -76,19 +76,32 @@ mdflow/
 ├── SUMR
 ├── fix
 ├── goal
+├── planfile
+├── testql
+├── SUMD
 ├── pyproject
 ├── tree
 ├── TODO
 ├── CHANGELOG
+├── Taskfile
 ├── project
 ├── example
 ├── README
+    ├── README
     ├── custom_diagrams
     ├── directory_scan
     ├── advanced_analysis
     ├── cli_usage
     ├── README
     ├── basic_usage
+        ├── 01_directory_scan
+        ├── 02_generate_reports
+        ├── 04_cli_basics
+        ├── 01_parse_single_file
+        ├── 03_diagrams_as_strings
+        ├── project_overview
+        ├── deployment
+        ├── api_reference
     ├── cli
 ├── mdflow/
     ├── parser
@@ -98,32 +111,41 @@ mdflow/
         ├── html
         ├── mermaid
     ├── analyzers/
+        ├── toon
+            ├── toon
+        ├── toon
+        ├── toon
     ├── prompt
         ├── toon
+    ├── calls
     ├── README
         ├── toon
-        ├── toon
-        ├── toon
-        ├── toon
     ├── context
-    ├── calls
+        ├── toon
 ```
 
 ## API Overview
 
 ### Classes
 
-- **`HistoryEvent`** — —
-- **`HistoryWriter`** — —
-- **`HistoryReader`** — —
-- **`ConsciousnessLoop`** — —
-- **`LLMConfig`** — —
-- **`MemoryConfig`** — —
-- **`AnalyzerConfig`** — —
-- **`RefactorConfig`** — —
-- **`AgentConfig`** — —
-- **`CycleReport`** — —
-- **`RefactorOrchestrator`** — —
+- **`MdParser`** — —
+- **`Heading`** — —
+- **`Link`** — —
+- **`CodeBlock`** — —
+- **`ListItem`** — —
+- **`ToonSection`** — —
+- **`MdDocument`** — —
+- **`DependencyEdge`** — —
+- **`DependencyGraph`** — —
+- **`MdParser`** — —
+- **`Heading`** — —
+- **`Link`** — —
+- **`CodeBlock`** — —
+- **`ListItem`** — —
+- **`ToonSection`** — —
+- **`MdDocument`** — —
+- **`DependencyEdge`** — —
+- **`DependencyGraph`** — —
 - **`MdFlow`** — High-level façade for the mdflow library.
 - **`MdParser`** — Parse a single Markdown file into an MdDocument.
 - **`Heading`** — —
@@ -141,36 +163,53 @@ mdflow/
 
 ### Functions
 
+- `parse()` — —
+- `parse_text()` — —
+- `internal_links()` — —
+- `anchor_links()` — —
+- `external_links()` — —
+- `markpact_blocks()` — —
+- `add_node()` — —
+- `add_edge()` — —
 - `cmd_analyze()` — —
-- `cmd_explain()` — —
-- `cmd_refactor()` — —
-- `cmd_memory_stats()` — —
-- `cmd_serve()` — —
+- `cmd_scan()` — —
+- `cmd_diagram()` — —
 - `main()` — —
-- `record()` — —
-- `record_event()` — —
-- `decision_signature()` — —
-- `has_recent_signature()` — —
-- `load_events()` — —
-- `filter_by_file()` — —
-- `filter_by_type()` — —
-- `has_recent_proposal()` — —
-- `has_recent_ticket()` — —
-- `generate_decision_report()` — —
-- `main_loop()` — —
-- `run()` — —
-- `stop()` — —
-- `is_local()` — —
-- `api_key()` — —
-- `from_env()` — —
-- `run_cycle()` — —
-- `run_from_toon_content()` — —
-- `add_custom_rules()` — —
+- `main()` — —
+- `cmd_analyze()` — —
+- `cmd_scan()` — —
+- `cmd_diagram()` — —
+- `generate_html_report()` — —
+- `generate_markdown_report()` — —
+- `heading_tree_diagram()` — —
+- `section_flowchart()` — —
+- `dependency_diagram()` — —
+- `code_inventory_pie()` — —
+- `markpact_graph()` — —
+- `alerts_diagram()` — —
+- `workflow_diagram()` — —
+- `test_placeholder()` — —
+- `test_import()` — —
+- `parse()` — —
+- `parse_text()` — —
+- `internal_links()` — —
+- `anchor_links()` — —
+- `external_links()` — —
+- `markpact_blocks()` — —
+- `add_node()` — —
+- `add_edge()` — —
 - `print()` — —
+- `generate_readme()` — —
 - `main()` — —
 - `main()` — —
 - `main()` — —
 - `main()` — —
+- `main()` — —
+- `main()` — —
+- `main()` — —
+- `main()` — —
+- `process_data()` — —
+- `verify_token()` — —
 - `cmd_analyze(args)` — —
 - `cmd_scan(args)` — —
 - `cmd_diagram(args)` — —
@@ -197,44 +236,45 @@ mdflow/
 - `cmd_analyze()` — —
 - `cmd_scan()` — —
 - `cmd_diagram()` — —
+- `verify_token()` — —
 - `print()` — —
-- `cmd_explain()` — —
-- `cmd_refactor()` — —
-- `cmd_memory_stats()` — —
-- `cmd_serve()` — —
-- `record()` — —
-- `record_event()` — —
-- `decision_signature()` — —
-- `has_recent_signature()` — —
-- `load_events()` — —
-- `filter_by_file()` — —
-- `filter_by_type()` — —
-- `has_recent_proposal()` — —
-- `has_recent_ticket()` — —
-- `generate_decision_report()` — —
-- `main_loop()` — —
-- `run()` — —
-- `stop()` — —
-- `is_local()` — —
-- `api_key()` — —
-- `from_env()` — —
-- `run_cycle()` — —
-- `run_from_toon_content()` — —
-- `add_custom_rules()` — —
+- `parse()` — —
+- `parse_text()` — —
+- `internal_links()` — —
+- `anchor_links()` — —
+- `external_links()` — —
+- `markpact_blocks()` — —
+- `add_node()` — —
+- `add_edge()` — —
+- `generate_readme()` — —
+- `test_placeholder()` — —
+- `test_import()` — —
+- `process_data()` — —
 
 
 ## Project Structure
 
 📄 `CHANGELOG`
 📄 `README` (1 functions)
-📄 `SUMR` (57 functions, 11 classes)
+📄 `SUMD` (45 functions, 9 classes)
+📄 `SUMR` (17 functions, 9 classes)
 📄 `TODO`
+📄 `Taskfile`
+📄 `docs.README` (1 functions)
 📄 `example`
 📄 `examples.README`
+📄 `examples.advanced.01_directory_scan` (1 functions)
 📄 `examples.advanced_analysis` (1 functions)
+📄 `examples.basic.01_parse_single_file` (1 functions)
+📄 `examples.basic.02_generate_reports` (1 functions)
+📄 `examples.basic.03_diagrams_as_strings` (1 functions)
+📄 `examples.basic.04_cli_basics`
 📄 `examples.basic_usage` (1 functions)
 📄 `examples.cli_usage`
 📄 `examples.custom_diagrams` (1 functions)
+📄 `examples.data.api_reference` (1 functions)
+📄 `examples.data.deployment`
+📄 `examples.data.project_overview` (1 functions)
 📄 `examples.directory_scan` (1 functions)
 📄 `fix`
 📄 `goal`
@@ -247,17 +287,21 @@ mdflow/
 📄 `mdflow.generators.mermaid` (9 functions)
 📄 `mdflow.models` (2 functions, 8 classes)
 📄 `mdflow.parser` (7 functions, 1 classes)
+📄 `planfile`
 📄 `project`
 📄 `project.README`
 📄 `project.analysis.toon`
 📄 `project.calls`
 📄 `project.calls.toon`
 📄 `project.context`
+📄 `project.duplication.toon`
 📄 `project.evolution.toon`
-📄 `project.map.toon` (84 functions)
+📄 `project.map.toon` (124 functions)
 📄 `project.project.toon`
 📄 `project.prompt`
 📄 `pyproject`
+📄 `testql`
+📄 `testql-scenarios.generated-cli-tests.testql.toon`
 📄 `tree`
 
 ## Requirements
@@ -268,8 +312,8 @@ mdflow/
 ## Contributing
 
 **Contributors:**
-- Tom Sapletta <tom-sapletta-com@users.noreply.github.com>
 - Tom Softreck <tom@sapletta.com>
+- Tom Sapletta <tom-sapletta-com@users.noreply.github.com>
 
 We welcome contributions! Open an issue or pull request to get started.
 ### Development Setup

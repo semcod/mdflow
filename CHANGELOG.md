@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-05-03
+
+### Docs
+- Update README.md
+- Update SUMD.md
+- Update SUMR.md
+- Update docs/README.md
+- Update project/README.md
+- Update project/context.md
+
+### Other
+- Update app.doql.less
+- Update examples/advanced/01_directory_scan.py
+- Update examples/advanced/02_toon_analysis.py
+- Update examples/advanced/03_custom_diagram_pipeline.py
+- Update examples/basic/01_parse_single_file.py
+- Update examples/basic/02_generate_reports.py
+- Update examples/basic/03_diagrams_as_strings.py
+- Update examples/basic/04_cli_basics.sh
+- Update project/analysis.toon.yaml
+- Update project/calls.mmd
+- ... and 15 more files
+
 ## [0.1.2] - 2026-05-03
 
 ### Docs

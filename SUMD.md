@@ -22,12 +22,12 @@ Markdown dependency analyzer — extract all dependencies, generate diagrams and
 ## Metadata
 
 - **name**: `mdflow`
-- **version**: `0.1.1`
+- **version**: `0.1.2`
 - **python_requires**: `>=3.11`
-- **license**: Apache-2.0
+- **license**: {'text': 'Apache-2.0'}
 - **ai_model**: `openrouter/qwen/qwen3-coder-next`
 - **ecosystem**: SUMD + DOQL + testql + taskfile
-- **generated_from**: pyproject.toml, testql(1), app.doql.less, goal.yaml, .env.example, src(3 mod), project/(2 analysis files)
+- **generated_from**: pyproject.toml, Taskfile.yml, testql(1), app.doql.less, goal.yaml, .env.example, src(3 mod), project/(2 analysis files)
 
 ## Architecture
 
@@ -43,7 +43,7 @@ SUMD (description) → DOQL/source (code) → taskfile (automation) → testql (
 
 app {
   name: mdflow;
-  version: 0.1.1;
+  version: 0.1.2;
 }
 
 interface[type="cli"] {
@@ -140,12 +140,252 @@ ASSERT_EXIT_CODE 0
 
 ## Workflows
 
+### Taskfile Tasks (`Taskfile.yml`)
+
+```yaml markpact:taskfile path=Taskfile.yml
+# Taskfile.yml - Task runner for mdflow project
+# Usage: task <task-name>
+# Install task: https://taskfile.dev/installation/
+
+version: "3"
+
+vars:
+  PROJECT_NAME: mdflow
+  PYTHON_VERSION: "3.11"
+  VENV_DIR: .venv
+  OUTPUT_DIR: output
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  # Setup tasks
+  setup:
+    desc: Install dependencies and setup virtual environment
+    cmds:
+      - python -m venv {{.VENV_DIR}}
+      - "{{.VENV_DIR}}/bin/pip install --upgrade pip"
+      - "{{.VENV_DIR}}/bin/pip install -e .[dev]"
+      - echo "✓ Setup complete"
+    silent: true
+
+  install:
+    desc: Install package in editable mode
+    cmds:
+      - "{{.VENV_DIR}}/bin/pip install -e ."
+    silent: true
+
+  # Development tasks
+  dev:
+    desc: Install development dependencies
+    cmds:
+      - "{{.VENV_DIR}}/bin/pip install -e .[dev]"
+    silent: true
+
+  # Testing tasks
+  test:
+    desc: Run all tests
+    cmds:
+      - "{{.VENV_DIR}}/bin/pytest tests/ -v"
+    silent: false
+
+  test-coverage:
+    desc: Run tests with coverage report
+    cmds:
+      - "{{.VENV_DIR}}/bin/pytest tests/ --cov=mdflow --cov-report=html --cov-report=term"
+    silent: false
+
+  test-watch:
+    desc: Run tests in watch mode
+    cmds:
+      - "{{.VENV_DIR}}/bin/pytest-watch tests/"
+    silent: false
+
+  # Code quality tasks
+  lint:
+    desc: Run linting
+    cmds:
+      - "{{.VENV_DIR}}/bin/ruff check mdflow/"
+      - "{{.VENV_DIR}}/bin/ruff check tests/"
+    silent: false
+
+  format:
+    desc: Format code with ruff
+    cmds:
+      - "{{.VENV_DIR}}/bin/ruff format mdflow/"
+      - "{{.VENV_DIR}}/bin/ruff format tests/"
+    silent: false
+
+  format-check:
+    desc: Check if code is formatted
+    cmds:
+      - "{{.VENV_DIR}}/bin/ruff format --check mdflow/"
+      - "{{.VENV_DIR}}/bin/ruff format --check tests/"
+    silent: false
+
+  # Build tasks
+  build:
+    desc: Build package
+    cmds:
+      - "{{.VENV_DIR}}/bin/python -m build"
+    silent: false
+
+  # Documentation tasks
+  docs:
+    desc: Generate documentation
+    cmds:
+      - mkdir -p {{.OUTPUT_DIR}}
+      - "{{.VENV_DIR}}/bin/python examples/basic_usage.py"
+    silent: false
+
+  docs-all:
+    desc: Generate all example documentation
+    cmds:
+      - mkdir -p {{.OUTPUT_DIR}}
+      - "{{.VENV_DIR}}/bin/python examples/basic_usage.py"
+      - "{{.VENV_DIR}}/bin/python examples/advanced_analysis.py"
+      - "{{.VENV_DIR}}/bin/python examples/directory_scan.py"
+      - "{{.VENV_DIR}}/bin/python examples/custom_diagrams.py"
+    silent: false
+
+  # Example tasks
+  example-basic:
+    desc: Run basic usage example
+    cmds:
+      - "{{.VENV_DIR}}/bin/python examples/basic_usage.py"
+    silent: false
+
+  example-advanced:
+    desc: Run advanced analysis example
+    cmds:
+      - "{{.VENV_DIR}}/bin/python examples/advanced_analysis.py"
+    silent: false
+
+  example-scan:
+    desc: Run directory scan example
+    cmds:
+      - "{{.VENV_DIR}}/bin/python examples/directory_scan.py"
+    silent: false
+
+  example-diagrams:
+    desc: Run custom diagrams example
+    cmds:
+      - "{{.VENV_DIR}}/bin/python examples/custom_diagrams.py"
+    silent: false
+
+  # CLI tasks
+  cli-analyze:
+    desc: Analyze a file with CLI
+    cmds:
+      - "{{.VENV_DIR}}/bin/mdflow analyze SUMR.md --output {{.OUTPUT_DIR}}"
+    silent: false
+
+  cli-scan:
+    desc: Scan directory with CLI
+    cmds:
+      - "{{.VENV_DIR}}/bin/mdflow scan mdflow/ --output {{.OUTPUT_DIR}}/scan"
+    silent: false
+
+  # Clean tasks
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -rf build/
+      - rm -rf dist/
+      - rm -rf *.egg-info/
+      - rm -rf .pytest_cache/
+      - rm -rf .ruff_cache/
+      - rm -rf {{.OUTPUT_DIR}}/
+      - echo "✓ Clean complete"
+    silent: true
+
+  clean-all:
+    desc: Clean everything including venv
+    cmds:
+      - task: clean
+      - rm -rf {{.VENV_DIR}}/
+      - echo "✓ Full clean complete"
+    silent: true
+
+  # Planfile tasks
+  planfile-validate:
+    desc: Validate planfile configuration
+    cmds:
+      - planfile validate planfile.yaml
+    silent: false
+
+  planfile-review:
+    desc: Review planfile strategy
+    cmds:
+      - planfile review
+    silent: false
+
+  planfile-apply:
+    desc: Apply planfile strategy
+    cmds:
+      - planfile apply planfile.yaml
+    silent: false
+
+  # TestQL tasks
+  testql-run:
+    desc: Run testql tests
+    cmds:
+      - testql run
+    silent: false
+
+  testql-init:
+    desc: Initialize testql configuration
+    cmds:
+      - testql init
+    silent: false
+
+  # Release tasks
+  version:
+    desc: Show current version
+    cmds:
+      - cat VERSION
+    silent: true
+
+  bump-patch:
+    desc: Bump patch version
+    cmds:
+      - goal bump patch
+    silent: false
+
+  bump-minor:
+    desc: Bump minor version
+    cmds:
+      - goal bump minor
+    silent: false
+
+  bump-major:
+    desc: Bump major version
+    cmds:
+      - goal bump major
+    silent: false
+
+  # Git tasks
+  git-status:
+    desc: Show git status
+    cmds:
+      - git status
+    silent: false
+
+  git-log:
+    desc: Show git log
+    cmds:
+      - git log --oneline -10
+    silent: false
+```
+
 ## Configuration
 
 ```yaml
 project:
   name: mdflow
-  version: 0.1.1
+  version: 0.1.2
   env: local
 ```
 
@@ -207,16 +447,22 @@ pip install -e .[dev]
 ### `project/map.toon.yaml`
 
 ```toon markpact:analysis path=project/map.toon.yaml
-# mdflow | 19f 1988L | python:15,shell:3,less:1 | 2026-05-03
-# stats: 28 func | 14 cls | 19 mod | CC̄=6.3 | critical:3 | cycles:0
-# alerts[5]: CC generate_html_report=28; CC generate_markdown_report=25; CC main=17; CC section_flowchart=9; CC main=8
-# hotspots[5]: generate_html_report fan=19; main fan=10; main fan=9; cmd_diagram fan=9; generate_markdown_report fan=9
+# mdflow | 25f 2279L | python:20,shell:4,less:1 | 2026-05-03
+# stats: 33 func | 14 cls | 25 mod | CC̄=6.3 | critical:4 | cycles:0
+# alerts[5]: CC generate_html_report=28; CC generate_markdown_report=25; CC main=17; CC main=13; CC section_flowchart=9
+# hotspots[5]: generate_html_report fan=19; main fan=10; main fan=9; main fan=9; cmd_diagram fan=9
 # evolution: baseline
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
-M[19]:
+M[25]:
   app.doql.less,60
   example.py,66
+  examples/advanced/01_directory_scan.py,48
+  examples/advanced/02_toon_analysis.py,63
   examples/advanced_analysis.py,105
+  examples/basic/01_parse_single_file.py,60
+  examples/basic/02_generate_reports.py,38
+  examples/basic/03_diagrams_as_strings.py,44
+  examples/basic/04_cli_basics.sh,38
   examples/basic_usage.py,68
   examples/cli_usage.sh,71
   examples/custom_diagrams.py,98
@@ -235,7 +481,22 @@ M[19]:
   tree.sh,2
 D:
   example.py:
+  examples/advanced/01_directory_scan.py:
+    e: main
+    main()
+  examples/advanced/02_toon_analysis.py:
+    e: main
+    main()
   examples/advanced_analysis.py:
+    e: main
+    main()
+  examples/basic/01_parse_single_file.py:
+    e: main
+    main()
+  examples/basic/02_generate_reports.py:
+    e: main
+    main()
+  examples/basic/03_diagrams_as_strings.py:
     e: main
     main()
   examples/basic_usage.py:
@@ -353,73 +614,81 @@ def main()  # CC=1, fan=7
 
 ## Call Graph
 
-*25 nodes · 23 edges · 11 modules · CC̄=2.6*
+*29 nodes · 27 edges · 15 modules · CC̄=2.2*
 
 ### Hubs (by degree)
 
 | Function | CC | in | out | total |
 |----------|----|----|-----|-------|
-| `print` *(in README)* | 0 | 123 | 0 | **123** |
+| `print` *(in README)* | 0 | 159 | 0 | **159** |
 | `main` *(in examples.advanced_analysis)* | 17 ⚠ | 0 | 57 | **57** |
 | `generate_html_report` *(in mdflow.generators.html)* | 28 ⚠ | 1 | 54 | **55** |
-| `main` *(in examples.custom_diagrams)* | 6 | 0 | 40 | **40** |
 | `parse_text` *(in mdflow.parser.MdParser)* | 14 ⚠ | 0 | 40 | **40** |
+| `main` *(in examples.custom_diagrams)* | 6 | 0 | 40 | **40** |
 | `main` *(in examples.directory_scan)* | 8 | 0 | 39 | **39** |
 | `main` *(in examples.basic_usage)* | 4 | 0 | 35 | **35** |
 | `generate_markdown_report` *(in mdflow.generators.markdown)* | 25 ⚠ | 1 | 33 | **34** |
 
 ```toon markpact:analysis path=project/calls.toon.yaml
 # code2llm call graph | /home/tom/github/semcod/mdflow
-# nodes: 25 | edges: 23 | modules: 11
-# CC̄=2.6
+# nodes: 29 | edges: 27 | modules: 15
+# CC̄=2.2
 
 HUBS[20]:
   README.print
-    CC=0  in:123  out:0  total:123
+    CC=0  in:159  out:0  total:159
   examples.advanced_analysis.main
     CC=17  in:0  out:57  total:57
   mdflow.generators.html.generate_html_report
     CC=28  in:1  out:54  total:55
-  examples.custom_diagrams.main
-    CC=6  in:0  out:40  total:40
   mdflow.parser.MdParser.parse_text
     CC=14  in:0  out:40  total:40
+  examples.custom_diagrams.main
+    CC=6  in:0  out:40  total:40
   examples.directory_scan.main
     CC=8  in:0  out:39  total:39
   examples.basic_usage.main
     CC=4  in:0  out:35  total:35
   mdflow.generators.markdown.generate_markdown_report
     CC=25  in:1  out:33  total:34
+  examples.basic.01_parse_single_file.main
+    CC=6  in:0  out:31  total:31
   mdflow.cli.cmd_analyze
     CC=4  in:0  out:17  total:17
+  examples.advanced.01_directory_scan.main
+    CC=4  in:0  out:15  total:15
+  examples.basic.03_diagrams_as_strings.main
+    CC=7  in:0  out:15  total:15
   mdflow.generators.mermaid.section_flowchart
     CC=9  in:0  out:14  total:14
   mdflow.cli.cmd_diagram
     CC=5  in:0  out:13  total:13
-  mdflow.generators.mermaid.dependency_diagram
-    CC=6  in:0  out:12  total:12
   mdflow.generators.mermaid.markpact_graph
     CC=5  in:0  out:12  total:12
   mdflow.MdFlow.report
     CC=5  in:0  out:12  total:12
+  mdflow.generators.mermaid.dependency_diagram
+    CC=6  in:0  out:12  total:12
+  examples.basic.02_generate_reports.main
+    CC=3  in:0  out:10  total:10
   mdflow.MdFlow.scan
     CC=3  in:0  out:10  total:10
   mdflow.parser._parse_metadata_section
     CC=7  in:1  out:8  total:9
-  mdflow.generators.mermaid._short_label
-    CC=2  in:8  out:1  total:9
-  mdflow.generators.mermaid.workflow_diagram
-    CC=8  in:0  out:9  total:9
-  mdflow.generators.mermaid._safe_id
-    CC=1  in:8  out:1  total:9
-  mdflow.generators.html._card
-    CC=2  in:6  out:0  total:6
 
 MODULES:
   README  [1 funcs]
     print  CC=0  out:0
+  examples.advanced.01_directory_scan  [1 funcs]
+    main  CC=4  out:15
   examples.advanced_analysis  [1 funcs]
     main  CC=17  out:57
+  examples.basic.01_parse_single_file  [1 funcs]
+    main  CC=6  out:31
+  examples.basic.02_generate_reports  [1 funcs]
+    main  CC=3  out:10
+  examples.basic.03_diagrams_as_strings  [1 funcs]
+    main  CC=7  out:15
   examples.basic_usage  [1 funcs]
     main  CC=4  out:35
   examples.custom_diagrams  [1 funcs]
@@ -454,12 +723,15 @@ MODULES:
     _parse_metadata_section  CC=7  out:8
 
 EDGES:
-  examples.basic_usage.main → README.print
-  mdflow.generators.html.generate_html_report → mdflow.generators.html._card
-  examples.advanced_analysis.main → README.print
-  mdflow.parser.MdParser.parse_text → mdflow.parser._parse_metadata_section
-  examples.directory_scan.main → README.print
   examples.custom_diagrams.main → README.print
+  examples.directory_scan.main → README.print
+  examples.advanced_analysis.main → README.print
+  examples.basic_usage.main → README.print
+  mdflow.cli.cmd_analyze → README.print
+  mdflow.cli.cmd_scan → README.print
+  mdflow.cli.cmd_diagram → README.print
+  mdflow.parser.MdParser.parse_text → mdflow.parser._parse_metadata_section
+  mdflow.generators.html.generate_html_report → mdflow.generators.html._card
   mdflow.generators.mermaid.heading_tree_diagram → mdflow.generators.mermaid._short_label
   mdflow.generators.mermaid.section_flowchart → mdflow.generators.mermaid._short_label
   mdflow.generators.mermaid.dependency_diagram → mdflow.generators.mermaid._safe_id
@@ -467,9 +739,10 @@ EDGES:
   mdflow.generators.mermaid.markpact_graph → mdflow.generators.mermaid._safe_id
   mdflow.generators.mermaid.markpact_graph → mdflow.generators.mermaid._short_label
   mdflow.generators.mermaid.workflow_diagram → mdflow.generators.mermaid._safe_id
-  mdflow.cli.cmd_analyze → README.print
-  mdflow.cli.cmd_scan → README.print
-  mdflow.cli.cmd_diagram → README.print
+  examples.basic.02_generate_reports.main → README.print
+  examples.advanced.01_directory_scan.main → README.print
+  examples.basic.03_diagrams_as_strings.main → README.print
+  examples.basic.01_parse_single_file.main → README.print
   mdflow.MdFlow.parse_dir → README.print
   mdflow.MdFlow.report → mdflow.generators.html.generate_html_report
   mdflow.MdFlow.report → README.print

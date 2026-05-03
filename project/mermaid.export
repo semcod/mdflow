@@ -2,69 +2,82 @@ flowchart TD
     subgraph README
         README__print["print"]
     end
+    subgraph SUMD
+        SUMD__main["main"]
+        SUMD__cmd_analyze["cmd_analyze"]
+        SUMD__cmd_scan["cmd_scan"]
+        SUMD__cmd_diagram["cmd_diagram"]
+        SUMD___card["_card"]
+        SUMD___mermaid_block["_mermaid_block"]
+        SUMD__generate_html_report["generate_html_report"]
+        SUMD__generate_markdown_report["generate_markdown_report"]
+        SUMD___safe_id["_safe_id"]
+        SUMD___short_label["_short_label"]
+        SUMD__heading_tree_diagram["heading_tree_diagram"]
+        SUMD__section_flowchart["section_flowchart"]
+        SUMD__dependency_diagram["dependency_diagram"]
+        SUMD__code_inventory_pie["code_inventory_pie"]
+        SUMD__markpact_graph["markpact_graph"]
+        SUMD__alerts_diagram["alerts_diagram"]
+        SUMD__workflow_diagram["workflow_diagram"]
+        SUMD___slugify["_slugify"]
+        SUMD___classify_link["_classify_link"]
+        SUMD___parse_fence_info["_parse_fence_info"]
+        SUMD___parse_toon_content["_parse_toon_content"]
+        SUMD___parse_metadata_section["_parse_metadata_section"]
+        SUMD__test_placeholder["test_placeholder"]
+        SUMD__test_import["test_import"]
+        SUMD__parse["parse"]
+        SUMD__parse_text["parse_text"]
+        SUMD__internal_links["internal_links"]
+        SUMD__anchor_links["anchor_links"]
+        SUMD__external_links["external_links"]
+        SUMD__markpact_blocks["markpact_blocks"]
+        SUMD__add_node["add_node"]
+        SUMD__add_edge["add_edge"]
+    end
     subgraph SUMR
-        SUMR___get_orchestrator["_get_orchestrator"]
-        SUMR___analysis_source_method["_analysis_source_method"]
-        SUMR___analysis_function_metrics["_analysis_function_metrics"]
-        SUMR___print_analysis_summary["_print_analysis_summary"]
-        SUMR___print_top_functions["_print_top_functions"]
-        SUMR___print_alerts["_print_alerts"]
-        SUMR___print_duplicates["_print_duplicates"]
-        SUMR___print_analysis_plan["_print_analysis_plan"]
+        SUMR___slugify["_slugify"]
+        SUMR___classify_link["_classify_link"]
+        SUMR___parse_fence_info["_parse_fence_info"]
+        SUMR___parse_toon_content["_parse_toon_content"]
+        SUMR___parse_metadata_section["_parse_metadata_section"]
+        SUMR__parse["parse"]
+        SUMR__parse_text["parse_text"]
+        SUMR__internal_links["internal_links"]
+        SUMR__anchor_links["anchor_links"]
+        SUMR__external_links["external_links"]
+        SUMR__markpact_blocks["markpact_blocks"]
+        SUMR__add_node["add_node"]
+        SUMR__add_edge["add_edge"]
         SUMR__cmd_analyze["cmd_analyze"]
-        SUMR__cmd_explain["cmd_explain"]
-        SUMR___print_refactor_report["_print_refactor_report"]
-        SUMR__cmd_refactor["cmd_refactor"]
-        SUMR__cmd_memory_stats["cmd_memory_stats"]
-        SUMR__cmd_serve["cmd_serve"]
-        SUMR___print_usage["_print_usage"]
-        SUMR___get_arg["_get_arg"]
-        SUMR___has_flag["_has_flag"]
-        SUMR___dispatch_analyze["_dispatch_analyze"]
-        SUMR___dispatch_explain["_dispatch_explain"]
-        SUMR___dispatch_refactor["_dispatch_refactor"]
-        SUMR___dispatch_memory_stats["_dispatch_memory_stats"]
-        SUMR___dispatch_serve["_dispatch_serve"]
+        SUMR__cmd_scan["cmd_scan"]
+        SUMR__cmd_diagram["cmd_diagram"]
         SUMR__main["main"]
-        SUMR___default_history_dir["_default_history_dir"]
-        SUMR____init__["__init__"]
-        SUMR__record["record"]
-        SUMR__record_event["record_event"]
-        SUMR__decision_signature["decision_signature"]
-        SUMR__has_recent_signature["has_recent_signature"]
-        SUMR__load_events["load_events"]
-        SUMR__filter_by_file["filter_by_file"]
-        SUMR__filter_by_type["filter_by_type"]
-        SUMR__has_recent_proposal["has_recent_proposal"]
-        SUMR__has_recent_ticket["has_recent_ticket"]
-        SUMR___format_event_header["_format_event_header"]
-        SUMR___format_event_details["_format_event_details"]
-        SUMR___maybe_add_cycle_header["_maybe_add_cycle_header"]
-        SUMR__generate_decision_report["generate_decision_report"]
-        SUMR__main_loop["main_loop"]
-        SUMR__run["run"]
-        SUMR___inner_thought["_inner_thought"]
-        SUMR___self_assessment["_self_assessment"]
-        SUMR___profile_performance["_profile_performance"]
-        SUMR__stop["stop"]
-        SUMR___default_llm_model["_default_llm_model"]
-        SUMR___resolve_provider_key["_resolve_provider_key"]
-        SUMR__is_local["is_local"]
-        SUMR__api_key["api_key"]
-        SUMR__from_env["from_env"]
-        SUMR__run_cycle["run_cycle"]
-        SUMR__run_from_toon_content["run_from_toon_content"]
-        SUMR__add_custom_rules["add_custom_rules"]
-        SUMR___resolve_limits["_resolve_limits"]
+    end
+    subgraph docs__README
+        docs__README__generate_readme["generate_readme"]
+    end
+    subgraph examples__advanced
+        examples__advanced__01_directory_scan__main["main"]
     end
     subgraph examples__advanced_analysis
         examples__advanced_analysis__main{{main CC=17}}
+    end
+    subgraph examples__basic
+        examples__basic__02_generate_reports__main["main"]
+        examples__basic__03_diagrams_as_strings__main["main"]
+        examples__basic__01_parse_single_file__main["main"]
     end
     subgraph examples__basic_usage
         examples__basic_usage__main["main"]
     end
     subgraph examples__custom_diagrams
         examples__custom_diagrams__main["main"]
+    end
+    subgraph examples__data
+        examples__data__api_reference__verify_token["verify_token"]
+        examples__data__project_overview__process_data["process_data"]
     end
     subgraph examples__directory_scan
         examples__directory_scan__main("main CC=8")
@@ -99,10 +112,10 @@ flowchart TD
         mdflow__cli__main["main"]
     end
     subgraph mdflow__generators
+        mdflow__generators__markdown__generate_markdown_report{{generate_markdown_report CC=25}}
         mdflow__generators__html___card["_card"]
         mdflow__generators__html___mermaid_block["_mermaid_block"]
         mdflow__generators__html__generate_html_report{{generate_html_report CC=28}}
-        mdflow__generators__markdown__generate_markdown_report{{generate_markdown_report CC=25}}
         mdflow__generators__mermaid___safe_id["_safe_id"]
         mdflow__generators__mermaid___short_label["_short_label"]
         mdflow__generators__mermaid__heading_tree_diagram["heading_tree_diagram"]
@@ -126,13 +139,42 @@ flowchart TD
         mdflow__parser__MdParser__parse["parse"]
         mdflow__parser__MdParser__parse_text("parse_text CC=14")
     end
-    examples__basic_usage__main --> README__print
-    mdflow__generators__html__generate_html_report --> mdflow__generators__html___card
+    subgraph project__map
+        project__map__toon__main["main"]
+        project__map__toon__cmd_analyze["cmd_analyze"]
+        project__map__toon__cmd_scan["cmd_scan"]
+        project__map__toon__cmd_diagram["cmd_diagram"]
+        project__map__toon___card["_card"]
+        project__map__toon___mermaid_block["_mermaid_block"]
+        project__map__toon__generate_html_report["generate_html_report"]
+        project__map__toon__generate_markdown_report["generate_markdown_report"]
+        project__map__toon___safe_id["_safe_id"]
+        project__map__toon___short_label["_short_label"]
+        project__map__toon__heading_tree_diagram["heading_tree_diagram"]
+        project__map__toon__section_flowchart["section_flowchart"]
+        project__map__toon__dependency_diagram["dependency_diagram"]
+        project__map__toon__code_inventory_pie["code_inventory_pie"]
+        project__map__toon__markpact_graph["markpact_graph"]
+        project__map__toon__alerts_diagram["alerts_diagram"]
+        project__map__toon__workflow_diagram["workflow_diagram"]
+        project__map__toon___slugify["_slugify"]
+        project__map__toon___classify_link["_classify_link"]
+        project__map__toon___parse_fence_info["_parse_fence_info"]
+        project__map__toon___parse_toon_content["_parse_toon_content"]
+        project__map__toon___parse_metadata_section["_parse_metadata_section"]
+        project__map__toon__test_placeholder["test_placeholder"]
+        project__map__toon__test_import["test_import"]
+    end
+    examples__custom_diagrams__main --> README__print
+    examples__directory_scan__main --> README__print
     examples__advanced_analysis__main --> README__print
+    examples__basic_usage__main --> README__print
+    mdflow__cli__cmd_analyze --> README__print
+    mdflow__cli__cmd_scan --> README__print
+    mdflow__cli__cmd_diagram --> README__print
     mdflow__parser__MdParser__parse_text --> mdflow__parser___parse_metadata_section
     mdflow__parser__MdParser__parse_text --> mdflow__parser___slugify
-    examples__directory_scan__main --> README__print
-    examples__custom_diagrams__main --> README__print
+    mdflow__generators__html__generate_html_report --> mdflow__generators__html___card
     mdflow__generators__mermaid__heading_tree_diagram --> mdflow__generators__mermaid___short_label
     mdflow__generators__mermaid__section_flowchart --> mdflow__generators__mermaid___short_label
     mdflow__generators__mermaid__section_flowchart --> mdflow__generators__mermaid___safe_id
@@ -142,9 +184,10 @@ flowchart TD
     mdflow__generators__mermaid__markpact_graph --> mdflow__generators__mermaid___short_label
     mdflow__generators__mermaid__alerts_diagram --> mdflow__generators__mermaid___short_label
     mdflow__generators__mermaid__workflow_diagram --> mdflow__generators__mermaid___safe_id
-    mdflow__cli__cmd_analyze --> README__print
-    mdflow__cli__cmd_scan --> README__print
-    mdflow__cli__cmd_diagram --> README__print
+    examples__basic__02_generate_reports__main --> README__print
+    examples__advanced__01_directory_scan__main --> README__print
+    examples__basic__03_diagrams_as_strings__main --> README__print
+    examples__basic__01_parse_single_file__main --> README__print
     mdflow__MdFlow__parse_dir --> README__print
     mdflow__MdFlow__report --> mdflow__generators__html__generate_html_report
     mdflow__MdFlow__report --> README__print
@@ -155,5 +198,5 @@ flowchart TD
 
     classDef highCC fill:#ff6b6b,stroke:#c92a2a,color:#fff
     classDef medCC fill:#ffd43b,stroke:#f08c00,color:#000
-    class mdflow__generators__html__generate_html_report,examples__advanced_analysis__main,mdflow__generators__markdown__generate_markdown_report,mdflow__analyzers__StructureAnalyzer__section_summary highCC
-    class mdflow__parser___parse_toon_content,mdflow__parser__MdParser__parse_text,examples__directory_scan__main,mdflow__generators__mermaid__section_flowchart,mdflow__generators__mermaid__workflow_diagram,mdflow__analyzers__DependencyAnalyzer__build,mdflow__analyzers__ToonAnalyzer__metrics medCC
+    class examples__advanced_analysis__main,mdflow__generators__markdown__generate_markdown_report,mdflow__generators__html__generate_html_report,mdflow__analyzers__StructureAnalyzer__section_summary highCC
+    class examples__directory_scan__main,mdflow__parser___parse_toon_content,mdflow__parser__MdParser__parse_text,mdflow__generators__mermaid__section_flowchart,mdflow__generators__mermaid__workflow_diagram,mdflow__analyzers__DependencyAnalyzer__build,mdflow__analyzers__ToonAnalyzer__metrics medCC

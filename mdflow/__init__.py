@@ -17,7 +17,7 @@ from .analyzers import DependencyAnalyzer, StructureAnalyzer, CodeInventoryAnaly
 from .generators import generate_html_report, generate_markdown_report
 from .generators import mermaid as mm
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __all__ = ["MdFlow", "MdParser", "MdDocument", "DependencyGraph"]
 
 

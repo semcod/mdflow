@@ -1,13 +1,19 @@
-# mdflow | 19f 1988L | python:15,shell:3,less:1 | 2026-05-03
-# stats: 28 func | 14 cls | 19 mod | CC̄=6.3 | critical:3 | cycles:0
-# alerts[5]: CC generate_html_report=28; CC generate_markdown_report=25; CC main=17; CC section_flowchart=9; CC main=8
-# hotspots[5]: generate_html_report fan=19; main fan=10; main fan=9; cmd_diagram fan=9; generate_markdown_report fan=9
+# mdflow | 25f 2279L | python:20,shell:4,less:1 | 2026-05-03
+# stats: 33 func | 14 cls | 25 mod | CC̄=6.3 | critical:4 | cycles:0
+# alerts[5]: CC generate_html_report=28; CC generate_markdown_report=25; CC main=17; CC main=13; CC section_flowchart=9
+# hotspots[5]: generate_html_report fan=19; main fan=10; main fan=9; main fan=9; cmd_diagram fan=9
 # evolution: baseline
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
-M[19]:
+M[25]:
   app.doql.less,60
   example.py,66
+  examples/advanced/01_directory_scan.py,48
+  examples/advanced/02_toon_analysis.py,63
   examples/advanced_analysis.py,105
+  examples/basic/01_parse_single_file.py,60
+  examples/basic/02_generate_reports.py,38
+  examples/basic/03_diagrams_as_strings.py,44
+  examples/basic/04_cli_basics.sh,38
   examples/basic_usage.py,68
   examples/cli_usage.sh,71
   examples/custom_diagrams.py,98
@@ -26,7 +32,22 @@ M[19]:
   tree.sh,2
 D:
   example.py:
+  examples/advanced/01_directory_scan.py:
+    e: main
+    main()
+  examples/advanced/02_toon_analysis.py:
+    e: main
+    main()
   examples/advanced_analysis.py:
+    e: main
+    main()
+  examples/basic/01_parse_single_file.py:
+    e: main
+    main()
+  examples/basic/02_generate_reports.py:
+    e: main
+    main()
+  examples/basic/03_diagrams_as_strings.py:
     e: main
     main()
   examples/basic_usage.py:

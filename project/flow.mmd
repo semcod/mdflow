@@ -11,22 +11,22 @@ flowchart TD
     end
 
     subgraph Core
-        SUMR___get_orchestrator["_get_orchestrator"]
-        SUMR___analysis_source_method["_analysis_source_method"]
-        SUMR___analysis_function_metrics["_analysis_function_metrics"]
-        SUMR___print_analysis_summary["_print_analysis_summary"]
-        SUMR___print_top_functions["_print_top_functions"]
-        SUMR___print_alerts["_print_alerts"]
-        SUMR___print_duplicates["_print_duplicates"]
-        SUMR___print_analysis_plan["_print_analysis_plan"]
-        SUMR__cmd_analyze["cmd_analyze"]
-        SUMR__cmd_explain["cmd_explain"]
-        SUMR___print_refactor_report["_print_refactor_report"]
-        SUMR__cmd_refactor["cmd_refactor"]
-        SUMR__cmd_memory_stats["cmd_memory_stats"]
-        SUMR__cmd_serve["cmd_serve"]
-        SUMR___print_usage["_print_usage"]
-        ...["+69 more"]
+        mdflow__parser__MdParser__parse["parse"]
+        mdflow__parser__MdParser__parse_text["parse_text"]
+        mdflow__models__DependencyGraph__add_node["add_node"]
+        mdflow__models__DependencyGraph__add_edge["add_edge"]
+        mdflow__generators__markdown__generate_markdown_report{{generate_markdown_report CC=25}}
+        mdflow__generators__html___card["_card"]
+        mdflow__generators__html__generate_html_report{{generate_html_report CC=28}}
+        mdflow__generators__mermaid__heading_tree_diagram["heading_tree_diagram"]
+        mdflow__generators__mermaid__section_flowchart["section_flowchart"]
+        mdflow__generators__mermaid__dependency_diagram["dependency_diagram"]
+        mdflow__generators__mermaid__code_inventory_pie["code_inventory_pie"]
+        mdflow__generators__mermaid__markpact_graph["markpact_graph"]
+        mdflow__generators__mermaid__alerts_diagram["alerts_diagram"]
+        mdflow__generators__mermaid__workflow_diagram["workflow_diagram"]
+        mdflow__analyzers__DependencyAnalyzer__build["build"]
+        ...["+91 more"]
     end
 
-    class SUMR___get_orchestrator,SUMR___analysis_source_method,SUMR___analysis_function_metrics,SUMR___print_analysis_summary,SUMR___print_top_functions,SUMR___print_alerts,SUMR___print_duplicates,SUMR___print_analysis_plan,SUMR__cmd_analyze,SUMR__cmd_explain entry
+    class mdflow__cli__cmd_analyze,mdflow__cli__cmd_scan,mdflow__cli__cmd_diagram,mdflow__cli__main,mdflow__parser__MdParser__parse,mdflow__parser__MdParser__parse_text,mdflow__models__DependencyGraph__add_node,mdflow__models__DependencyGraph__add_edge,mdflow__generators__mermaid__heading_tree_diagram,mdflow__generators__mermaid__section_flowchart entry

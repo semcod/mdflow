@@ -1,54 +1,62 @@
 # code2llm call graph | /home/tom/github/semcod/mdflow
-# nodes: 25 | edges: 23 | modules: 11
-# CC̄=2.6
+# nodes: 29 | edges: 27 | modules: 15
+# CC̄=2.2
 
 HUBS[20]:
   README.print
-    CC=0  in:123  out:0  total:123
+    CC=0  in:159  out:0  total:159
   examples.advanced_analysis.main
     CC=17  in:0  out:57  total:57
   mdflow.generators.html.generate_html_report
     CC=28  in:1  out:54  total:55
-  examples.custom_diagrams.main
-    CC=6  in:0  out:40  total:40
   mdflow.parser.MdParser.parse_text
     CC=14  in:0  out:40  total:40
+  examples.custom_diagrams.main
+    CC=6  in:0  out:40  total:40
   examples.directory_scan.main
     CC=8  in:0  out:39  total:39
   examples.basic_usage.main
     CC=4  in:0  out:35  total:35
   mdflow.generators.markdown.generate_markdown_report
     CC=25  in:1  out:33  total:34
+  examples.basic.01_parse_single_file.main
+    CC=6  in:0  out:31  total:31
   mdflow.cli.cmd_analyze
     CC=4  in:0  out:17  total:17
+  examples.advanced.01_directory_scan.main
+    CC=4  in:0  out:15  total:15
+  examples.basic.03_diagrams_as_strings.main
+    CC=7  in:0  out:15  total:15
   mdflow.generators.mermaid.section_flowchart
     CC=9  in:0  out:14  total:14
   mdflow.cli.cmd_diagram
     CC=5  in:0  out:13  total:13
-  mdflow.generators.mermaid.dependency_diagram
-    CC=6  in:0  out:12  total:12
   mdflow.generators.mermaid.markpact_graph
     CC=5  in:0  out:12  total:12
   mdflow.MdFlow.report
     CC=5  in:0  out:12  total:12
+  mdflow.generators.mermaid.dependency_diagram
+    CC=6  in:0  out:12  total:12
+  examples.basic.02_generate_reports.main
+    CC=3  in:0  out:10  total:10
   mdflow.MdFlow.scan
     CC=3  in:0  out:10  total:10
   mdflow.parser._parse_metadata_section
     CC=7  in:1  out:8  total:9
-  mdflow.generators.mermaid._short_label
-    CC=2  in:8  out:1  total:9
-  mdflow.generators.mermaid.workflow_diagram
-    CC=8  in:0  out:9  total:9
-  mdflow.generators.mermaid._safe_id
-    CC=1  in:8  out:1  total:9
-  mdflow.generators.html._card
-    CC=2  in:6  out:0  total:6
 
 MODULES:
   README  [1 funcs]
     print  CC=0  out:0
+  examples.advanced.01_directory_scan  [1 funcs]
+    main  CC=4  out:15
   examples.advanced_analysis  [1 funcs]
     main  CC=17  out:57
+  examples.basic.01_parse_single_file  [1 funcs]
+    main  CC=6  out:31
+  examples.basic.02_generate_reports  [1 funcs]
+    main  CC=3  out:10
+  examples.basic.03_diagrams_as_strings  [1 funcs]
+    main  CC=7  out:15
   examples.basic_usage  [1 funcs]
     main  CC=4  out:35
   examples.custom_diagrams  [1 funcs]
@@ -83,12 +91,15 @@ MODULES:
     _parse_metadata_section  CC=7  out:8
 
 EDGES:
-  examples.basic_usage.main → README.print
-  mdflow.generators.html.generate_html_report → mdflow.generators.html._card
-  examples.advanced_analysis.main → README.print
-  mdflow.parser.MdParser.parse_text → mdflow.parser._parse_metadata_section
-  examples.directory_scan.main → README.print
   examples.custom_diagrams.main → README.print
+  examples.directory_scan.main → README.print
+  examples.advanced_analysis.main → README.print
+  examples.basic_usage.main → README.print
+  mdflow.cli.cmd_analyze → README.print
+  mdflow.cli.cmd_scan → README.print
+  mdflow.cli.cmd_diagram → README.print
+  mdflow.parser.MdParser.parse_text → mdflow.parser._parse_metadata_section
+  mdflow.generators.html.generate_html_report → mdflow.generators.html._card
   mdflow.generators.mermaid.heading_tree_diagram → mdflow.generators.mermaid._short_label
   mdflow.generators.mermaid.section_flowchart → mdflow.generators.mermaid._short_label
   mdflow.generators.mermaid.dependency_diagram → mdflow.generators.mermaid._safe_id
@@ -96,9 +107,10 @@ EDGES:
   mdflow.generators.mermaid.markpact_graph → mdflow.generators.mermaid._safe_id
   mdflow.generators.mermaid.markpact_graph → mdflow.generators.mermaid._short_label
   mdflow.generators.mermaid.workflow_diagram → mdflow.generators.mermaid._safe_id
-  mdflow.cli.cmd_analyze → README.print
-  mdflow.cli.cmd_scan → README.print
-  mdflow.cli.cmd_diagram → README.print
+  examples.basic.02_generate_reports.main → README.print
+  examples.advanced.01_directory_scan.main → README.print
+  examples.basic.03_diagrams_as_strings.main → README.print
+  examples.basic.01_parse_single_file.main → README.print
   mdflow.MdFlow.parse_dir → README.print
   mdflow.MdFlow.report → mdflow.generators.html.generate_html_report
   mdflow.MdFlow.report → README.print
