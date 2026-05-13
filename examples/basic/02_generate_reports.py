@@ -5,6 +5,7 @@ Example: Generate HTML, Markdown and Mermaid reports for a single file.
 Run from project root:
     python examples/basic/02_generate_reports.py
 """
+
 import sys
 from pathlib import Path
 

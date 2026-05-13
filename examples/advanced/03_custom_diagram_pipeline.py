@@ -11,6 +11,7 @@ Instead of using the high-level MdFlow.report(), we manually:
 Run from project root:
     python examples/advanced/03_custom_diagram_pipeline.py
 """
+
 import sys
 from pathlib import Path
 

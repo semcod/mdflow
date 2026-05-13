@@ -8,6 +8,7 @@ and the data models directly.
 Run from project root:
     python examples/api/01_low_level_parser.py
 """
+
 import sys
 from pathlib import Path
 
@@ -59,7 +60,7 @@ x = 42
   - Nested item
 """
     inline_doc = parser.parse_text(raw_md, path="<inline>")
-    print(f"\n--- Inline doc ---")
+    print("\n--- Inline doc ---")
     print(f"  Title      : {inline_doc.title}")
     print(f"  Headings   : {len(inline_doc.headings)}")
     print(f"  Links      : {len(inline_doc.links)}")

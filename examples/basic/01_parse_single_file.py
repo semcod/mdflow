@@ -5,6 +5,7 @@ Example: Parse a single Markdown file and inspect its structure.
 Run from project root:
     python examples/basic/01_parse_single_file.py
 """
+
 import sys
 from pathlib import Path
 

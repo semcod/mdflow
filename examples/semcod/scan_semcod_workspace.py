@@ -4,9 +4,11 @@ Scan multiple semcod projects and produce a cross-project summary.
 Demonstrates: multi-project scan, dependency graph across repos,
 aggregating TOON health metrics from all SUMD.md files.
 """
+
 from __future__ import annotations
 import sys
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from mdflow import MdFlow
 
@@ -22,7 +24,9 @@ for project in PROJECTS:
     if sumd.exists():
         doc = flow.parse(sumd)
         all_docs.append((project, doc))
-        print(f"[{project}] headings={len(doc.headings)} code={len(doc.code_blocks)} toon={len(doc.toon_sections)}")
+        print(
+            f"[{project}] headings={len(doc.headings)} code={len(doc.code_blocks)} toon={len(doc.toon_sections)}"
+        )
 
 print(f"\nTotal projects parsed: {len(all_docs)}")
 
@@ -36,7 +40,9 @@ for project, doc in all_docs:
     alerts = metrics.get("alerts", [])
     refactors = metrics.get("refactors", [])
     cc = health.get("cc_mean", "n/a")
-    print(f"  {project:12s} CC={cc:>4}  alerts={len(alerts)}  refactors={len(refactors)}")
+    print(
+        f"  {project:12s} CC={cc:>4}  alerts={len(alerts)}  refactors={len(refactors)}"
+    )
 
 OUT.mkdir(parents=True, exist_ok=True)
 for project, doc in all_docs:

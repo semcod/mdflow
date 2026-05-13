@@ -8,6 +8,7 @@ using the parsed MdDocument structure.
 Run from project root:
     python examples/api/02_custom_analyzer.py
 """
+
 import sys
 from pathlib import Path
 from collections import Counter
@@ -55,22 +56,22 @@ def main():
     print(f"Custom analysis for: {doc.title}")
     print("=" * 60)
 
-    print(f"\nDocument structure:")
+    print("\nDocument structure:")
     print(f"  Sections   : {stats['sections']}")
     print(f"  Max depth  : H{stats['max_depth']}")
 
-    print(f"\nTop words in list items:")
+    print("\nTop words in list items:")
     for word, count in stats["top_words"]:
         print(f"  {word:20s}: {count}")
 
-    print(f"\nCode languages:")
+    print("\nCode languages:")
     for lang, count in stats["languages"].items():
         print(f"  {lang:15s}: {count}")
 
     print(f"\nImage links: {stats['image_links']}")
 
     if stats["markpact_types"]:
-        print(f"\nMarkpact types:")
+        print("\nMarkpact types:")
         for mp_type, count in stats["markpact_types"].items():
             print(f"  {mp_type:15s}: {count}")
 

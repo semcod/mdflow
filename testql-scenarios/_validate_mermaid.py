@@ -4,6 +4,7 @@ Usage:
   python3 _validate_mermaid.py <dir>           — full validation
   python3 _validate_mermaid.py <dir> --pie-check — check pie title format only
 """
+
 import sys
 from pathlib import Path
 

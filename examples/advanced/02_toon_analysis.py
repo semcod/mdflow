@@ -8,6 +8,7 @@ carry structured quality data like HEALTH, ALERTS, REFACTOR tasks, etc.
 Run from project root:
     python examples/advanced/02_toon_analysis.py
 """
+
 import sys
 from pathlib import Path
 

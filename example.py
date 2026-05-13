@@ -5,6 +5,7 @@ example.py — demonstrate mdflow against the uploaded SUMR.md file.
 Run:
     python example.py
 """
+
 import sys
 from pathlib import Path
 
@@ -15,7 +16,7 @@ from mdflow import MdFlow
 
 # ── parse ─────────────────────────────────────────────────────────────────────
 flow = MdFlow()
-doc  = flow.parse("SUMR.md")
+doc = flow.parse("SUMR.md")
 
 print("=" * 60)
 print(f"Document  : {doc.title}")

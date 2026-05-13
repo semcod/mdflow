@@ -7,6 +7,7 @@ Builds cross-document dependency graphs and generates per-file reports.
 Run from project root:
     python examples/advanced/01_directory_scan.py
 """
+
 import sys
 from pathlib import Path
 
@@ -22,7 +23,7 @@ def main():
     docs, graph = flow.scan(
         "examples/data",
         output_dir="examples/output/advanced/scan",
-        formats=["html", "md", "mermaid"]
+        formats=["html", "md", "mermaid"],
     )
 
     print(f"\nParsed {len(docs)} documents")
@@ -31,10 +32,12 @@ def main():
     # List all documents found
     print("\n--- Documents ---")
     for doc in docs:
-        print(f"  {Path(doc.path).name:30s}  "
-              f"{len(doc.headings):3d} headings  "
-              f"{len(doc.links):3d} links  "
-              f"{len(doc.code_blocks):3d} code blocks")
+        print(
+            f"  {Path(doc.path).name:30s}  "
+            f"{len(doc.headings):3d} headings  "
+            f"{len(doc.links):3d} links  "
+            f"{len(doc.code_blocks):3d} code blocks"
+        )
 
     # Show dependency edges
     if graph.edges:

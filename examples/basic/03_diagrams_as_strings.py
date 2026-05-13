@@ -7,6 +7,7 @@ Useful for embedding diagrams in other tools or custom templates.
 Run from project root:
     python examples/basic/03_diagrams_as_strings.py
 """
+
 import sys
 from pathlib import Path
 
