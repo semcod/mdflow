@@ -31,3 +31,6 @@ apply-results.yaml
 
 # Environment variables
 .env
+.code2llm_cache/
+.github/
+.pyqual/
