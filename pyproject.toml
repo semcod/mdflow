@@ -18,19 +18,16 @@ classifiers = [
 ]
 # No required dependencies — mdflow works with stdlib only.
 # Optional: graphviz for SVG output.
-dependencies = [
-    "goal>=2.1.0",
-    "costs>=0.1.20",
-    "pfix>=0.1.60",
-]
+dependencies = ["costs>=0.1.20", "pfix>=0.1.60"]
 
 [project.license]
 text = "Apache-2.0"
 
 [project.optional-dependencies]
 graphviz = ["graphviz>=0.20"]
-dev = ["pytest>=7", "pytest-cov",
-    "goal>=2.1.0",
+dev = [
+    "pytest>=7",
+    "pytest-cov",
     "costs>=0.1.20",
     "pfix>=0.1.60",
 ]
@@ -73,3 +70,9 @@ max_commits = 500
 
 # Cost thresholds for badge colors (USD)
 badge_color_thresholds = { low = 1.0, medium = 5.0, high = 10.0, critical = 50.0 }
+
+[tool.uv.dependency-groups]
+automation = {requires-python = ">=3.12"}
+
+[dependency-groups]
+automation = ["goal>=2.2.0"]
