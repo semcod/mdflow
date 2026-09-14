@@ -6,10 +6,10 @@ resolution-markers = [
     "python_full_version >= '3.14' and sys_platform == 'emscripten'",
     "python_full_version >= '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'win32'",
-    "python_full_version < '3.12' and sys_platform == 'win32'",
     "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform == 'emscripten'",
-    "python_full_version < '3.12' and sys_platform == 'emscripten'",
     "python_full_version >= '3.12' and python_full_version < '3.14' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version < '3.12' and sys_platform == 'win32'",
+    "python_full_version < '3.12' and sys_platform == 'emscripten'",
     "python_full_version < '3.12' and sys_platform != 'emscripten' and sys_platform != 'win32'",
 ]
 
@@ -1313,13 +1313,11 @@ version = "0.1.7"
 source = { editable = "." }
 dependencies = [
     { name = "costs" },
-    { name = "pfix" },
 ]
 
 [package.optional-dependencies]
 dev = [
     { name = "costs" },
-    { name = "pfix" },
     { name = "pytest" },
     { name = "pytest-cov" },
 ]
@@ -1337,8 +1335,6 @@ requires-dist = [
     { name = "costs", specifier = ">=0.1.20" },
     { name = "costs", marker = "extra == 'dev'", specifier = ">=0.1.20" },
     { name = "graphviz", marker = "extra == 'graphviz'", specifier = ">=0.20" },
-    { name = "pfix", specifier = ">=0.1.60" },
-    { name = "pfix", marker = "extra == 'dev'", specifier = ">=0.1.60" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7" },
     { name = "pytest-cov", marker = "extra == 'dev'" },
 ]
