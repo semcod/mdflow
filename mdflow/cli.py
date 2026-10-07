@@ -69,6 +69,7 @@ def cmd_diagram(args):
 def main():
     try:
         from .autoupdate import check_for_updates
+
         check_for_updates("mdflow")
     except Exception:
         pass

@@ -34,6 +34,7 @@ def _is_newer(latest: str, current: str) -> bool:
     """Check if latest is strictly newer than current, with zero hard dependency."""
     try:
         from packaging import version
+
         return version.parse(latest) > version.parse(current)
     except Exception:
         pass
@@ -53,7 +54,9 @@ def _is_newer(latest: str, current: str) -> bool:
     return parse_simple(latest) > parse_simple(current)
 
 
-def _spawn_detached_check(pkg_name: str, current_version: str, cache_file: Path) -> None:
+def _spawn_detached_check(
+    pkg_name: str, current_version: str, cache_file: Path
+) -> None:
     """Launch completely detached background worker process."""
     worker_code = f"""
 import json, sys, time
@@ -101,7 +104,16 @@ def _spawn_background_upgrade(pkg_name: str) -> None:
     """Spawn background pip install --upgrade if auto-upgrade is enabled."""
     try:
         subprocess.Popen(
-            [sys.executable, "-m", "pip", "install", "--upgrade", "--quiet", "--disable-pip-version-check", pkg_name],
+            [
+                sys.executable,
+                "-m",
+                "pip",
+                "install",
+                "--upgrade",
+                "--quiet",
+                "--disable-pip-version-check",
+                pkg_name,
+            ],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             stdin=subprocess.DEVNULL,
@@ -153,21 +165,33 @@ def check_for_updates(
                 safe_pkg = pkg_name.upper().replace("-", "_")
                 env_pkg_key = safe_pkg + "_AUTO_UPGRADE"
                 auto_upgrade_enabled = (
-                    os.environ.get("AUTO_UPGRADE") == "1" or
-                    os.environ.get(env_pkg_key) == "1"
+                    os.environ.get("AUTO_UPGRADE") == "1"
+                    or os.environ.get(env_pkg_key) == "1"
                 )
                 if auto_upgrade_enabled:
                     sys.stderr.write(
-                        "\n⚡ [" + pkg_name + "] Automatyczna aktualizacja w tle: "
-                        + current_version + " → " + cached_latest + "...\n"
+                        "\n⚡ ["
+                        + pkg_name
+                        + "] Automatyczna aktualizacja w tle: "
+                        + current_version
+                        + " → "
+                        + cached_latest
+                        + "...\n"
                     )
                     sys.stderr.flush()
                     _spawn_background_upgrade(pkg_name)
                 else:
                     sys.stderr.write(
-                        "\n💡 [" + pkg_name + "] Nowa wersja dostępna: "
-                        + current_version + " → " + cached_latest + "\n"
-                        + "   Aby zaktualizować, uruchom: pip install --upgrade " + pkg_name + "\n"
+                        "\n💡 ["
+                        + pkg_name
+                        + "] Nowa wersja dostępna: "
+                        + current_version
+                        + " → "
+                        + cached_latest
+                        + "\n"
+                        + "   Aby zaktualizować, uruchom: pip install --upgrade "
+                        + pkg_name
+                        + "\n"
                         + "   (lub ustaw AUTO_UPGRADE=1)\n\n"
                     )
                     sys.stderr.flush()
