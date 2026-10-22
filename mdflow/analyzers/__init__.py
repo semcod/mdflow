@@ -4,11 +4,12 @@ from one or more parsed MdDocuments.
 """
 
 from __future__ import annotations
+
 import re
 from collections import defaultdict
 from pathlib import Path
-from ..models import MdDocument, DependencyEdge, DependencyGraph
 
+from ..models import DependencyEdge, DependencyGraph, MdDocument
 
 # ─── dependency graph ─────────────────────────────────────────────────────────
 

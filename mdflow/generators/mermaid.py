@@ -3,9 +3,11 @@ mdflow.generators.mermaid — generate Mermaid diagrams from analysis results.
 """
 
 from __future__ import annotations
+
 import re
 from pathlib import Path
-from ..models import MdDocument, DependencyGraph
+
+from ..models import DependencyGraph, MdDocument
 
 
 def _safe_id(s: str) -> str:

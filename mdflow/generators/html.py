@@ -3,9 +3,9 @@ mdflow.generators.html — generate a self-contained HTML analysis report.
 """
 
 from __future__ import annotations
+
 from ..models import MdDocument
 from . import mermaid as mm
-
 
 _CSS = """
 <style>

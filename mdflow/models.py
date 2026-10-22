@@ -3,8 +3,8 @@ mdflow.models — core data structures for Markdown dependency analysis.
 """
 
 from __future__ import annotations
+
 from dataclasses import dataclass, field
-from typing import Optional
 
 
 @dataclass
@@ -30,8 +30,8 @@ class CodeBlock:
     line_start: int
     line_end: int
     # markpact metadata, e.g. markpact:doql path=app.doql.css
-    markpact_type: Optional[str] = None
-    markpact_path: Optional[str] = None
+    markpact_type: str | None = None
+    markpact_path: str | None = None
     # additional tags parsed from the fence info string
     tags: dict = field(default_factory=dict)
 
@@ -41,7 +41,7 @@ class ListItem:
     text: str
     line: int
     depth: int  # nesting level (0 = top)
-    parent_heading: Optional[str] = None
+    parent_heading: str | None = None
 
 
 @dataclass
@@ -50,7 +50,7 @@ class ToonSection:
 
     name: str  # e.g. "REFACTOR", "ALERTS", "HOTSPOTS"
     items: list  # raw parsed items
-    source_block: Optional[CodeBlock] = None
+    source_block: CodeBlock | None = None
 
 
 @dataclass

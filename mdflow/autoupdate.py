@@ -10,12 +10,15 @@ If an update is available:
 from __future__ import annotations
 
 import json
+import logging
 import os
 import subprocess
 import sys
 import time
 from importlib import metadata
 from pathlib import Path
+
+_logger = logging.getLogger(__name__)
 
 
 def _get_cache_dir(pkg_name: str) -> Path:
@@ -37,7 +40,7 @@ def _is_newer(latest: str, current: str) -> bool:
 
         return version.parse(latest) > version.parse(current)
     except Exception:
-        pass
+        _logger.debug("Optional update operation failed", exc_info=True)
 
     def parse_simple(v: str) -> tuple:
         nums = []
@@ -97,7 +100,7 @@ except Exception:
             start_new_session=True,
         )
     except Exception:
-        pass
+        _logger.debug("Optional update operation failed", exc_info=True)
 
 
 def _spawn_background_upgrade(pkg_name: str) -> None:
@@ -120,7 +123,7 @@ def _spawn_background_upgrade(pkg_name: str) -> None:
             start_new_session=True,
         )
     except Exception:
-        pass
+        _logger.debug("Optional update operation failed", exc_info=True)
 
 
 def check_for_updates(
@@ -141,6 +144,7 @@ def check_for_updates(
     try:
         current_version = metadata.version(pkg_name)
     except Exception:
+        _logger.debug("Package version metadata is unavailable", exc_info=True)
         return
 
     cache_dir = _get_cache_dir(pkg_name)
@@ -157,7 +161,7 @@ def check_for_updates(
             if time.time() - last_check < ttl_seconds:
                 should_query = False
         except Exception:
-            pass
+            _logger.debug("Optional update operation failed", exc_info=True)
 
     if cached_latest and cached_latest != current_version:
         try:
@@ -196,7 +200,7 @@ def check_for_updates(
                     )
                     sys.stderr.flush()
         except Exception:
-            pass
+            _logger.debug("Optional update operation failed", exc_info=True)
 
     if should_query:
         _spawn_detached_check(pkg_name, current_version, cache_file)
