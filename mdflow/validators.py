@@ -4,11 +4,11 @@ as planfile-compatible TODO tickets.
 """
 
 from __future__ import annotations
+
 import re
 from dataclasses import dataclass, field
-from pathlib import Path
 from datetime import date
-
+from pathlib import Path
 
 # ─── known Mermaid structural patterns ───────────────────────────────────────
 
@@ -146,19 +146,19 @@ def _check_mindmap(name: str, path: str, content: str) -> list[ValidationIssue]:
             stripped
             and not stripped.startswith("root")
             and not stripped.startswith("mindmap")
+            and re.search(r'["`()\[\]{}]', stripped)
         ):
             # Illegal characters in mindmap node text
-            if re.search(r'["`()\[\]{}]', stripped):
-                issues.append(
-                    ValidationIssue(
-                        diagram_name=name,
-                        file_path=path,
-                        line=i,
-                        severity="error",
-                        code="MINDMAP_ILLEGAL_CHARS",
-                        message=f"Illegal characters in mindmap node (line {i}): {stripped[:60]}",
-                    )
+            issues.append(
+                ValidationIssue(
+                    diagram_name=name,
+                    file_path=path,
+                    line=i,
+                    severity="error",
+                    code="MINDMAP_ILLEGAL_CHARS",
+                    message=f"Illegal characters in mindmap node (line {i}): {stripped[:60]}",
                 )
+            )
     return issues
 
 

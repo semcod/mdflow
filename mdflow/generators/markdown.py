@@ -3,6 +3,7 @@ mdflow.generators.markdown — generate a Markdown analysis report.
 """
 
 from __future__ import annotations
+
 from ..models import MdDocument
 
 
@@ -11,8 +12,10 @@ def _md_header(doc: MdDocument, inventory: dict) -> list[str]:
         f"# mdflow report · {doc.title}",
         "",
         f"**File:** `{doc.path}`  ",
-        f"**Headings:** {len(doc.headings)}  **Code blocks:** {inventory['total']}  "
-        f"**Links:** {len(doc.links)}  **Markpact refs:** {len(inventory['markpact_paths'])}",
+        (
+            f"**Headings:** {len(doc.headings)}  **Code blocks:** {inventory['total']}  "
+            f"**Links:** {len(doc.links)}  **Markpact refs:** {len(inventory['markpact_paths'])}"
+        ),
         "",
     ]
 

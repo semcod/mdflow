@@ -11,20 +11,25 @@ Usage:
 """
 
 from __future__ import annotations
+
+import logging
 from pathlib import Path
-from .models import MdDocument, DependencyGraph
-from .parser import MdParser
+
 from .analyzers import (
+    CodeInventoryAnalyzer,
     DependencyAnalyzer,
     StructureAnalyzer,
-    CodeInventoryAnalyzer,
     ToonAnalyzer,
 )
 from .generators import generate_html_report, generate_markdown_report
 from .generators import mermaid as mm
+from .models import DependencyGraph, MdDocument
+from .parser import MdParser
+
+_logger = logging.getLogger(__name__)
 
 __version__ = "0.1.8"
-__all__ = ["MdFlow", "MdParser", "MdDocument", "DependencyGraph"]
+__all__ = ["DependencyGraph", "MdDocument", "MdFlow", "MdParser"]
 
 
 class MdFlow:
@@ -64,6 +69,7 @@ class MdFlow:
             try:
                 docs.append(self._parser.parse(p))
             except Exception as e:
+                _logger.debug("Could not parse %s", p, exc_info=True)
                 print(f"[mdflow] warning: could not parse {p}: {e}")
         return docs
 
@@ -192,7 +198,7 @@ class MdFlow:
         return written
 
     def _write_dep_graph_html(self, graph: DependencyGraph, diagram: str, out: Path):
-        from .generators.html import _MERMAID_JS, _CSS
+        from .generators.html import _CSS, _MERMAID_JS
 
         escaped = diagram.replace("<", "&lt;").replace(">", "&gt;")
         html = f"""<!DOCTYPE html><html><head><meta charset="UTF-8">

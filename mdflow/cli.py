@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 mdflow CLI — analyze Markdown files and generate dependency diagrams.
 
@@ -9,10 +8,15 @@ Usage:
 """
 
 from __future__ import annotations
+
 import argparse
+import logging
 import sys
 from pathlib import Path
+
 from . import MdFlow
+
+_logger = logging.getLogger(__name__)
 
 
 def cmd_analyze(args):
@@ -72,7 +76,7 @@ def main():
 
         check_for_updates("mdflow")
     except Exception:
-        pass
+        _logger.debug("Optional update check failed", exc_info=True)
 
     parser = argparse.ArgumentParser(
         prog="mdflow", description="Markdown dependency analyzer and diagram generator"

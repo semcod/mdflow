@@ -6,11 +6,11 @@ list items, TOON sections, and document metadata.
 """
 
 from __future__ import annotations
+
 import re
 from pathlib import Path
-from typing import Optional
-from .models import Heading, Link, CodeBlock, ListItem, ToonSection, MdDocument
 
+from .models import CodeBlock, Heading, Link, ListItem, MdDocument, ToonSection
 
 # ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -26,14 +26,14 @@ def _slugify(text: str) -> str:
 def _classify_link(href: str) -> str:
     if href.startswith("#"):
         return "anchor"
-    if href.startswith("http://") or href.startswith("https://"):
+    if href.startswith(("http://", "https://")):
         return "external"
     if href.endswith((".png", ".jpg", ".gif", ".svg", ".webp")):
         return "image"
     return "internal"
 
 
-def _parse_fence_info(info: str) -> tuple[str, Optional[str], Optional[str], dict]:
+def _parse_fence_info(info: str) -> tuple[str, str | None, str | None, dict]:
     """
     Parse fence info string like:
       python
@@ -152,7 +152,7 @@ class MdParser:
         fence_info = ""
         fence_start = 0
         fence_lines: list[str] = []
-        current_heading: Optional[str] = None
+        current_heading: str | None = None
 
         for lineno, line in enumerate(lines, start=1):
             # ── fence handling ────────────────────────────────────────────────
